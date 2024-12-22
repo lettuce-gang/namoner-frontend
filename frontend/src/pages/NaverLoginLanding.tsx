@@ -12,7 +12,7 @@ function NaverLoginLanding() {
     const code = searchParams.get("code");
     const state = searchParams.get("state");
 
-    if (state === "true") {
+    if (state === "false") {
       if (code) {
         sendAuthCode(code);
       }
