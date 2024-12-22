@@ -1,0 +1,85 @@
+/* Pretendard */
+
+@font-face {
+  font-family: "Pretendard-R";
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url("Pretendard-Regular.woff") format("woff"),
+    url("Pretendard-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard-M";
+  font-weight: 500;
+  font-display: swap;
+  src:
+    url("Pretendard-Medium.woff") format("woff"),
+    url("Pretendard-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard-B";
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url("Pretendard-Bold.woff") format("woff"),
+    url("Pretendard-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Gmarket-L";
+  src: url("GmarketSansTTFLight.ttf");
+}
+
+@font-face {
+  font-family: "Gmarket-R";
+  src: url("GmarketSansTTFMedium.ttf");
+}
+
+@font-face {
+  font-family: "Gmarket-B";
+  src: url("GmarketSansTTFBold.ttf");
+}
+
+@font-face {
+  font-family: "Leeseoyun";
+  src: url("leeseyun.ttf");
+}
+
+@font-face {
+  font-family: "Jikji-L";
+  src: url("Jikji-Light.otf");
+}
+
+@font-face {
+  font-family: "Jikji-M";
+  src: url("Jikji-Medium.otf");
+}
+
+@font-face {
+  font-family: "Jikji-B";
+  src: url("Jikji-Bold.otf");
+}
+
+@font-face {
+  font-family: "Gowun-R";
+  src: url("GowunDodum-Regular.ttf");
+}
+
+@font-face {
+  font-family: "KCC";
+  src:
+    url("KCC.woff") format("woff"),
+    url("KCC.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Hakgyo-L";
+  src: url("Hakgyo-L.ttf");
+}
+
+@font-face {
+  font-family: "Hakgyo-B";
+  src: url("Hakgyo-B.ttf");
+}
