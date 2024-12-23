@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useNavigate } from "react-router-dom";
+import JSConfetti from "js-confetti";
 
 function LetterSendFinish() {
     const navigator = useNavigate();
     const handleNavigate = () => {
         navigator("/");
     }
+    const confetti = new JSConfetti;
+    const showConfetti = () => {
+      confetti.addConfetti({
+        confettiColors: [
+          "#4361EE",
+          "#C7D9FF",
+          "#F44C1D",
+          "#F9FAFC",
+          "#FCA4E0",
+          "#FFBE0B",
+        ],
+        confettiRadius: 5,
+        confettiNumber: 300,
+      });
+    };
+    useEffect(() => {
+        showConfetti();
+    }, [])
     return (
         <Wrapper>
             <EnvelopeImg src="/img/letterEnvelope.svg" />
