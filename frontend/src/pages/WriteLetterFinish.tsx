@@ -13,7 +13,7 @@ function WriteLetterFinish() {
       letterSender: sender,
       letterReceiver: receiver,
       message: message,
-      letterPaperType: "GRAPH_PAPER",
+      letterPaperType: letterPaperType,
       fontType: fontType,
     };
     const letter = new Blob([JSON.stringify(letterData)], { type: "application/json" });
