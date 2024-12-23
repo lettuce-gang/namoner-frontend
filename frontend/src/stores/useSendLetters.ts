@@ -26,8 +26,8 @@ interface LetterProps {
 }
 
 const useSendLetters = create<LetterProps>(set => ({
-  letterPaperType: "1",
-  fontType: "1",
+  letterPaperType: "GRAPH_PAPER",
+  fontType: "Pretendard_R",
   sender: "",
   receiver: "",
   message: "",
