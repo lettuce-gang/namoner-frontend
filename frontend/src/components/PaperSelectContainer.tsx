@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CustomButton from "./CustomButton.tsx";
 import { useStore } from "zustand";
 import { useSendLetters } from "../stores/useSendLetters.ts";
+import { LetterPaperProps } from "../type/LetterPaperProps.ts";
 
 type PaperFontProps = {
   getPaper: string;
@@ -11,22 +12,18 @@ type PaperFontProps = {
   setFont: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const paperObject = Array.from({ length: 6 }, (_, i) => ({
-  id: (i + 1).toString(),
-  imgUrl: "/img/letterPapers/test-paper.svg",
-  type: `테스트용${i + 1}`,
-}));
+
 
 function PaperSelectContainer({ getFont, getPaper, setPaper }: PaperFontProps) {
   const { letterPaperType, setLetterType, setLetterWriteStep } = useStore(useSendLetters);
   return (
     <SelectBox>
       <GridContainer>
-        {paperObject.map(letter => (
-          <GridObject onClick={() => setPaper(letter.id)}>
-            <PaperImg src={letter.imgUrl} alt="letter-img" id={letter.id} width={90} height={90} />
-            {getPaper == letter.id && <Selector src={"/img/selector.svg"} width={90} height={90} />}
-            <span>{letter.type}</span>
+        {LetterPaperProps.map(letter => (
+          <GridObject onClick={() => setPaper(letter.keyName)}>
+            <PaperImg src={letter.imgUrl} alt="letter-img" id={letter.keyName} width={90} height={90} />
+            {getPaper == letter.keyName && <Selector src={"/img/selector.svg"} width={90} height={90} />}
+            <span>{letter.name}</span>
           </GridObject>
         ))}
       </GridContainer>
