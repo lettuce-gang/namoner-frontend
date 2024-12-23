@@ -20,7 +20,7 @@ function App() {
           <Route path="/postbox/:userId/mailbox" element={<MailBox />} />
           <Route path="/postbox/:userId/mailbox/letter/:letterId" element={<Letter />} />
           <Route path="/oauth/naver" element={<NaverLoginLanding />} />
-          <Route path="/writeLetter" element={<WriteLetter />} />
+          <Route path="/writeLetter/:userId" element={<WriteLetter />} />
         </Routes>
       </Frame>
     </Router>
