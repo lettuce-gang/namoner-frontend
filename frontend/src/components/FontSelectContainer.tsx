@@ -54,6 +54,7 @@ function FontSelectContainer({ getFont, getPaper, setFont }: PaperFontProps) {
   //     return tempFontType === id;
   //   }
   // }
+  console.log(getFont);
   return (
     <SelectBox>
       <GridContainer>
@@ -66,7 +67,7 @@ function FontSelectContainer({ getFont, getPaper, setFont }: PaperFontProps) {
               <br />
               너에게...
             </FontBox>
-            {getFont == font.fontTypeName && <Selector src={"/img/selector.svg"} width={90} height={90} />}
+            {getFont === font.fontTypeName && <Selector src={"/img/selector.svg"} width={90} height={90} />}
             <span>{font.type}</span>
           </GridObject>
         ))}
