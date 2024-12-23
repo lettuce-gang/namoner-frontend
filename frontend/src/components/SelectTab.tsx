@@ -5,8 +5,8 @@ import FontSelectContainer from "./FontSelectContainer.tsx";
 
 function SelectTab() {
   const [selectedTab, setSelectedTab] = useState(1);
-  const [tempSelectedPaper, setTempSelectedPaper] = useState("1");
-  const [tempSelectedFont, setTempSelectedFont] = useState("1");
+  const [tempSelectedPaper, setTempSelectedPaper] = useState("GRAPH_PAPER");
+  const [tempSelectedFont, setTempSelectedFont] = useState("Pretendard_R");
   const TabViewController = () => {
     switch (selectedTab) {
       case 1:
