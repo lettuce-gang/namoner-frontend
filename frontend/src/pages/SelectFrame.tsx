@@ -5,7 +5,7 @@ import SelectTab from "../components/SelectTab.tsx";
 function SelectFrame() {
   return (
     <Container>
-      <PreviewImage src="/img/letterPapers/letterPaper_1.svg" width={197} height={242}/>
+      <PreviewImage src="/img/letterPapers/graph-paper.svg" width={197} height={242}/>
       <SelectTab />
     </Container>
   );
