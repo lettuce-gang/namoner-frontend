@@ -28,8 +28,7 @@ const { userId } = useParams<{ userId: string }>() as { userId: string };
         <p>우체통을 눌러 편지를 확인해보세요!</p>
       </PostBox>
       <ButtonContainer>
-      <CustomButton fontFamily="Pretendard-B" text="편지쓰기" textColor="white" width="100%" height="54px" borderRadius="50px"/>
-
+      <CustomButton fontFamily="Pretendard-B" text="편지쓰기" textColor="white" width="100%" height="54px" borderRadius="50px" onClick={()=>navigator(`/writeLetter/${userId}`)}/>
       </ButtonContainer>
     </Wrapper>
   );
