@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header.tsx";
-import { useStore } from "zustand";
-import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLogin, setIsLogin] = useState(false);
-  const { startLogin } = useStore(useNaverLogin);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
@@ -55,7 +52,7 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        <CustomButton onClick={startLogin}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
+        <CustomButton onClick={()=>navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
       </FlexBox>
     </>
   );
@@ -120,6 +117,7 @@ const CustomButton = styled.button`
   top: 75vh;
   border: none;
   background-color: #4361ee;
+  cursor: pointer;
 `;
 
 const InputBox = styled.div`
