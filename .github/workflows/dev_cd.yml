@@ -1,0 +1,49 @@
+name: Dev_CD
+
+on:
+  push:
+    branches: [ "dev-deploy" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  working-directory: ./front
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 21.6.2
+
+      - name: Install depedencies
+        run: yarn install --immutable
+        working-directory: ${{ env.working-directory }}
+
+      - name: Run build
+        run: yarn run build
+        working-directory: ${{ env.working-directory }}
+        
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    needs: build
+    steps:
+      - name: SSH Upload Build Files
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          port: ${{ secrets.DEV_SERVER_SSH_PORT }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          password: ${{ secrets.DEV_SERVER_PASSWORD }}
+          # envs: GITHUB_SHA
+          source: ${{ env.working-directory }}/build/* # 로컬 빌드 파일 경
+          target: ${{ secrets.HTML_DIRECTORY }}
