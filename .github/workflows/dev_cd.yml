@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  working-directory: ./front
+  working-directory: dev
 
 jobs:
   build:
