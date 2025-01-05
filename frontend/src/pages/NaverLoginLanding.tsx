@@ -14,7 +14,7 @@ function NaverLoginLanding() {
 
     if (state === "false") {
       if (code) {
-        sendAuthCode(code);
+        sendAuthCode(code, state);
       }
     }
   }, [location]);
