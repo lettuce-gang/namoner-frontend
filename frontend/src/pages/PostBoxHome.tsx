@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header.tsx";
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
+import LoginPopup from "../components/popup/LoginPopup.tsx";
+import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
+import { useStore } from "zustand";
+import { usePostBox } from "../stores/usePostBox.ts";
 
 function PostBoxHome() {
-const { userId } = useParams<{ userId: string }>() as { userId: string }; 
+  const { userId } = useParams<{ userId: string }>() as { userId: string };
+  const {getPostBoxInfo, postboxName} = useStore(usePostBox);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigator = useNavigate();
   const PostBoxImgByTime = () => {
     const rootPath = "/img/postbox/postbox-";
@@ -19,18 +25,32 @@ const { userId } = useParams<{ userId: string }>() as { userId: string };
       return rootPath + "dawn.svg";
     }
   };
+  useEffect(()=> {
+    getPostBoxInfo(userId);
+  },[userId])
   return (
-    <Wrapper>
-      <Header isFull={true} />
-      <PostBox>
-        <PostBoxTitle>{userId}님의 우체통</PostBoxTitle>
-        <PostBoxImg src={PostBoxImgByTime()} onClick={()=>navigator(`/postbox/${userId}/mailbox`)}/>
-        <p>우체통을 눌러 편지를 확인해보세요!</p>
-      </PostBox>
-      <ButtonContainer>
-      <CustomButton fontFamily="Pretendard-B" text="편지쓰기" textColor="white" width="100%" height="54px" borderRadius="50px" onClick={()=>navigator(`/writeLetter/${userId}`)}/>
-      </ButtonContainer>
-    </Wrapper>
+    <>
+      <Wrapper>
+        {isPopupOpen && <ViewPostBoxPopup userId={userId} handlePopup={setIsPopupOpen}/>}
+        <Header isFull={true} />
+        <PostBox>
+          <PostBoxTitle>{postboxName ? `${postboxName}님의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
+          <PostBoxImg src={PostBoxImgByTime()} onClick={() => navigator(`/postbox/${userId}/mailbox`)} />
+          <p>우체통을 눌러 편지를 확인해보세요!</p>
+        </PostBox>
+        <ButtonContainer>
+          <CustomButton
+            fontFamily="Pretendard-B"
+            text="편지쓰기"
+            textColor="white"
+            width="100%"
+            height="54px"
+            borderRadius="50px"
+            onClick={() => setIsPopupOpen(true)}
+          />
+        </ButtonContainer>
+      </Wrapper>
+    </>
   );
 }
 
@@ -75,9 +95,9 @@ const PostBoxTitle = styled.span`
 `;
 
 const ButtonContainer = styled.div`
-    position: absolute;
-    top: 85%;
-    left: 50%;
-    width: 300px;
-    transform: translateX(-50%);
-`
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  width: 300px;
+  transform: translateX(-50%);
+`;
