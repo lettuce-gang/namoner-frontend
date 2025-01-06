@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import Header from "../components/Header.tsx";
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
+import { useStore } from "zustand";
+import { useMakePostBox } from "../stores/useMakePostBox.ts";
+import { useNavigate } from "react-router";
 
 function MakePostBox() {
   const [postBoxName, setPostBoxName] = useState("");
+  const {makePostBox} = useStore(useMakePostBox);
+  const navigator = useNavigate();
   return (
     <div>
       <Header isFull={true} />
@@ -24,6 +29,7 @@ function MakePostBox() {
           borderRadius="50px"
           text="우체통 생성하기"
           textColor="white"
+          onClick={()=>makePostBox(postBoxName, true, navigator)}
         />
 
       </ButtonContainer>
