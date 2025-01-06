@@ -16,9 +16,12 @@ const useMakePostBox = create<MakePostBoxProp>(set => ({
     await api
       .post(process.env.REACT_APP_BASE_URL + `/users/info`, {
         postBoxName: postBoxName,
-        isPhoneConnected: isPhoneConnected
+        isPhoneConnected: isPhoneConnected,
       })
-      .then(res => console.log(res))
+      .then(res => {
+        const { userId } = res.data.data;
+        navigate(`/postbox/${userId}`);
+      })
       .catch(err => console.log(err))
       .finally(() => set({ isLoading: false }));
   },
