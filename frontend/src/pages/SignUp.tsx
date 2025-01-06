@@ -2,8 +2,11 @@ import React from "react";
 import Header from "../components/Header.tsx";
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
+import { useNaverLogin } from "../stores/useNaverLogin.ts";
+import { useStore } from "zustand";
 
 function SignUp() {
+  const {startLogin} = useStore(useNaverLogin)
   return (
     <>
       <Header isFull={true} />
@@ -35,6 +38,7 @@ function SignUp() {
           text="네이버로 계속하기"
           textColor="white"
           border="none"
+          onClick={startLogin}
         />
       </ButtonContainer>
     </Wrapper>
