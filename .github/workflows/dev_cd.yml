@@ -33,8 +33,8 @@ jobs:
           ENV_NAME: ${{ secrets.ENV_TITLE }}
           ENV: ${{ secrets.ENV_CONTENT }}
         run: |
-          touch ./$ENV_NAME
-          echo "$ENV" > ./$ENV_NAME
+          touch ${{ env.working-directory }}/$ENV_NAME
+          echo "$ENV" > ${{ env.working-directory }}/$ENV_NAME
         
       - name: Run build
         run: CI=false yarn run build
