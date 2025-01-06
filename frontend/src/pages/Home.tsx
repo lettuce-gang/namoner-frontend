@@ -26,7 +26,11 @@ function Home() {
     } else {
       axios
         .get(process.env.REACT_APP_BASE_URL + `/users/phone/${phoneNumber}`)
-        .then(res => navigator(`/postbox/${res.data}`))
+        .then(res => {
+          const {userId} = res.data.data;
+          navigator(`/postbox/${userId}`);
+          console.log(res);
+        })
         .catch(err => console.log(err));
     }
   };
@@ -52,7 +56,7 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        <CustomButton onClick={()=>navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
+        <CustomButton onClick={() => navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
       </FlexBox>
     </>
   );
