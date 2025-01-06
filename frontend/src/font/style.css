@@ -83,3 +83,14 @@
   font-family: "Hakgyo-B";
   src: url("Hakgyo-B.ttf");
 }
+
+@font-face {
+  font-family: "Kangwon";
+  src: url("Kangwon.otf");
+}
+
+
+@font-face {
+  font-family: "HiMelody-R";
+  src: url("HiMelody-Regular.ttf");
+}

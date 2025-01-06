@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
 
 function NaverLoginLanding() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { sendAuthCode } = useStore(useNaverLogin);
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -14,7 +15,7 @@ function NaverLoginLanding() {
 
     if (state === "false") {
       if (code) {
-        sendAuthCode(code);
+        sendAuthCode(code, state, navigate);
       }
     }
   }, [location]);
