@@ -28,6 +28,14 @@ jobs:
         run: yarn install --immutable
         working-directory: ${{ env.working-directory }}
 
+      - name: Create .env
+        env:
+          ENV_NAME: ${{ secrets.ENV_TITLE }}
+          ENV: ${{ secrets.ENV_CONTENT }}
+        run: |
+          touch ./$ENV_NAME
+          echo "$ENV" > ./$ENV_NAME
+        
       - name: Run build
         run: CI=false yarn run build
         working-directory: ${{ env.working-directory }}
