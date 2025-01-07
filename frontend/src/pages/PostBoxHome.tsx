@@ -34,7 +34,7 @@ function PostBoxHome() {
         {isPopupOpen && <ViewPostBoxPopup userId={userId} handlePopup={setIsPopupOpen}/>}
         <Header isFull={true} />
         <PostBox>
-          <PostBoxTitle>{postboxName ? `${postboxName}님의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
+          <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
           <PostBoxImg src={PostBoxImgByTime()} onClick={() => navigator(`/postbox/${userId}/mailbox`)} />
           <p>우체통을 눌러 편지를 확인해보세요!</p>
         </PostBox>

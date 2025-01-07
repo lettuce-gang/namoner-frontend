@@ -15,7 +15,7 @@ function MakePostBox() {
       <Header isFull={true} />
       <Container>
         <img src="/img/makePostBox-img.svg" width={145} height={145} />
-        <span>{postBoxName.length === 0 ? "우체통의 이름을 정해주세요!" : `${postBoxName}님의 우체통`}</span>
+        <span>{postBoxName.length === 0 ? "우체통의 이름을 정해주세요!" : `${postBoxName}의 우체통`}</span>
         <input type="text" placeholder="닉네임을 입력해주세요" maxLength={6} value={postBoxName} onChange={(e)=>setPostBoxName(e.target.value)} />
       </Container>
       <ButtonContainer>
