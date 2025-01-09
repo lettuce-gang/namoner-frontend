@@ -5,14 +5,16 @@ import { useNavigate } from "react-router";
 
 type UserType = {
   userId: string;
+  handlePopup: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function LoginPopup({ userId }: UserType) {
+function LoginPopup({ userId, handlePopup }: UserType) {
   const navigator = useNavigate();
   return (
     <Overlay>
       <Wrapper>
         <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
+        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
         <TextContainer>
           <p>잠깐!</p>
           <span>
@@ -31,6 +33,7 @@ function LoginPopup({ userId }: UserType) {
             borderRadius="40px"
             text="로그인/회원가입"
             textColor="white"
+            onClick={() => navigator("/signup")}
           />
           <CustomButton
             width="100%"
@@ -53,9 +56,9 @@ function LoginPopup({ userId }: UserType) {
 export default LoginPopup;
 
 const Wrapper = styled.div`
-  padding-top: 137px;
-  width: 90%;
-  height: 540px;
+  padding-top: 125px;
+  width: 80%;
+  height: 63%;
   border-radius: 20px;
   background: white;
   display: flex;
@@ -111,3 +114,11 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 5;
 `;
+
+const CloseIcon = styled.img`
+    position: absolute;
+    top: 20px;
+    right:20px;
+    z-index: 10;
+    cursor: pointer;
+`
