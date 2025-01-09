@@ -6,42 +6,42 @@ import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import { useStore } from "zustand";
 
 function SignUp() {
-  const {startLogin} = useStore(useNaverLogin)
+  const { startLogin } = useStore(useNaverLogin);
   return (
     <>
       <Header isFull={true} />
-    <Wrapper>
-      <Container>
-        <img src="/img/login-img.svg" width={66} height={69} />
-        <p>지금 바로 당신만의 편지를 써보세요!</p>
-        <span>당신의 편지는 익명으로, 진심은 그대로</span>
-      </Container>
-      <ButtonContainer>
-        <CustomButton
-          width="100%"
-          height="54px"
-          backgroundColor="#FEE500"
-          fontFamily="Pretendard-B"
-          fontSize="18px"
-          border="none"
-          borderRadius="50px"
-          text="카카오로 계속하기"
-          textColor="black"
-        />
-        <CustomButton
-          width="100%"
-          height="54px"
-          backgroundColor="#03C75A"
-          fontFamily="Pretendard-B"
-          fontSize="18px"
-          borderRadius="50px"
-          text="네이버로 계속하기"
-          textColor="white"
-          border="none"
-          onClick={startLogin}
-        />
-      </ButtonContainer>
-    </Wrapper>
+      <Wrapper>
+        <Container>
+          <img src="/img/login-img.svg" width={66} height={69} />
+          <p>지금 바로 당신만의 편지를 써보세요!</p>
+          <span>당신의 편지는 익명으로, 진심은 그대로</span>
+        </Container>
+        <ButtonContainer>
+          <CustomButton
+            width="100%"
+            height="54px"
+            backgroundColor="#FEE500"
+            fontFamily="Pretendard-B"
+            fontSize="18px"
+            border="none"
+            borderRadius="50px"
+            text="카카오로 계속하기"
+            textColor="black"
+          />
+          <CustomButton
+            width="100%"
+            height="54px"
+            backgroundColor="#03C75A"
+            fontFamily="Pretendard-B"
+            fontSize="18px"
+            borderRadius="50px"
+            text="네이버로 계속하기"
+            textColor="white"
+            border="none"
+            onClick={startLogin}
+          />
+        </ButtonContainer>
+      </Wrapper>
     </>
   );
 }
@@ -49,11 +49,11 @@ function SignUp() {
 export default SignUp;
 
 const Wrapper = styled.div`
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 188px;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15vh;
+`;
 
 const ButtonContainer = styled.div`
   margin-top: 200px;
@@ -61,7 +61,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 16px;
-  width: 80%;
+  width: 90%;
   flex-direction: column;
 `;
 
