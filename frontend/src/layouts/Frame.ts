@@ -9,4 +9,13 @@ const Frame = styled.div`
   position: relative;
 `;
 
-export { Frame };
+
+const FrameContent = styled.div`
+  position: absolute; /* Frame 기준으로 위치 설정 */
+  top: 0; /* 원하는 위치 값 */
+  left: 0; /* 원하는 위치 값 */
+  width: 100%;
+  height: 100%;
+`;
+
+export { Frame, FrameContent };

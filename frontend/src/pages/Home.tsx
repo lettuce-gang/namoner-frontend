@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../components/Header.tsx";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { FrameContent } from "../layouts/Frame.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -27,7 +28,7 @@ function Home() {
       axios
         .get(process.env.REACT_APP_BASE_URL + `/users/phone/${phoneNumber}`)
         .then(res => {
-          const {userId} = res.data.data;
+          const { userId } = res.data.data;
           navigator(`/postbox/${userId}`);
           console.log(res);
         })
@@ -56,7 +57,9 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        <CustomButton onClick={() => navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
+        <FrameContent>
+          <CustomButton onClick={() => navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
+        </FrameContent>
       </FlexBox>
     </>
   );
@@ -66,7 +69,7 @@ export default Home;
 
 const FlexBox = styled.div`
   display: flex;
-  position: relative;
+  /* position: relative; */
   flex-direction: column;
   width: 100%;
   justify-content: center;
@@ -118,7 +121,10 @@ const CustomButton = styled.button`
   font-size: 18px;
   font-family: "Pretendard-B";
   position: absolute;
-  top: 75vh;
+  bottom: 50px;
+  left:50%;
+  transform: translateX(-50%);
+  margin: 0 auto;
   border: none;
   background-color: #4361ee;
   cursor: pointer;
