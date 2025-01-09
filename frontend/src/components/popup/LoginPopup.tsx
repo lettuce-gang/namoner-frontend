@@ -58,7 +58,7 @@ export default LoginPopup;
 const Wrapper = styled.div`
   padding-top: 125px;
   width: 80%;
-  height: 63%;
+  height: 80%;
   border-radius: 20px;
   background: white;
   display: flex;

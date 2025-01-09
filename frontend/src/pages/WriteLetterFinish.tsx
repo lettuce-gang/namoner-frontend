@@ -3,18 +3,22 @@ import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useStore } from "zustand";
 import { useSendLetters } from "../stores/useSendLetters.ts";
+import { useParams } from "react-router";
 
 function WriteLetterFinish() {
   const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
+  const { userId } = useParams<{ userId: string }>() as { userId: string };
+
   const sendMyLetter = () => {
     const formData = new FormData();
     const letterData = {
-      receiverPhoneNumber: "010-3049-0074",
+      userReceiver: userId,
       letterSender: sender,
       letterReceiver: receiver,
       message: message,
       letterPaperType: letterPaperType,
       fontType: fontType,
+      letterType: "NORMAL"  //이 페이지에서 보내면(바로보내기) NORMAL 고정
     };
     const letter = new Blob([JSON.stringify(letterData)], { type: "application/json" });
     formData.append("letterInfo", letter);

@@ -1,44 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useNavigate } from "react-router-dom";
 import JSConfetti from "js-confetti";
+import { useStore } from "zustand";
+import { useSendLetters } from "../stores/useSendLetters.ts";
 
 function LetterSendFinish() {
-    const navigator = useNavigate();
-    const handleNavigate = () => {
-        navigator("/");
-    }
-    const confetti = new JSConfetti;
-    const showConfetti = () => {
-      confetti.addConfetti({
-        confettiColors: [
-          "#4361EE",
-          "#C7D9FF",
-          "#F44C1D",
-          "#F9FAFC",
-          "#FCA4E0",
-          "#FFBE0B",
-        ],
-        confettiRadius: 5,
-        confettiNumber: 300,
-      });
-    };
-    useEffect(() => {
-        showConfetti();
-    }, [])
-    return (
-        <Wrapper>
-            <EnvelopeImg src="/img/letterEnvelope.svg" />
-            <Container>
-                <img src="/img/sendFinishIcon.svg" alt="icon" width={30} height={30}/>
-                <span>전송 완료!</span>
-            </Container>
-            <ButtonContainer>
-                <CustomButton fontFamily="Pretendard-B" text="홈으로 가기" textColor="white" width="90%" height="54px" borderRadius="50px" style={{position:"absolute", top:"85%"}} onClick={()=>handleNavigate()}/>
-            </ButtonContainer>
-        </Wrapper>
-    );
+  const navigator = useNavigate();
+  const { setLetterWriteStep } = useStore(useSendLetters);
+  const handleNavigate = () => {
+    navigator("/");
+    setLetterWriteStep(1);
+  };
+  const confetti = new JSConfetti();
+  const showConfetti = () => {
+    confetti.addConfetti({
+      confettiColors: ["#4361EE", "#C7D9FF", "#F44C1D", "#F9FAFC", "#FCA4E0", "#FFBE0B"],
+      confettiRadius: 5,
+      confettiNumber: 100,
+    });
+  };
+  useEffect(() => {
+    showConfetti();
+  }, []);
+  return (
+    <Wrapper>
+      <EnvelopeImg src="/img/letterEnvelope.svg" />
+      <Container>
+        <img src="/img/sendFinishIcon.svg" alt="icon" width={30} height={30} />
+        <span>전송 완료!</span>
+      </Container>
+      <ButtonContainer>
+        <CustomButton
+          fontFamily="Pretendard-B"
+          text="홈으로 가기"
+          textColor="white"
+          width="90%"
+          height="54px"
+          borderRadius="50px"
+          style={{ position: "absolute", top: "85%" }}
+          onClick={() => handleNavigate()}
+        />
+      </ButtonContainer>
+    </Wrapper>
+  );
 }
 
 export default LetterSendFinish;
@@ -69,19 +75,19 @@ const EnvelopeImg = styled.img`
 `;
 
 const Container = styled.div`
-margin-top:2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap:10px;
-    span {
-        font-family: "Pretendard-B";
-        font-size:20px;
-    }
-`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  span {
+    font-family: "Pretendard-B";
+    font-size: 20px;
+  }
+`;
 
 const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-`
+  display: flex;
+  justify-content: center;
+`;

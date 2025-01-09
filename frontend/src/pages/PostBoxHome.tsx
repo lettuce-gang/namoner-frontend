@@ -8,11 +8,13 @@ import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
+import { useSendLetters } from "../stores/useSendLetters.ts";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const {getPostBoxInfo, postboxName} = useStore(usePostBox);
-  const {isUserLogin} = useStore(useUserInfo);
+  const { getPostBoxInfo, postboxName } = useStore(usePostBox);
+  const { isUserLogin } = useStore(useUserInfo);
+  const { setLetterWriteStep } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigator = useNavigate();
   const PostBoxImgByTime = () => {
@@ -27,13 +29,14 @@ function PostBoxHome() {
       return rootPath + "dawn.svg";
     }
   };
-  useEffect(()=> {
+  useEffect(() => {
     getPostBoxInfo(userId);
-  },[userId])
+    setLetterWriteStep(1);
+  }, [userId]);
   return (
     <>
       <Wrapper>
-        {isPopupOpen && !isUserLogin && <LoginPopup userId={userId} handlePopup={setIsPopupOpen}/>}
+        {isPopupOpen && !isUserLogin && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>

@@ -19,6 +19,14 @@ const LetterFontProps = {
     "font-family": "KCC",
     "font-size": "23.6px",
   },
+  Kangwon: {
+    "font-family": "Kangwon",
+    "font-size": "16px",
+  },
+  HiMelody_R: {
+    "font-family": "HiMelody-R",
+    "font-size": "18px"
+  }
 };
 
 export { LetterFontProps };

@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
+import visitorApi from "../auth/visitorApi.ts";
 
 type LetterBody = {
   receiverPhoneNumber: string;
@@ -16,8 +17,9 @@ interface LetterProps {
   sender: string;
   receiver: string;
   message: string;
+  letterType: string;
   letterWriteStep: number;
-  setLetterType: (letterPaperType: string, fontType: string) => void;
+  setLetterFrameType: (letterPaperType: string, fontType: string) => void;
   setLetterInfo: (sender: string, receiver: string, message: string) => void;
   setLetterWriteStep: (writeStep: number) => void;
   sendLetter: (data: FormData, callback: () => void) => void;
@@ -31,10 +33,11 @@ const useSendLetters = create<LetterProps>(set => ({
   sender: "",
   receiver: "",
   message: "",
+  letterType: "",
   isLoading: false,
   error: null,
   letterWriteStep: 1,
-  setLetterType(letterPaperType, fontType) {
+  setLetterFrameType(letterPaperType, fontType) {
     set({ letterPaperType: letterPaperType, fontType: fontType });
   },
   setLetterInfo(sender, receiver, message) {
@@ -45,8 +48,8 @@ const useSendLetters = create<LetterProps>(set => ({
   },
   sendLetter: async (data, callback) => {
     set({ isLoading: true });
-    await axios
-      .post("http://3.36.97.155:8080/letters", data, {
+    await visitorApi
+      .post("/letters", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

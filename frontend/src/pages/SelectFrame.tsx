@@ -1,23 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SelectTab from "../components/SelectTab.tsx";
+import { LetterPaperProps } from "../type/LetterPaperProps.ts";
+import PreviewLetter from "../components/LetterPaper/PreviewLetter.tsx";
 
 function SelectFrame() {
+    const [tempSelectedPaper, setTempSelectedPaper] = useState("GRAPH_PAPER");
+    const [tempSelectedFont, setTempSelectedFont] = useState("Pretendard_R");
+  
   return (
     <Container>
-      <PreviewImage src="/img/letterPapers/graph-paper.svg" width={197} height={242}/>
-      <SelectTab />
+      <PreviewLetter fontType={tempSelectedFont} paperType={tempSelectedPaper} />     
+      <SelectTab tempSelectedPaper={tempSelectedPaper} setTempSelectedPaper={setTempSelectedPaper} tempSelectedFont={tempSelectedFont} setTempSelectedFont={setTempSelectedFont}/>
     </Container>
   );
 }
 
 export default SelectFrame;
 
-const PreviewImage = styled.img`
-  margin: 0 auto;
-  margin-top: 30px;
-
-`; 
 
 const Container = styled.div`
   display: flex;
