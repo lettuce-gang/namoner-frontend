@@ -12,10 +12,8 @@ type PaperFontProps = {
   setFont: React.Dispatch<React.SetStateAction<string>>;
 };
 
-
-
 function PaperSelectContainer({ getFont, getPaper, setPaper }: PaperFontProps) {
-  const { letterPaperType, setLetterType, setLetterWriteStep } = useStore(useSendLetters);
+  const { letterPaperType, setLetterFrameType, setLetterWriteStep } = useStore(useSendLetters);
   return (
     <SelectBox>
       <GridContainer>
@@ -35,7 +33,7 @@ function PaperSelectContainer({ getFont, getPaper, setPaper }: PaperFontProps) {
         height="54px"
         borderRadius="50px"
         onClick={() => {
-          setLetterType(getPaper, getFont);
+          setLetterFrameType(getPaper, getFont);
           setLetterWriteStep(2);
         }}
       />
@@ -46,7 +44,7 @@ function PaperSelectContainer({ getFont, getPaper, setPaper }: PaperFontProps) {
 export default React.memo(PaperSelectContainer);
 
 const SelectBox = styled.div`
-  width: 90%;
+  width: 100%;
   height: 374px;
   border-radius: 0px 12px 12px 12px;
   background-color: white;

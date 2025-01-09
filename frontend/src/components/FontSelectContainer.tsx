@@ -17,50 +17,53 @@ const fontObject = [
     type: "프리텐다드",
     font: "Pretendard-R",
     fontTypeName: "Pretendard_R",
+    size: "18px",
   },
   {
     id: "2",
     type: "G마켓산스",
     font: "Gmarket-R",
     fontTypeName: "Gmarket_R",
+    size: "17px",
   },
   {
     id: "3",
     type: "이서윤체",
     font: "Leeseoyun",
     fontTypeName: "Leeseoyun",
+    size: "20px",
   },
   {
     id: "4",
     type: "고운돋움",
     font: "Gowun-R",
     fontTypeName: "Gowun_R",
+    size: "15px",
   },
   {
     id: "5",
     type: "KCC은영체",
     font: "KCC",
     fontTypeName: "KCC",
+    size: "20px",
+  },
+  {
+    id: "6",
+    type: "하이멜로디체",
+    font: "HiMelody-R",
+    fontTypeName: "HiMelody_R",
+    size: "20px",
   },
 ];
 
 function FontSelectContainer({ getFont, getPaper, setFont }: PaperFontProps) {
-  const { fontType, setLetterType, setLetterWriteStep } = useStore(useSendLetters);
-  const [tempFontType, setTempFontType] = useState(fontType);
-  // const setFontDefault= (id: string)=> {
-  //   if (tempFontType === "") {
-  //     return fontType === id;
-  //   } else {
-  //     return tempFontType === id;
-  //   }
-  // }
-  console.log(getFont);
+  const { fontType, setLetterFrameType, setLetterWriteStep } = useStore(useSendLetters);
   return (
     <SelectBox>
       <GridContainer>
         {fontObject.map(font => (
           <GridObject onClick={() => setFont(font.fontTypeName)} key={font.id}>
-            <FontBox id={font.id} fontFamily={font.font}>
+            <FontBox id={font.id} fontFamily={font.font} size={font.size}>
               나를
               <br />
               모르는
@@ -80,7 +83,7 @@ function FontSelectContainer({ getFont, getPaper, setFont }: PaperFontProps) {
         height="54px"
         borderRadius="50px"
         onClick={() => {
-          setLetterType(getPaper, getFont);
+          setLetterFrameType(getPaper, getFont);
           setLetterWriteStep(2);
         }}
       />
@@ -91,7 +94,7 @@ function FontSelectContainer({ getFont, getPaper, setFont }: PaperFontProps) {
 export default React.memo(FontSelectContainer);
 
 const SelectBox = styled.div`
-  width: 90%;
+  width: 100%;
   height: 374px;
   border-radius: 0px 12px 12px 12px;
   background-color: white;
@@ -120,14 +123,14 @@ const GridObject = styled.div`
   }
 `;
 
-const FontBox = styled.div<{ fontFamily: string }>`
+const FontBox = styled.div<{ fontFamily: string; size: string }>`
   font-family: ${({ fontFamily }) => fontFamily};
   width: 90px;
   height: 90px;
+  font-size: ${({ size }) => size};
   background-color: #f6f6f6;
   padding: 12px;
   box-sizing: border-box;
-  /* position: relative; */
 `;
 
 const Selector = styled.img`
