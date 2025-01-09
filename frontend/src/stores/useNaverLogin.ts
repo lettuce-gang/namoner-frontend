@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router";
-import { create } from "zustand";
+import { create, useStore } from "zustand";
+import { useUserInfo } from "./useUserInfo";
 
 const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
 const REDIRECT_URI = "http://dev.namoner.site/oauth/naver"; // Callback URL
@@ -11,7 +12,7 @@ interface NaverLoginProps {
   isLoading: boolean;
   error: AxiosError | null;
   startLogin: () => void;
-  sendAuthCode: (authCode: string, state: string, navigate: (path: string)=>void) => void;
+  sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, loginSetter: () => void) => void;
 }
 
 const useNaverLogin = create<NaverLoginProps>(set => ({
@@ -20,28 +21,26 @@ const useNaverLogin = create<NaverLoginProps>(set => ({
   startLogin() {
     window.location.href = NAVER_AUTH_URL;
   },
-  sendAuthCode: async (authCode, state, navigate) => {
+  sendAuthCode: async (authCode, state, navigate, loginSetter) => {
     set({ isLoading: true });
     axios
       .post(process.env.REACT_APP_BASE_URL + `/auth/naver`, {
         code: authCode,
-        state: state.toString()
+        state: state.toString(),
       })
-      .then(res => 
-      { 
+      .then(res => {
         console.log(res);
-        const {isFirstVisit, userId, token} = res.data.data;
-        const {accessToken, accessTokenExpiredTime, refreshToken} = token;
+        const { isFirstVisit, userId, token } = res.data.data;
+        const { accessToken, accessTokenExpiredTime, refreshToken } = token;
         sessionStorage.setItem("accessToken", accessToken);
         sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
         localStorage.setItem("refreshToken", refreshToken);
         if (isFirstVisit) {
-          navigate("/makePostBox")
+          navigate("/makePostBox");
         } else {
-          navigate(`/postbox/${userId}`)
+          navigate(`/postbox/${userId}`);
         }
-      }
-      )
+      })
       .catch(error => set({ error }))
       .finally(() => set({ isLoading: false }));
   },
