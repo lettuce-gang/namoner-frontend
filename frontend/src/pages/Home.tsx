@@ -122,7 +122,7 @@ const CustomButton = styled.button`
   font-family: "Pretendard-B";
   position: absolute;
   bottom: 50px;
-  left:50%;
+  left: 50%;
   transform: translateX(-50%);
   margin: 0 auto;
   border: none;
@@ -138,6 +138,8 @@ const InputBox = styled.div`
   text-align: center;
   align-items: center;
   gap: 17px;
+  z-index: 3;
+
   span {
     font-family: "Pretendard-R";
     font-size: 16px;
