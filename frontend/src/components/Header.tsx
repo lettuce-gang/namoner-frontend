@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 type HeaderProps = {
@@ -6,10 +7,14 @@ type HeaderProps = {
 };
 
 function Header({ isFull }: HeaderProps) {
+  const navigate = useNavigate()
+  const goHome = () => {
+    navigate("/")
+  }
   return (
     <Head>
       <MenuButton src="/img/hamburger.svg" alt="menu-btn" width={27} height={14} />
-      <img src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"} alt="logo" width={isFull ? 95 : 65} height={isFull ? 42 : 22} />
+      <img src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"} alt="logo" width={isFull ? 95 : 65} height={isFull ? 42 : 22} onClick={goHome} />
     </Head>
   );
 }
@@ -24,6 +29,10 @@ const Head = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
+  img {
+    cursor: pointer;
+  }
 `;
 const MenuButton = styled.img`
   position: absolute;
