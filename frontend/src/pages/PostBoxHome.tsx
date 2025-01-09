@@ -7,10 +7,12 @@ import LoginPopup from "../components/popup/LoginPopup.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
+import { useUserInfo } from "../stores/useUserInfo.ts";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const {getPostBoxInfo, postboxName} = useStore(usePostBox);
+  const {isUserLogin} = useStore(useUserInfo);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigator = useNavigate();
   const PostBoxImgByTime = () => {
@@ -31,7 +33,7 @@ function PostBoxHome() {
   return (
     <>
       <Wrapper>
-        {isPopupOpen && <ViewPostBoxPopup userId={userId} handlePopup={setIsPopupOpen}/>}
+        {isPopupOpen && !isUserLogin && <LoginPopup userId={userId} handlePopup={setIsPopupOpen}/>}
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
