@@ -7,6 +7,7 @@ const Frame = styled.div`
   padding: 0 24px;
   background-color: #F9FAFC;
   position: relative;
+  z-index: 1;
 `;
 
 
@@ -16,6 +17,7 @@ const FrameContent = styled.div`
   left: 0; /* 원하는 위치 값 */
   width: 100%;
   height: 100%;
+  z-index: 2;
 `;
 
 export { Frame, FrameContent };
