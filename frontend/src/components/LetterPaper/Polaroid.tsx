@@ -75,7 +75,7 @@ function Polaroid({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterP
       <LetterText ref={textareaRef} value={textGetter} onChange={handleTextChange} rows={3} maxLength={100} font-family={LetterFontProps[fontType]["font-family"]}
         font-size={LetterFontProps[fontType]["font-size"]}/>
       <HiddenFileInput ref={fileInputRef} type="file" accept="image/*, .heic" onChange={handleImageChange} />
-      {!imgGetter && <UploadButton onClick={handleFileInputClick}>이미지 업로드</UploadButton>}
+      {!imgGetter && <UploadButton onClick={handleFileInputClick}></UploadButton>}
     </Wrapper>
   );
 }
