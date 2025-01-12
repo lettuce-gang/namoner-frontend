@@ -40,7 +40,12 @@ function WriteLetterMessage() {
         break;
     }
   };
-
+  const handleButtonActive = () => {
+    if (tempSender.length > 0 && tempReceiver.length > 0 && tempMessage.length > 0) {
+      return true;
+    }
+    return false;
+  };
   return (
     <Wrapper>
       <SenderBox>
@@ -60,10 +65,12 @@ function WriteLetterMessage() {
         height="54px"
         borderRadius="50px"
         style={{ position: "absolute", top: "85%" }}
+        disabled={!handleButtonActive()}
         onClick={() => {
           setLetterWriteStep(3);
           setLetterInfo(tempSender, tempReceiver, tempMessage);
         }}
+        
       />
     </Wrapper>
   );
@@ -93,6 +100,7 @@ const SenderBox = styled.div`
     color: #262626;
   }
   input {
+    width: 160px;
     height: 34.844px;
     padding: 0px 10.324px 0px 17px;
     align-items: center;
@@ -116,6 +124,7 @@ const ReceiverBox = styled.div`
     color: #262626;
   }
   input {
+    width: 160px;
     height: 34.844px;
     padding: 0px 10.324px 0px 17px;
     align-items: center;

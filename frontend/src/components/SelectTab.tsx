@@ -3,19 +3,38 @@ import styled from "styled-components";
 import PaperSelectContainer from "./PaperSelectContainer.tsx";
 import FontSelectContainer from "./FontSelectContainer.tsx";
 
-function SelectTab() {
+interface FrameSelectProps {
+  tempSelectedPaper: string;
+  setTempSelectedPaper: React.Dispatch<React.SetStateAction<string>>;
+  tempSelectedFont: string;
+  setTempSelectedFont: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function SelectTab({ tempSelectedPaper, setTempSelectedPaper, tempSelectedFont, setTempSelectedFont }: FrameSelectProps) {
   const [selectedTab, setSelectedTab] = useState(1);
-  const [tempSelectedPaper, setTempSelectedPaper] = useState("GRAPH_PAPER");
-  const [tempSelectedFont, setTempSelectedFont] = useState("Pretendard_R");
   const TabViewController = () => {
     switch (selectedTab) {
       case 1:
-        return <PaperSelectContainer getPaper={tempSelectedPaper} setPaper={setTempSelectedPaper} getFont={tempSelectedFont} setFont={setTempSelectedFont}/>;
+        return (
+          <PaperSelectContainer
+            getPaper={tempSelectedPaper}
+            setPaper={setTempSelectedPaper}
+            getFont={tempSelectedFont}
+            setFont={setTempSelectedFont}
+          />
+        );
       case 2:
-        return <FontSelectContainer getPaper={tempSelectedPaper} setPaper={setTempSelectedPaper} getFont={tempSelectedFont} setFont={setTempSelectedFont}/>;
+        return (
+          <FontSelectContainer
+            getPaper={tempSelectedPaper}
+            setPaper={setTempSelectedPaper}
+            getFont={tempSelectedFont}
+            setFont={setTempSelectedFont}
+          />
+        );
       default:
         return null;
-      }
+    }
   };
   return (
     <Wrapper>
