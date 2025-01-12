@@ -4,10 +4,8 @@ import styled from "styled-components";
 import { useStore } from "zustand";
 import { useLetter } from "../stores/useLetter.ts";
 import Header from "../components/Header.tsx";
-import { LetterPaperProps } from "../type/LetterPaperProps.ts";
-import { LetterFontProps } from "../type/LetterFontProps.ts";
 import GraphPaper from "../components/ViewLetterPaper/GraphPaper.tsx";
-
+import BasicNote from "../components/ViewLetterPaper/BasicNote.tsx";
 type LetterInfoType = {
   fontFamily: string;
   fontSize: string;
@@ -27,9 +25,9 @@ function Letter() {
       case "GRAPH_PAPER":
         return <GraphPaper letter={letter} />;
         break;
-      // case "BASIC_NOTE":
-      //   return <BasicNote getter={tempMessage} setter={setTempMessage} />;
-      //   break;
+      case "BASIC_NOTE":
+        return <BasicNote letter={letter} />;
+        break;
       // case "PHOTO_POSTCARD":
       //   return <Postcard textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
       //   break;
