@@ -17,7 +17,6 @@ type LetterDivType = {
 function GraphPaper({letter}:LetterInfoType) {
     console.log(letter);
     return (
-      <>
         <LetterPaper
         fontFamily={LetterFontProps[letter.fontType]["font-family"]}
         fontSize={LetterFontProps[letter.fontType]["font-size"].GRAPH_PAPER}
@@ -25,7 +24,6 @@ function GraphPaper({letter}:LetterInfoType) {
       >
         {letter.message}
       </LetterPaper>
-      </>
     );
 }
 
