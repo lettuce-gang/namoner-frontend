@@ -55,7 +55,6 @@ const LetterPaper = styled.textarea<FontType>`
   height: 340px;
   max-height: 703px;
   overflow-y: auto;
-  border: 1.5px solid #e9e9e9;
   background-image: url("/img/writeLetterPaper/graph-write-letter-paper.svg");
   resize: none;
   background-size:cover;

@@ -6,16 +6,41 @@ import { useLetter } from "../stores/useLetter.ts";
 import Header from "../components/Header.tsx";
 import { LetterPaperProps } from "../type/LetterPaperProps.ts";
 import { LetterFontProps } from "../type/LetterFontProps.ts";
+import GraphPaper from "../components/ViewLetterPaper/GraphPaper.tsx";
 
 type LetterInfoType = {
-  "font-family": string;
-  "font-size": string;
+  fontFamily: string;
+  fontSize: string;
   letterBackImg: string;
 };
 
 function Letter() {
   const { letterId } = useParams<{ letterId: string }>() as { letterId: string };
   const { letter, getLetter } = useStore(useLetter);
+  const LetterPaperHandler = (letterPaperType: string) => {
+    if (!letter) {
+      alert("다시 시도해주세요.");
+      return null;
+    }
+
+    switch (letterPaperType) {
+      case "GRAPH_PAPER":
+        return <GraphPaper letter={letter} />;
+        break;
+      // case "BASIC_NOTE":
+      //   return <BasicNote getter={tempMessage} setter={setTempMessage} />;
+      //   break;
+      // case "PHOTO_POSTCARD":
+      //   return <Postcard textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+      //   break;
+      // case "POLAROID":
+      //   return <Polaroid textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+      //   break;
+      // case "CHECK_PAPER":
+      //   return <CheckPattern getter={tempMessage} setter={setTempMessage} />;
+      //   break;
+    }
+  };
   useEffect(() => {
     getLetter(letterId);
   }, [letterId]);
@@ -28,18 +53,12 @@ function Letter() {
           <Wrapper>
             <SenderBox>
               <span>To. </span>
-              <NameBox>{letter?.letterReceiver}</NameBox>
+              <NameBox>{letter.letterReceiver}</NameBox>
             </SenderBox>
-            <LetterPaper
-              font-family={LetterFontProps[`${letter?.fontType}`]["font-family"]}
-              font-size={LetterFontProps[`${letter?.fontType}`]["font-size"]}
-              letterBackImg={LetterPaperProps[`${letter?.letterPaperType}`]["imgUrl"]}
-            >
-              {letter?.message}
-            </LetterPaper>
+            {LetterPaperHandler(letter.letterPaperType as string)}
             <ReceiverBox>
               <span>From. </span>
-              <NameBox>{letter?.letterReceiver}</NameBox>
+              <NameBox>{letter.letterSender}</NameBox>
             </ReceiverBox>
           </Wrapper>
         </>

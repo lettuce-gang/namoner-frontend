@@ -27,8 +27,9 @@ const useLetterList = create<LetterListViewProps>(set => ({
     await api
       .get(process.env.REACT_APP_BASE_URL + `/letters?userId=${userId}`)
       .then(res => {
-        set({ letterList: res.data });
-        console.log("resultData:" + res.data);
+        const letterList = res.data.data;
+        set({ letterList });
+        console.log("resultData:",letterList);
       })
       .catch(error => set({ error }))
       .finally(() => {

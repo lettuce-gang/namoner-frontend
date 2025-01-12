@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { FontType } from "../type/fontType.ts";
 import { LetterPaperType } from "../type/letterPaperType.ts";
+import api from "../auth/api.ts";
 
-interface LetterProps {
+export interface LetterProps {
   letterReceiver: string;
   letterSender: string;
   message: string;
@@ -25,10 +26,10 @@ const useLetter = create<LetterViewProps>(set => ({
   letter: null,
   getLetter: async (letterId: string) => {
     set({ isLoading: true });
-    await axios
+    await api
       .get(process.env.REACT_APP_BASE_URL + `/letters/${letterId}`)
       .then(res => {
-        set({ letter: res.data });
+        set({ letter: res.data.data });
       })
       .catch(error => set({ error }))
       .finally(() => set({ isLoading: false }));
