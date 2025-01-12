@@ -52,7 +52,7 @@ function CheckPattern({ setter, getter }: WriteLetterProps) {
       value={getter}
       onChange={handleTextChange}
       fontFamily={LetterFontProps[fontType]["font-family"]}
-      fontSize={LetterFontProps[fontType]["font-size"]}
+      fontSize={LetterFontProps[fontType]["font-size"].CHECK_PAPER}
       rows={9}
     />
   );

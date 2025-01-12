@@ -43,7 +43,7 @@ function GraphPaper({getter, setter}: WriteLetterProps) {
         value={getter}
         onChange={e=>setter(e.target.value)}
         font-family={LetterFontProps[fontType]["font-family"]}
-        font-size={LetterFontProps[fontType]["font-size"]}
+        font-size={LetterFontProps[fontType]["font-size"].GRAPH_PAPER}
       />
     );
 }

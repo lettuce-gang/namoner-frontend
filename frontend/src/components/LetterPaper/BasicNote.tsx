@@ -67,7 +67,7 @@ function BasicNote({ setter, getter }: WriteLetterProps) {
         setter(e.target.value);
       }}
       font-family={LetterFontProps[fontType]["font-family"]}
-      font-size={LetterFontProps[fontType]["font-size"]}
+      font-size={LetterFontProps[fontType]["font-size"].BASIC_NOTE}
     />
   );
 }

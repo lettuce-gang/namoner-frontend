@@ -73,7 +73,7 @@ function Polaroid({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterP
       <LetterPaper src="/img/writeLetterPaper/polaroid-write-letter-paper.svg" />
       {imgGetter && <LetterImgPreview src={imgGetter} alt="미리보기" onClick={handleFileInputClick} style={{ cursor: "pointer" }} />}
       <LetterText ref={textareaRef} value={textGetter} onChange={handleTextChange} rows={3} maxLength={100} font-family={LetterFontProps[fontType]["font-family"]}
-        font-size={LetterFontProps[fontType]["font-size"]}/>
+        font-size={LetterFontProps[fontType]["font-size"].POLAROID}/>
       <HiddenFileInput ref={fileInputRef} type="file" accept="image/*, .heic" onChange={handleImageChange} />
       {!imgGetter && <UploadButton onClick={handleFileInputClick}></UploadButton>}
     </Wrapper>
