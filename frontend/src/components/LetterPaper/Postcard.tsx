@@ -1,67 +1,145 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
+import heic2any from "heic2any";
 import { LetterFontProps } from "../../type/LetterFontProps.ts";
 import { useStore } from "zustand";
 import { useSendLetters } from "../../stores/useSendLetters.ts";
 
 type FontType = {
-  "font-family": string;
-  "font-size": string;
+  fontFamily: string;
+  fontSize: string;
 };
 
 export interface WriteLetterProps {
-  getter: string;
-  setter: React.Dispatch<React.SetStateAction<string>>;
+  textGetter: string;
+  textSetter: React.Dispatch<React.SetStateAction<string>>;
+  imgGetter: string | null;
+  imgSetter: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function Postcard({ getter, setter }: WriteLetterProps) {
-  const { fontType } = useStore(useSendLetters);
+function Postcard({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const {fontType} = useStore(useSendLetters)
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    const text = e.target.value;
 
-  const handleInput = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      const maxLines = 80; // 최대 줄 수
-      const lineHeight = 30; // 줄 간격(px)
-      const maxHeight = maxLines * lineHeight; // 최대 높이 계산
-
-      if (textarea.scrollHeight > maxHeight) {
-        const text = textarea.value.split("\n"); // 줄 단위로 분리
-        if (text.length > maxLines) {
-          textarea.value = text.slice(0, maxLines).join("\n"); // 초과된 줄 삭제
-        }
-      }
+    // 수동 줄바꿈 체크
+    const lines = text.split("\n");
+    if (lines.length > 8) {
+      const limitedText = lines.slice(0, 2).join("\n");
+      textSetter(limitedText);
+      return;
     }
+
+    // 자동 줄바꿈 체크
+    const style = window.getComputedStyle(textarea);
+    const lineHeight = parseInt(style.lineHeight, 10);
+    const currentLines = Math.floor(textarea.scrollHeight / lineHeight);
+
+    if (currentLines > 8) {
+      return;
+    }
+
+    textSetter(text);
+  };
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file && file.type === "image/heic") {
+      try {
+        const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg" });
+        const objectUrl = URL.createObjectURL(convertedBlob as Blob);
+        console.log("url", objectUrl);
+        imgSetter(objectUrl);
+      } catch (conversionError) {
+        console.error("HEIC 파일 변환에 실패했습니다.");
+      }
+    } else if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      imgSetter(objectUrl);
+    }
+    console.log(imgGetter);
+  };
+
+  const handleFileInputClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
-    <LetterPaper
-      ref={textareaRef}
-      onInput={handleInput}
-      font-family={LetterFontProps[fontType]["font-family"]}
-      font-size={LetterFontProps[fontType]["font-size"]}
-    />
+    <Wrapper>
+      <LetterPaper src="/img/writeLetterPaper/postcard-write-letter-paper.svg" />
+      {imgGetter && <LetterImgPreview src={imgGetter} alt="미리보기" onClick={handleFileInputClick} style={{ cursor: "pointer" }} />}
+      <LetterText ref={textareaRef} value={textGetter} onChange={handleTextChange} rows={8} fontFamily={LetterFontProps[fontType]["font-family"]}
+        fontSize={LetterFontProps[fontType]["font-size"].PHOTO_POSTCARD}/>
+      <HiddenFileInput ref={fileInputRef} type="file" accept="image/*, .heic" onChange={handleImageChange} />
+      {!imgGetter && <UploadButton onClick={handleFileInputClick}></UploadButton>}
+    </Wrapper>
   );
 }
 
 export default Postcard;
 
-const LetterPaper = styled.textarea<FontType>`
-  width: 300px;
+const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const LetterPaper = styled.img`
+  width: 100%;
   height: 220px;
-  max-height: 703px;
-  overflow-y: auto;
-  border: 1.5px solid #e9e9e9;
-  background-image: url("/img/writeLetterPaper/graph-write-letter-paper.svg");
-  resize: none;
-  background-size: cover;
-  background-repeat: repeat-y;
-  padding: 24px;
-  padding-top: 20px;
+`;
+
+const HiddenFileInput = styled.input`
+  display: none;
+`;
+
+const LetterText = styled.textarea<FontType>`
+  position: absolute;
+  right: 15px;
+  top: 6px;
+  width: 140px;
+  height: 205px;
+  line-height: 24px;
   box-sizing: border-box;
-  line-height: 30px;
-  font-size: ${props => (props["font-size"] ? props["font-size"] : "14.5px")};
-  font-family: ${props => (props["font-family"] ? props["font-family"] : "Pretendard-R")};
-  white-space: pre-wrap; /* 줄 바꿈 보존 */
-  word-wrap: break-word; /* 긴 단어 줄바꿈 */
+  background-color: transparent;
+  resize: none;
+  border-radius: 5px;
+  padding: 5px;
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: ${props => (props.fontSize ? props.fontSize : "14.5px")};
+  font-family: ${props => (props.fontFamily ? props.fontFamily : "Pretendard-R")};
+`;
+
+const LetterImgPreview = styled.img`
+  position: absolute;
+  top: 18px;
+  left: 17px;
+  width: 122px;
+  height: 164px;
+  object-fit: fill;
+  z-index: 10;
+  &:hover {
+    opacity: 0.8; // 호버 효과 추가 (선택사항)
+  }
+`;
+
+const UploadButton = styled.div`
+  position: absolute;
+  top: 18px;
+  left: 17px;
+  width: 122px;
+  height: 164px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 20;
 `;

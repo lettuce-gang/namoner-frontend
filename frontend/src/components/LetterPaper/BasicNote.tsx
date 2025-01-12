@@ -15,34 +15,59 @@ type FontType = {
 function BasicNote({ setter, getter }: WriteLetterProps) {
   const { fontType } = useStore(useSendLetters);
   const MAX_LINE = 22;
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   function countLines(textareaElement: HTMLTextAreaElement) {
-    // const text = textareaElement.value; // 텍스트 가져오기
-    // const lines = text.split("\n"); // 줄 바꿈으로 텍스트 분리
     const style = window.getComputedStyle(textareaElement);
-  const lineHeight = parseInt(style.lineHeight, 10);
-  const scrollHeight = textareaElement.scrollHeight;
-//   const scrollHeight = 704;
+    const lineHeight = parseInt(style.lineHeight, 10);
+    const maxHeight = MAX_LINE * lineHeight;
 
+    if (textareaElement.scrollHeight > maxHeight) {
+      let text = textareaElement.value;
+      let prevText = text;
 
-    console.log(lineHeight, scrollHeight);
+      // 이진 탐색으로 더 효율적으로 찾기
+      let start = 0;
+      let end = text.length;
 
-    console.log(Math.ceil(scrollHeight / lineHeight));
+      while (start <= end) {
+        const mid = Math.floor((start + end) / 2);
+        textareaElement.value = text.slice(0, mid);
 
-    // if (lines.length > MAX_LINE) {
-    //   const trimmedValue = lines.slice(0, MAX_LINE).join("\n");
-    //   textareaElement.value = trimmedValue; // 초과된 줄을 잘라냄
-    // }
+        if (textareaElement.scrollHeight <= maxHeight) {
+          prevText = textareaElement.value;
+          start = mid + 1;
+        } else {
+          end = mid - 1;
+        }
+      }
+
+      // 마지막 단어가 잘리지 않도록 처리
+      const lastSpaceIndex = prevText.lastIndexOf(" ");
+      const lastNewlineIndex = prevText.lastIndexOf("\n");
+      const lastBreakIndex = Math.max(lastSpaceIndex, lastNewlineIndex);
+
+      // 만약 마지막 단어가 너무 길다면 그대로 두고, 아니면 단어 단위로 자르기
+      const finalText = lastBreakIndex > prevText.length - 20 ? prevText.substring(0, lastBreakIndex) : prevText;
+
+      textareaElement.value = finalText;
+      setter(finalText);
+
+      // 커서를 텍스트 끝으로 이동
+      textareaElement.selectionStart = finalText.length;
+      textareaElement.selectionEnd = finalText.length;
+    }
   }
 
   return (
     <LetterPaper
+      ref={textareaRef}
       value={getter}
       onChange={e => {
         countLines(e.target);
         setter(e.target.value);
       }}
       font-family={LetterFontProps[fontType]["font-family"]}
-      font-size={LetterFontProps[fontType]["font-size"]}
+      font-size={LetterFontProps[fontType]["font-size"].BASIC_NOTE}
     />
   );
 }
@@ -58,11 +83,13 @@ const LetterPaper = styled.textarea<FontType>`
   background-image: url("/img/writeLetterPaper/basic-write-letter-paper.svg");
   resize: none;
   background-attachment: local;
-  background-size: 340px 703px;
+  background-size: 100% 703px;
   background-repeat: no-repeat;
   padding: 24px;
   padding-top: 20px;
   box-sizing: border-box;
+  margin: 0;
+  display: block;
   line-height: 30px;
   font-size: ${props => (props["font-size"] ? props["font-size"] : "Pretendard-R")};
   font-family: ${props => (props["font-family"] ? props["font-family"] : "14.5px")};
