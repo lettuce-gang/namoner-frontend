@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { WriteLetterProps } from "./GraphPaper";
 import styled from "styled-components";
 import { LetterFontProps } from "../../type/LetterFontProps.ts";
@@ -6,43 +6,54 @@ import { useStore } from "zustand";
 import { useSendLetters } from "../../stores/useSendLetters.ts";
 
 type FontType = {
-  "font-family": string;
-  "font-size": string;
+  fontFamily: string;
+  fontSize: string;
 };
 
 // 22줄까지
 
 function CheckPattern({ setter, getter }: WriteLetterProps) {
   const { fontType } = useStore(useSendLetters);
-  const MAX_LINE = 22;
-  function countLines(textareaElement: HTMLTextAreaElement) {
-    // const text = textareaElement.value; // 텍스트 가져오기
-    // const lines = text.split("\n"); // 줄 바꿈으로 텍스트 분리
-    const style = window.getComputedStyle(textareaElement);
-  const lineHeight = parseInt(style.lineHeight, 10);
-  const scrollHeight = textareaElement.scrollHeight;
-//   const scrollHeight = 704;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    const text = textarea.value;
 
+    // 수동 줄바꿈 체크
+    const lines = text.split("\n");
+    if (lines.length > 9) {
+      const limitedText = lines.slice(0, 9).join("\n");
+      setter(limitedText);
+      return;
+    }
 
-    console.log(lineHeight, scrollHeight);
+    // 자동 줄바꿈 체크
+    if (textareaRef.current) {
+      const style = window.getComputedStyle(textareaRef.current);
+      const lineHeight = parseInt(style.lineHeight, 10);
+      const paddingTop = parseInt(style.paddingTop, 10);
+      const paddingBottom = parseInt(style.paddingBottom, 10);
 
-    console.log(Math.ceil(scrollHeight / lineHeight));
+      // 패딩을 제외한 실제 텍스트 영역의 높이로 계산
+      const textHeight = textarea.scrollHeight - paddingTop - paddingBottom;
+      const currentLines = Math.ceil(textHeight / lineHeight);
 
-    // if (lines.length > MAX_LINE) {
-    //   const trimmedValue = lines.slice(0, MAX_LINE).join("\n");
-    //   textareaElement.value = trimmedValue; // 초과된 줄을 잘라냄
-    // }
-  }
+      if (currentLines > 9) {
+        return;
+      }
+    }
+
+    setter(text);
+  };
 
   return (
     <LetterPaper
+      ref={textareaRef}
       value={getter}
-      onChange={e => {
-        countLines(e.target);
-        setter(e.target.value);
-      }}
-      font-family={LetterFontProps[fontType]["font-family"]}
-      font-size={LetterFontProps[fontType]["font-size"]}
+      onChange={handleTextChange}
+      fontFamily={LetterFontProps[fontType]["font-family"]}
+      fontSize={LetterFontProps[fontType]["font-size"]}
+      rows={9}
     />
   );
 }
@@ -50,22 +61,21 @@ function CheckPattern({ setter, getter }: WriteLetterProps) {
 export default CheckPattern;
 
 const LetterPaper = styled.textarea<FontType>`
-  width: 100%;
+  width: 277px;
   height: 340px;
-  max-height: 703px;
   overflow-y: auto;
-  border: 1.5px solid #e9e9e9;
+  border: none;
   background-image: url("/img/writeLetterPaper/check-pattern-write-letter-paper.svg");
   resize: none;
   background-attachment: local;
-  background-size: 340px 703px;
+  background-size: 100% 340px;
   background-repeat: no-repeat;
-  padding: 24px;
-  padding-top: 20px;
+  padding: 40px;
+  padding-top: 30px;
   box-sizing: border-box;
   line-height: 30px;
-  font-size: ${props => (props["font-size"] ? props["font-size"] : "Pretendard-R")};
-  font-family: ${props => (props["font-family"] ? props["font-family"] : "14.5px")};
+  font-size: ${props => (props.fontSize ? props.fontSize : "14.5")};
+  font-family: ${props => (props.fontFamily ? props.fontFamily : "Pretendard-R")};
   white-space: pre-wrap; /* 줄 바꿈 보존 */
   word-wrap: break-word; /* 긴 단어 줄바꿈 */
 `;
