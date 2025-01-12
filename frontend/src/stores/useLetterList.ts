@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import api from "../auth/api.ts";
 
 export interface LetterListProps {
   id: string; // 편지 고유 ID
@@ -23,7 +24,7 @@ const useLetterList = create<LetterListViewProps>(set => ({
   letterList: [],
   getLetterList: async (userId: string) => {
     set({ isLoading: true });
-    await axios
+    await api
       .get(process.env.REACT_APP_BASE_URL + `/letters?userId=${userId}`)
       .then(res => {
         set({ letterList: res.data });
