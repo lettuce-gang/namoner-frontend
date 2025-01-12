@@ -8,6 +8,7 @@ import GraphPaper from "../components/LetterPaper/GraphPaper.tsx";
 import BasicNote from "../components/LetterPaper/BasicNote.tsx";
 import Postcard from "../components/LetterPaper/Postcard.tsx";
 import Polaroid from "../components/LetterPaper/Polaroid.tsx";
+import CheckPattern from "../components/LetterPaper/CheckPattern.tsx";
 
 type FontType = {
   "font-family": string;
@@ -15,28 +16,30 @@ type FontType = {
 };
 
 function WriteLetterMessage() {
-  const { fontType, letterPaperType, setLetterInfo, setLetterWriteStep } =
-    useStore(useSendLetters);
+  const { fontType, letterPaperType, setLetterInfo, setLetterWriteStep } = useStore(useSendLetters);
   const [tempSender, setTempSender] = useState("");
   const [tempReceiver, setTempReceiver] = useState("");
   const [tempMessage, setTempMessage] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const LetterPaperHandler = (letterPaperType: string) => {
-    switch(letterPaperType) {
+    switch (letterPaperType) {
       case "GRAPH_PAPER":
-        return <GraphPaper getter={tempMessage} setter={setTempMessage}/>
-        break
+        return <GraphPaper getter={tempMessage} setter={setTempMessage} />;
+        break;
       case "BASIC_NOTE":
-        return <BasicNote getter={tempMessage} setter={setTempMessage} />
-        break
+        return <BasicNote getter={tempMessage} setter={setTempMessage} />;
+        break;
       case "PHOTO_POSTCARD":
-        return <Postcard getter={tempMessage} setter={setTempMessage} />
-        break
+        return <Postcard textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+        break;
       case "POLAROID":
-        return <Polaroid textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview}/>
-        break
+        return <Polaroid textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+        break;
+      case "CHECK_PAPER":
+        return <CheckPattern getter={tempMessage} setter={setTempMessage} />;
+        break;
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -49,10 +52,19 @@ function WriteLetterMessage() {
         <span>From.</span>
         <input type="text" maxLength={9} value={tempSender} onChange={e => setTempSender(e.target.value)} />
       </ReceiverBox>
-      <CustomButton fontFamily="Pretendard-B" text="작성완료" textColor="white" width="90%" height="54px" borderRadius="50px" style={{position:"absolute", top:"85%"}} onClick={()=>{
-        setLetterWriteStep(3);
-        setLetterInfo(tempSender, tempReceiver, tempMessage)
-      }}/>
+      <CustomButton
+        fontFamily="Pretendard-B"
+        text="작성완료"
+        textColor="white"
+        width="90%"
+        height="54px"
+        borderRadius="50px"
+        style={{ position: "absolute", top: "85%" }}
+        onClick={() => {
+          setLetterWriteStep(3);
+          setLetterInfo(tempSender, tempReceiver, tempMessage);
+        }}
+      />
     </Wrapper>
   );
 }
