@@ -14,13 +14,14 @@ export interface WriteLetterProps {
   textGetter: string;
   textSetter: React.Dispatch<React.SetStateAction<string>>;
   imgGetter: string | null;
-  imgSetter: React.Dispatch<React.SetStateAction<string | null>>;
+  imgSetter: React.Dispatch<React.SetStateAction<string>>;
+  setImageFile?: (file: File) => void;
 }
 
-function Polaroid({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterProps) {
+function Polaroid({ textGetter, textSetter, imgGetter, imgSetter, setImageFile }: WriteLetterProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const {fontType} = useStore(useSendLetters)
+  const { fontType } = useStore(useSendLetters);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = e.target;
     const text = e.target.value;
@@ -52,14 +53,15 @@ function Polaroid({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterP
       try {
         const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg" });
         const objectUrl = URL.createObjectURL(convertedBlob as Blob);
-        console.log("url", objectUrl);
         imgSetter(objectUrl);
+        setImageFile?.(file);
       } catch (conversionError) {
         console.error("HEIC 파일 변환에 실패했습니다.");
       }
     } else if (file) {
       const objectUrl = URL.createObjectURL(file);
       imgSetter(objectUrl);
+      setImageFile?.(file);
     }
     console.log(imgGetter);
   };
@@ -72,8 +74,15 @@ function Polaroid({ textGetter, textSetter, imgGetter, imgSetter }: WriteLetterP
     <Wrapper>
       <LetterPaper src="/img/writeLetterPaper/polaroid-write-letter-paper.svg" />
       {imgGetter && <LetterImgPreview src={imgGetter} alt="미리보기" onClick={handleFileInputClick} style={{ cursor: "pointer" }} />}
-      <LetterText ref={textareaRef} value={textGetter} onChange={handleTextChange} rows={3} maxLength={100} font-family={LetterFontProps[fontType]["font-family"]}
-        font-size={LetterFontProps[fontType]["font-size"].POLAROID}/>
+      <LetterText
+        ref={textareaRef}
+        value={textGetter}
+        onChange={handleTextChange}
+        rows={3}
+        maxLength={100}
+        font-family={LetterFontProps[fontType]["font-family"]}
+        font-size={LetterFontProps[fontType]["font-size"].POLAROID}
+      />
       <HiddenFileInput ref={fileInputRef} type="file" accept="image/*, .heic" onChange={handleImageChange} />
       {!imgGetter && <UploadButton onClick={handleFileInputClick}></UploadButton>}
     </Wrapper>
