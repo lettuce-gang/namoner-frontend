@@ -20,7 +20,9 @@ function WriteLetterMessage() {
   const [tempSender, setTempSender] = useState("");
   const [tempReceiver, setTempReceiver] = useState("");
   const [tempMessage, setTempMessage] = useState("");
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | undefined>();
+
   const LetterPaperHandler = (letterPaperType: string) => {
     switch (letterPaperType) {
       case "GRAPH_PAPER":
@@ -30,10 +32,22 @@ function WriteLetterMessage() {
         return <BasicNote getter={tempMessage} setter={setTempMessage} />;
         break;
       case "PHOTO_POSTCARD":
-        return <Postcard textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+        return <Postcard 
+          textGetter={tempMessage} 
+          textSetter={setTempMessage} 
+          imgGetter={preview} 
+          imgSetter={setPreview}
+          setImageFile={setImageFile}
+        />;
         break;
       case "POLAROID":
-        return <Polaroid textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
+        return <Polaroid 
+          textGetter={tempMessage} 
+          textSetter={setTempMessage} 
+          imgGetter={preview} 
+          imgSetter={setPreview}
+          setImageFile={setImageFile}
+        />;
         break;
       case "CHECK_PAPER":
         return <CheckPattern getter={tempMessage} setter={setTempMessage} />;
@@ -68,7 +82,7 @@ function WriteLetterMessage() {
         disabled={!handleButtonActive()}
         onClick={() => {
           setLetterWriteStep(3);
-          setLetterInfo(tempSender, tempReceiver, tempMessage);
+          setLetterInfo(tempSender, tempReceiver, tempMessage, preview, imageFile);
         }}
         
       />
