@@ -6,6 +6,9 @@ import { useLetter } from "../stores/useLetter.ts";
 import Header from "../components/Header.tsx";
 import GraphPaper from "../components/ViewLetterPaper/GraphPaper.tsx";
 import BasicNote from "../components/ViewLetterPaper/BasicNote.tsx";
+import Polaroid from "../components/ViewLetterPaper/Polaroid.tsx";
+import Postcard from "../components/ViewLetterPaper/Postcard.tsx";
+import CheckPattern from "../components/ViewLetterPaper/CheckPattern.tsx";
 type LetterInfoType = {
   fontFamily: string;
   fontSize: string;
@@ -28,15 +31,15 @@ function Letter() {
       case "BASIC_NOTE":
         return <BasicNote letter={letter} />;
         break;
-      // case "PHOTO_POSTCARD":
-      //   return <Postcard textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
-      //   break;
-      // case "POLAROID":
-      //   return <Polaroid textGetter={tempMessage} textSetter={setTempMessage} imgGetter={preview} imgSetter={setPreview} />;
-      //   break;
-      // case "CHECK_PAPER":
-      //   return <CheckPattern getter={tempMessage} setter={setTempMessage} />;
-      //   break;
+      case "POLAROID":
+        return <Polaroid letter={letter} />;
+        break;
+      case "PHOTO_POSTCARD":
+        return <Postcard letter={letter} />;
+        break;
+      case "CHECK_PAPER":
+        return <CheckPattern letter={letter} />;
+        break;
     }
   };
   useEffect(() => {
