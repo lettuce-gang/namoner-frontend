@@ -13,7 +13,7 @@ function Header({ isFull }: HeaderProps) {
   }
   return (
     <Head>
-      <MenuButton src="/img/hamburger.svg" alt="menu-btn" width={27} height={14} />
+      <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} />
       <img src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"} alt="logo" width={isFull ? 95 : 65} height={isFull ? 42 : 22} onClick={goHome} />
     </Head>
   );
