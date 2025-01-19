@@ -1,23 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import CustomButton from "./CustomButton.tsx";
+import CustomButton from "../CustomButton.tsx";
 import { useNavigate } from "react-router";
 
 type UserType = {
-  userId: string
-}
+  userId: string;
+  handlePopup: React.Dispatch<React.SetStateAction<boolean>>
+};
 
-function LoginPopup({userId}: UserType) {
+function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
   const navigator = useNavigate();
   return (
     <Overlay>
       <Wrapper>
+        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
         <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
         <TextContainer>
           <p>잠깐!</p>
           <span>
-            지금 가입하면 상대의 <br />
-            편지 수신 여부를 확인할 수 있어요!
+            편지 내용은 수신인과 발신인 <br />
+            본인만 확인할 수 있어요!
           </span>
         </TextContainer>
         <ButtonContainer>
@@ -32,30 +34,18 @@ function LoginPopup({userId}: UserType) {
             text="로그인/회원가입"
             textColor="white"
           />
-          <CustomButton
-            width="100%"
-            height="43px"
-            backgroundColor="white"
-            fontFamily="Pretendard-B"
-            fontSize="14px"
-            borderRadius="40px"
-            text="편지만 보내기"
-            textColor="#4361EE"
-            border="1px solid #4361EE"
-            onClick={()=>navigator(`/writeLetter/${userId}`)}
-          />
         </ButtonContainer>
       </Wrapper>
     </Overlay>
   );
 }
 
-export default LoginPopup;
+export default ViewPostBoxPopup;
 
 const Wrapper = styled.div`
   padding-top: 137px;
-  width: 90%;
-  height: 540px;
+  width: 80%;
+  height: 63%;
   border-radius: 20px;
   background: white;
   display: flex;
@@ -93,12 +83,12 @@ const TextContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 70px;
+  margin-top: 113px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
-  width: 80%;
+  width: 75%;
   flex-direction: column;
 `;
 
@@ -111,3 +101,11 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 5;
 `;
+
+const CloseIcon = styled.img`
+    position: absolute;
+    top: 20px;
+    right:20px;
+    z-index: 10;
+    cursor: pointer;
+`

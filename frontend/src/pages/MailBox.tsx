@@ -7,29 +7,6 @@ import { useLetterList } from "../stores/useLetterList.ts";
 import ReceivedMailContainer from "../components/ReceivedMailContainer.tsx";
 import SendMailContainer from "../components/SendMailContainer.tsx";
 
-const testData = [
-  {
-    id: "1fesnjes3552", // 편지 고유 ID
-    letterSender: "이승현", // 편지 전송자
-    letterReceiver: "최승용", // 편지 수신자
-    receiveDate: "2025-12-22", // 편지 수신 날짜
-    isRead: false, // 읽음 여부
-    fontType: "Pretendard_R", // 폰트 타입
-    letterPaperType: "GRAPH_PAPER", // 편지지 타입
-    letterType: "normal", // 편지 타입(일반, 예약)
-  },
-  {
-    id: "1fesnjes3551", // 편지 고유 ID
-    letterSender: "정다혜", // 편지 전송자
-    letterReceiver: "황경주", // 편지 수신자
-    receiveDate: "2025-12-25", // 편지 수신 날짜
-    isRead: false, // 읽음 여부
-    fontType: "KCC", // 폰트 타입
-    letterPaperType: "GRAPH_PAPER", // 편지지 타입
-    letterType: "reserved", // 편지 타입(일반, 예약)
-  },
-];
-
 function MailBox() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { letterList, getLetterList } = useStore(useLetterList);
