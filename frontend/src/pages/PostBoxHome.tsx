@@ -4,7 +4,6 @@ import Header from "../components/Header.tsx";
 import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import LoginPopup from "../components/popup/LoginPopup.tsx";
-import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
@@ -18,7 +17,23 @@ function PostBoxHome() {
   const { setLetterWriteStep } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigator = useNavigate();
-  
+
+  const isTokenExpired = () => {
+    const expiredTime = sessionStorage.getItem("atExpiredTime");
+    if (!expiredTime) return true;
+
+    return new Date().getTime() > new Date(expiredTime).getTime();
+  };
+
+  const popupHandler = () => {
+    const accessToken = sessionStorage.getItem("accessToken");
+    if (accessToken && !isTokenExpired()) {
+      navigator(`/writeLetter/${userId}`);
+    } else {
+      setIsPopupOpen(true);
+    }
+  };
+
   useEffect(() => {
     getPostBoxInfo(userId);
     setLetterWriteStep(1);
@@ -26,7 +41,7 @@ function PostBoxHome() {
   return (
     <>
       <Wrapper>
-        {isPopupOpen && !isUserLogin && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
+        {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
@@ -41,7 +56,7 @@ function PostBoxHome() {
             width="100%"
             height="54px"
             borderRadius="50px"
-            onClick={() => setIsPopupOpen(true)}
+            onClick={popupHandler}
           />
         </ButtonContainer>
       </Wrapper>
