@@ -21,7 +21,7 @@ function MailBox() {
   }, [selectedTab]);
   return (
     <div>
-      <Header isFull={false} />
+      <Header isFull={false} isBack={true} />
       <Container>
         <TabSelector>
           <Tab tab={1 == selectedTab} onClick={() => setSelectedTab(1)}>
