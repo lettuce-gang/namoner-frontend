@@ -21,7 +21,7 @@ function MailBox() {
   }, [selectedTab]);
   return (
     <div>
-      <Header isFull={false} />
+      <Header isFull={false} isBack={true} />
       <Container>
         <TabSelector>
           <Tab tab={1 == selectedTab} onClick={() => setSelectedTab(1)}>
@@ -31,7 +31,7 @@ function MailBox() {
             내가 보낸 편지함
           </Tab>
         </TabSelector>
-        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer />}
+        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer letters={[]}/>}
       </Container>
     </div>
   );
