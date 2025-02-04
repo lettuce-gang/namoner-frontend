@@ -31,7 +31,7 @@ function MailBox() {
             내가 보낸 편지함
           </Tab>
         </TabSelector>
-        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer />}
+        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer letters={[]}/>}
       </Container>
     </div>
   );
