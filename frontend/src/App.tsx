@@ -12,6 +12,7 @@ import Letter from "./pages/Letter.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import MakePostBox from "./pages/MakePostBox.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
+import ReserveLetter from "./pages/ReserveLetter.tsx";
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/postbox/:userId/mailbox/letter/:letterId" element={<Letter />} />
           <Route path="/oauth/naver" element={<NaverLoginLanding />} />
           <Route path="/writeLetter/:userId" element={<WriteLetter />} />
+          <Route path="/writeLetter/:userId/reserve" element={<ReserveLetter />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Frame>
