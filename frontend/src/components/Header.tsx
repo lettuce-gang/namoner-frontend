@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import SideTab from "./SideTab.tsx";
+import { useStore } from "zustand";
+import { useUserInfo } from "../stores/useUserInfo.ts";
 
 type HeaderProps = {
   isFull: boolean;
 };
 
 function Header({ isFull }: HeaderProps) {
-  const navigate = useNavigate()
+  const {isUserLogin} = useStore(useUserInfo);
+  const navigate = useNavigate();
   const goHome = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <Head>
-      <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} />
-      <img src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"} alt="logo" width={isFull ? 95 : 65} height={isFull ? 42 : 22} onClick={goHome} />
-    </Head>
+    <>
+      <Head>
+        <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} onClick={()=>setIsMenuOpen(true)}/>
+        <img
+          src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"}
+          alt="logo"
+          width={isFull ? 95 : 65}
+          height={isFull ? 42 : 22}
+          onClick={goHome}
+        />
+      </Head>
+      <SideTab isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} isLoggedIn={isUserLogin}/>
+    </>
   );
 }
 
