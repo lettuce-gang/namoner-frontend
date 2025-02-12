@@ -17,7 +17,7 @@ const refreshAccessToken = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/reissue`, {
-      refreshToken
+      refreshToken: refreshToken
     });
     
     const { accessToken, accessTokenExpiredTime } = response.data.data.token;
