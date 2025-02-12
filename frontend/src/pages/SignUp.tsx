@@ -52,17 +52,21 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 15vh;
+  padding-top: 10vh;
+  min-height: 100vh;
+  box-sizing: border-box;
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 200px;
+  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
   width: 90%;
+  max-width: 400px;
   flex-direction: column;
+  padding-bottom: 20px;
 `;
 
 const Container = styled.div`
