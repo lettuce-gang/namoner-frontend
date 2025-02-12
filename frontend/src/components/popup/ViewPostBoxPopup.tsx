@@ -2,39 +2,41 @@ import React from "react";
 import styled from "styled-components";
 import CustomButton from "../CustomButton.tsx";
 import { useNavigate } from "react-router";
+import { useStore } from "zustand";
+import { useUserInfo } from "../../stores/useUserInfo.ts";
 
 type UserType = {
-  userId: string;
-  handlePopup: React.Dispatch<React.SetStateAction<boolean>>
+  handlePopup: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
+function ViewPostBoxPopup({ handlePopup }: UserType) {
+  const { isUserLogin } = useStore(useUserInfo);
   const navigator = useNavigate();
   return (
     <Overlay>
       <Wrapper>
-        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
+        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={() => handlePopup(false)} />
         <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
         <TextContainer>
           <p>잠깐!</p>
-          <span>
-            편지 내용은 수신인과 발신인 <br />
-            본인만 확인할 수 있어요!
-          </span>
+          <span>편지 내용은 본인만 확인할 수 있어요!</span>
         </TextContainer>
-        <ButtonContainer>
-          <CustomButton
-            width="100%"
-            height="43px"
-            backgroundColor="#4361EE"
-            fontFamily="Pretendard-B"
-            fontSize="14px"
-            border="none"
-            borderRadius="40px"
-            text="로그인/회원가입"
-            textColor="white"
-          />
-        </ButtonContainer>
+        {isUserLogin && (
+          <ButtonContainer>
+            <CustomButton
+              width="100%"
+              height="43px"
+              backgroundColor="#4361EE"
+              fontFamily="Pretendard-B"
+              fontSize="14px"
+              border="none"
+              borderRadius="40px"
+              text="로그인/회원가입"
+              textColor="white"
+              onClick={() => navigator("/signup")}
+            />
+          </ButtonContainer>
+        )}
       </Wrapper>
     </Overlay>
   );
@@ -103,9 +105,9 @@ const Overlay = styled.div`
 `;
 
 const CloseIcon = styled.img`
-    position: absolute;
-    top: 20px;
-    right:20px;
-    z-index: 10;
-    cursor: pointer;
-`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+`;
