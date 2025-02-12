@@ -52,13 +52,13 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10vh;
-  min-height: 100vh;
+  height: calc(100vh - 60px);
   box-sizing: border-box;
+  padding-top: 5vh;
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;

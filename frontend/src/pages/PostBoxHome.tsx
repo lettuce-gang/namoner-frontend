@@ -9,13 +9,15 @@ import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
 import { PostBoxImgByTime } from "../utils/postBoxImgHandler.ts";
+import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const { getPostBoxInfo, postboxName } = useStore(usePostBox);
+  const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
   const { isUserLogin } = useStore(useUserInfo);
   const { setLetterWriteStep } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
   const navigator = useNavigate();
 
   const isTokenExpired = () => {
@@ -34,6 +36,14 @@ function PostBoxHome() {
     }
   };
 
+  const ClickPostBox = () => {
+    if(isOwner) {
+      navigator(`/postbox/${userId}/mailbox`)
+    } else {
+      setIsBoxPopupOpen(true);
+    }
+  }
+
   useEffect(() => {
     getPostBoxInfo(userId);
     setLetterWriteStep(1);
@@ -42,10 +52,11 @@ function PostBoxHome() {
     <>
       <Wrapper>
         {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
+        {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
-          <PostBoxImg src={PostBoxImgByTime()} onClick={() => navigator(`/postbox/${userId}/mailbox`)} />
+          <PostBoxImg src={PostBoxImgByTime()} onClick={ClickPostBox} />
           <p>우체통을 눌러 편지를 확인해보세요!</p>
         </PostBox>
         <ButtonContainer>
