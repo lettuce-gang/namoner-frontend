@@ -21,7 +21,7 @@ function ViewPostBoxPopup({ handlePopup }: UserType) {
           <p>잠깐!</p>
           <span>편지 내용은 본인만 확인할 수 있어요!</span>
         </TextContainer>
-        {isUserLogin && (
+        {!isUserLogin && (
           <ButtonContainer>
             <CustomButton
               width="100%"
