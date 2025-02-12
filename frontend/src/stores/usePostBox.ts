@@ -1,22 +1,25 @@
 import { create } from "zustand";
 import api from "../auth/api.ts";
-import visitorApi from "../auth/visitorApi.ts";
 
 interface PostBoxProps {
+  isOwner: boolean;
+  existPostBox: boolean;
   postboxName: string;
-  letterCount: number;
+  unreadLetterCount: number;
   getPostBoxInfo: (userId: string) => void;
 }
 
 const usePostBox = create<PostBoxProps>(set => ({
+  isOwner: false,
+  existPostBox: false,
   postboxName: "",
-  letterCount: 0,
+  unreadLetterCount: 0,
   getPostBoxInfo: async userId => {
-    await visitorApi
+    await api
       .get(`/users/postbox/${userId}`)
       .then(res => {
-        const { postboxName } = res.data.data;
-        set({ postboxName });
+        const { isOwner, existPostBox, postboxName, unreadLetterCount } = res.data.data;
+        set({ postboxName, isOwner, existPostBox, unreadLetterCount });
       })
       .catch(err => console.log(err));
   },
