@@ -20,22 +20,18 @@ function WriteLetterHeader({ isFull, isBack }: HeaderProps) {
   };
   const goBack = () => {
     if (letterWriteStep > 1) {
-        console.log("letterWriteStep", letterWriteStep)
+      console.log("letterWriteStep", letterWriteStep);
       setLetterWriteStep(letterWriteStep - 1);
     } else {
       navigate(-1);
     }
   };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const isLast = letterWriteStep == 4 ? true : false;
   return (
     <>
       <Head>
-        {isBack ? (
-          <MenuButton src="/img/back-img.svg" alt="back-btn" width={9} height={15} onClick={goBack} />
-        ) : (
-          <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} onClick={() => setIsMenuOpen(true)} />
-        )}
+        {isBack && !isLast && <MenuButton src="/img/back-img.svg" alt="back-btn" width={9} height={15} onClick={goBack} />}
 
         <img
           src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"}
