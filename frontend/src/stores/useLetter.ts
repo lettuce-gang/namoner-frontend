@@ -11,6 +11,8 @@ export interface LetterProps {
   imageUrl: string;
   fontType: FontType;
   letterPaperType: LetterPaperType;
+  isCanReply: boolean;
+  reply: LetterProps;
 }
 
 interface LetterViewProps {

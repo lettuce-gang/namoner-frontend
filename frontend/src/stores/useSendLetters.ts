@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import visitorApi from "../auth/visitorApi.ts";
+import api from "../auth/api.ts";
 
 type LetterBody = {
   receiverPhoneNumber: string;
@@ -25,7 +26,7 @@ interface LetterProps {
   setLetterFrameType: (letterPaperType: string, fontType: string) => void;
   setLetterInfo: (sender: string, receiver: string, message: string, imageUrl?: string, imageFile?: File) => void;
   setLetterWriteStep: (writeStep: number) => void;
-  sendLetter: (data: FormData, callback: () => void) => void;
+  sendLetter: (data: FormData, callback: () => void, isReply: boolean, letterId?: string) => void;
   isLoading: boolean;
   error: AxiosError | null;
   resetData: () => void;
@@ -53,7 +54,7 @@ const useSendLetters = create<LetterProps>((set, get) => ({
   setLetterWriteStep(writeStep) {
     set({ letterWriteStep: writeStep });
   },
-  sendLetter: async (data, callback) => {
+  sendLetter: async (data, callback, isReply, letterId) => {
     set({ isLoading: true });
     const state = get();
 
@@ -61,8 +62,25 @@ const useSendLetters = create<LetterProps>((set, get) => ({
       console.log("imageFile", state.imageFile);
       data.append("image", state.imageFile);
     }
-
-    await visitorApi
+    if(isReply) {
+      await api
+      .post(`/letters/${letterId}/reply`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(res => {
+        callback();
+      })
+      .catch(err => {
+        set({ error: err });
+        alert("편지 발송에 실패했습니다. 다시 시도해주세요🥲");
+      })
+      .finally(() => {
+        set({ isLoading: false });
+      });
+    } else {
+    await api
       .post("/letters", data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -78,6 +96,7 @@ const useSendLetters = create<LetterProps>((set, get) => ({
       .finally(() => {
         set({ isLoading: false });
       });
+    }
   },
   resetData() {
     set({
