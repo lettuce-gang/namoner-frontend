@@ -28,6 +28,7 @@ interface LetterProps {
   sendLetter: (data: FormData, callback: () => void) => void;
   isLoading: boolean;
   error: AxiosError | null;
+  resetData: () => void;
 }
 
 const useSendLetters = create<LetterProps>((set, get) => ({
@@ -77,6 +78,17 @@ const useSendLetters = create<LetterProps>((set, get) => ({
       .finally(() => {
         set({ isLoading: false });
       });
+  },
+  resetData() {
+    set({
+      letterPaperType: "GRAPH_PAPER",
+      fontType: "Pretendard_R",
+      letterWriteStep: 1,
+      message: "",
+      sender: "",
+      receiver: "",
+      receiveDate: "",
+    });
   },
 }));
 
