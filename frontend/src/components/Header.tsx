@@ -47,7 +47,7 @@ export default Header;
 
 const Head = styled.div`
   width: 100%;
-  padding: 26px;
+  padding: 26px 0px;
   box-sizing: border-box;
   position: relative;
   text-align: center;
@@ -61,6 +61,6 @@ const Head = styled.div`
 `;
 const MenuButton = styled.img`
   position: absolute;
-  left: 30px;
+  left: 10px;
   cursor: pointer;
 `;
