@@ -88,7 +88,7 @@ const LetterPaper = styled.textarea<FontType>`
   padding: 24px;
   padding-top: 20px;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0 auto;
   display: block;
   line-height: 30px;
   font-size: ${props => (props["font-size"] ? props["font-size"] : "Pretendard-R")};

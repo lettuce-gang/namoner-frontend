@@ -93,12 +93,13 @@ export default Polaroid;
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const LetterPaper = styled.img`
   width: 275px;
   height: 395px;
+  position: relative;
+  margin: 0 auto;
 `;
 
 const HiddenFileInput = styled.input`
