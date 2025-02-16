@@ -3,12 +3,12 @@ import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useStore } from "zustand";
 import { useSendLetters } from "../stores/useSendLetters.ts";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 function WriteLetterFinish() {
   const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-
+  const navigator = useNavigate();
   const sendMyLetter = () => {
     const formData = new FormData();
     const letterData = {
@@ -55,6 +55,7 @@ function WriteLetterFinish() {
           borderRadius="50px"
           backgroundColor="#FFBE0B"
           border="none"
+          onClick={()=>navigator(`/writeLetter/${userId}/reserve`)}
         />
       </ButtonContainer>
     </Wrapper>
