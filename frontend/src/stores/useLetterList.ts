@@ -29,7 +29,6 @@ const useLetterList = create<LetterListViewProps>(set => ({
       .then(res => {
         const letterList = res.data.data;
         set({ letterList });
-        console.log("resultData:",letterList);
       })
       .catch(error => set({ error }))
       .finally(() => {
