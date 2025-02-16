@@ -15,7 +15,7 @@ function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
   const { isUserLogin } = useStore(useUserInfo);
-  const { setLetterWriteStep } = useStore(useSendLetters);
+  const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
   const navigator = useNavigate();
@@ -37,16 +37,16 @@ function PostBoxHome() {
   };
 
   const ClickPostBox = () => {
-    if(isOwner) {
-      navigator(`/postbox/${userId}/mailbox`)
+    if (isOwner) {
+      navigator(`/postbox/${userId}/mailbox`);
     } else {
       setIsBoxPopupOpen(true);
     }
-  }
+  };
 
   useEffect(() => {
     getPostBoxInfo(userId);
-    setLetterWriteStep(1);
+    resetData();
   }, [userId]);
   return (
     <>

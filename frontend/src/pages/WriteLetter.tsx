@@ -6,6 +6,8 @@ import { useStore } from "zustand";
 import { useSendLetters } from "../stores/useSendLetters.ts";
 import WriteLetterFinish from "./WriteLetterFinish.tsx";
 import LetterSendFinish from "./LetterSendFinish.tsx";
+import Header from "../components/Header.tsx";
+import WriteLetterHeader from "../components/WriteLetterHeader.tsx";
 
 type FontType = {
   "font-family": string;
@@ -33,9 +35,7 @@ function WriteLetter() {
   };
   return (
     <>
-      <HeadController>
-        <img src="/img/logo.svg" />
-      </HeadController>
+      <WriteLetterHeader isFull={false} isBack={true} />
       <ViewController />
     </>
   );
