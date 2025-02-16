@@ -65,7 +65,7 @@ function Letter() {
       {!letter && <div>wait img</div>}
       {letter && (
         <>
-          <Header isFull={false} />
+          <Header isFull={false} isBack={true}/>
           <Wrapper>
             <SenderBox>
               <span>To. </span>
