@@ -73,7 +73,7 @@ const useSendLetters = create<LetterProps>((set, get) => ({
       })
       .catch(err => {
         set({ error: err });
-        console.log(err);
+        alert("편지 발송에 실패했습니다. 다시 시도해주세요🥲");
       })
       .finally(() => {
         set({ isLoading: false });
