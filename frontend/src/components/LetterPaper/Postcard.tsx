@@ -92,12 +92,12 @@ export default Postcard;
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const LetterPaper = styled.img`
   width: 300px;
   height: 220px;
+  margin: 0 auto;
   position: relative;
 `;
 

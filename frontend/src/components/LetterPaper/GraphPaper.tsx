@@ -51,7 +51,7 @@ function GraphPaper({getter, setter}: WriteLetterProps) {
 export default GraphPaper;
 
 const LetterPaper = styled.textarea<FontType>`
-  width: 280px;
+  width: 277px;
   height: 340px;
   max-height: 703px;
   overflow-y: auto;
@@ -63,6 +63,7 @@ const LetterPaper = styled.textarea<FontType>`
   padding-top: 20px;
   box-sizing: border-box;
   line-height: 30px;
+  margin: 0 auto;
   font-size: ${props => (props["font-size"] ? props["font-size"] : "14.5px")};
   font-family: ${props => (props["font-family"] ? props["font-family"] : "Pretendard-R")};
   white-space: pre-wrap; /* 줄 바꿈 보존 */
