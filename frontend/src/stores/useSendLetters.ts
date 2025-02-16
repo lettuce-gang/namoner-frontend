@@ -20,6 +20,7 @@ interface LetterProps {
   imageUrl?: string;
   imageFile?: File;
   letterType: string;
+  receiveDate?: string;
   letterWriteStep: number;
   setLetterFrameType: (letterPaperType: string, fontType: string) => void;
   setLetterInfo: (sender: string, receiver: string, message: string, imageUrl?: string, imageFile?: File) => void;
@@ -41,6 +42,7 @@ const useSendLetters = create<LetterProps>((set, get) => ({
   isLoading: false,
   error: null,
   letterWriteStep: 1,
+  receiveDate: "",
   setLetterFrameType(letterPaperType, fontType) {
     set({ letterPaperType: letterPaperType, fontType: fontType });
   },
