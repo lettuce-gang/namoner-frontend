@@ -97,12 +97,13 @@ const Wrapper = styled.div`
 `;
 
 const LetterPaper = styled.img`
-  width: 100%;
-  height: auto;
+  width: 275px;
+  height: 395px;
 `;
 
 const HiddenFileInput = styled.input`
   display: none;
+  width: 227px;
 `;
 
 const LetterText = styled.textarea<FontType>`
@@ -110,7 +111,7 @@ const LetterText = styled.textarea<FontType>`
   left: 25px;
   bottom: 20px;
   height: 60px;
-  width: calc(100% - 50px);
+  width: 227px;
   line-height: 25px;
   box-sizing: border-box;
   background-color: transparent;
@@ -128,8 +129,8 @@ const LetterImgPreview = styled.img`
   position: absolute;
   top: 22px;
   left: 25px;
-  width: calc(100% - 50px);
-  height: calc(100% - 115px);
+  width: 224px;
+  height: 290px;
   object-fit: fill;
   z-index: 10;
   &:hover {
@@ -141,8 +142,8 @@ const UploadButton = styled.div`
   position: absolute;
   top: 22px;
   left: 25px;
-  width: calc(100% - 50px);
-  height: calc(100% - 115px);
+  width: 224px;
+  height: 290px;
   background-color: white;
   display: flex;
   align-items: center;
