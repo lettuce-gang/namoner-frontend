@@ -9,7 +9,7 @@ function SignUp() {
   const { startLogin } = useStore(useNaverLogin);
   return (
     <>
-      <Header isFull={true} />
+      <Header isFull={true} isBack={true}/>
       <Wrapper>
         <Container>
           <img src="/img/login-img.svg" width={66} height={69} />
