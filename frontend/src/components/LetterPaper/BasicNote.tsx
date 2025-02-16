@@ -75,7 +75,7 @@ function BasicNote({ setter, getter }: WriteLetterProps) {
 export default BasicNote;
 
 const LetterPaper = styled.textarea<FontType>`
-  width: 100%;
+  width: 280px;
   height: 340px;
   max-height: 703px;
   overflow-y: auto;
@@ -83,7 +83,7 @@ const LetterPaper = styled.textarea<FontType>`
   background-image: url("/img/writeLetterPaper/basic-write-letter-paper.svg");
   resize: none;
   background-attachment: local;
-  background-size: 100% 703px;
+  background-size: 280px 703px;
   background-repeat: no-repeat;
   padding: 24px;
   padding-top: 20px;

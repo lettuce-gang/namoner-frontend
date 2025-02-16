@@ -18,14 +18,14 @@ function Header({ isFull, isBack }: HeaderProps) {
   };
   const goBack = () => {
     navigate(-1);
-  }
+  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
       <Head>
         {isBack ? (
-          <MenuButton src="/img/back-img.svg" alt="back-btn" width={9} height={15} onClick={goBack}/>
+          <MenuButton src="/img/back-img.svg" alt="back-btn" width={9} height={15} onClick={goBack} />
         ) : (
           <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} onClick={() => setIsMenuOpen(true)} />
         )}
@@ -49,11 +49,12 @@ const Head = styled.div`
   width: 100%;
   padding: 26px;
   box-sizing: border-box;
+  position: relative;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 5;
   img {
     cursor: pointer;
   }

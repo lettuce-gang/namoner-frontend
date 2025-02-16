@@ -44,7 +44,7 @@ function Home() {
 
   return (
     <>
-      <Header isFull={true} />
+      <Header isFull={true} isBack={false}/>
       <FlexBox>
         <HeadBox>
           <img src={"/img/letter.svg"} alt="default-letter" width={44} height={22} />

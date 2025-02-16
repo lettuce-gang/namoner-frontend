@@ -51,7 +51,7 @@ function GraphPaper({getter, setter}: WriteLetterProps) {
 export default GraphPaper;
 
 const LetterPaper = styled.textarea<FontType>`
-  width: 100%;
+  width: 280px;
   height: 340px;
   max-height: 703px;
   overflow-y: auto;

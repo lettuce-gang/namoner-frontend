@@ -96,8 +96,9 @@ const Wrapper = styled.div`
 `;
 
 const LetterPaper = styled.img`
-  width: 100%;
+  width: 300px;
   height: 220px;
+  position: relative;
 `;
 
 const HiddenFileInput = styled.input`
@@ -106,7 +107,7 @@ const HiddenFileInput = styled.input`
 
 const LetterText = styled.textarea<FontType>`
   position: absolute;
-  right: 15px;
+  left: 150px;
   top: 6px;
   width: 140px;
   height: 205px;
