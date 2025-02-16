@@ -37,6 +37,7 @@ function App() {
           <Route path="/oauth/naver" element={<NaverLoginLanding />} />
           <Route path="/writeLetter/:userId" element={<WriteLetter />} />
           <Route path="/writeLetter/:userId/reserve" element={<ReserveLetter />} />
+          <Route path="/writeLetter/:letterId/reply" element={<WriteLetter />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Frame>

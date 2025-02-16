@@ -21,6 +21,12 @@ function Home() {
     setPhoneNumber(formattedValue);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      SearchPhoneNumber();
+    }
+  };
+
   const SearchPhoneNumber = () => {
     if (phoneNumber.length < 13) {
       alert("010-XXXX-XXXX 형식으로 입력해주세요.");
@@ -49,7 +55,7 @@ function Home() {
           </span>
         </HeadBox>
         <InputBox>
-          <PhoneNumberInput type="text" value={phoneNumber} onChange={handleChange} placeholder="010-XXXX-XXXX" maxLength={13} />
+          <PhoneNumberInput type="text" value={phoneNumber} onChange={handleChange} placeholder="010-XXXX-XXXX" maxLength={13} onKeyDown={handleKeyDown}/>
           <SearchIcon src={"/img/search.svg"} width={25} onClick={SearchPhoneNumber} />
           <span>
             휴대폰 번호를 입력하여
