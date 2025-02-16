@@ -42,17 +42,21 @@ function Letter() {
     }
   };
   const ReplyLetter = () => {
+    if (!letter?.reply) {
+      return null;
+    }
+
     return (
       <>
         <DivideLine />
         <SenderBox>
           <span>To. </span>
-          <NameBox>{letter?.reply.letterReceiver}</NameBox>
+          <NameBox>{letter.reply.letterReceiver}</NameBox>
         </SenderBox>
-        {LetterPaperHandler(letter?.reply.letterPaperType as string)}
+        {LetterPaperHandler(letter.reply.letterPaperType as string)}
         <ReceiverBox>
           <span>From. </span>
-          <NameBox>{letter?.reply.letterSender}</NameBox>
+          <NameBox>{letter.reply.letterSender}</NameBox>
         </ReceiverBox>
       </>
     );
@@ -65,7 +69,7 @@ function Letter() {
       {!letter && <div>wait img</div>}
       {letter && (
         <>
-          <Header isFull={false} isBack={true}/>
+          <Header isFull={false} isBack={true} />
           <Wrapper>
             <SenderBox>
               <span>To. </span>
@@ -76,7 +80,7 @@ function Letter() {
               <span>From. </span>
               <NameBox>{letter.letterSender}</NameBox>
             </ReceiverBox>
-            {!letter.isCanReply ? (
+            {letter.isCanReply ? (
               <ButtonContainer>
                 <CustomButton
                   fontFamily="Pretendard-B"
@@ -108,6 +112,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-height: 80vh;
+  max-width: 600px;
   background-color: white;
   border-radius: 12px;
   padding: 23px 37px 26px 37px;
@@ -151,8 +157,8 @@ const ButtonContainer = styled.div`
 `;
 
 const DivideLine = styled.div`
-width: 100%;
-height: 1px;
-  border: 1px solid #EFEFEF;
+  width: 100%;
+  height: 1px;
+  border: 1px solid #efefef;
   margin: 20px 0px;
-`
+`;

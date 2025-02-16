@@ -9,12 +9,13 @@ import SendMailContainer from "../components/SendMailContainer.tsx";
 
 function MailBox() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const { letterList, getLetterList } = useStore(useLetterList);
+  const { letterList, getLetterList, sendLetterList, getSendLetterList } = useStore(useLetterList);
   const [selectedTab, setSelectedTab] = useState(1);
   // Hamburger 에서 Back Key 고려해야 함
   useEffect(() => {
     if (selectedTab === 1) {
       getLetterList(userId);
+      getSendLetterList();
     } else {
       // 내가 보낸 편지함
     }
@@ -31,7 +32,7 @@ function MailBox() {
             내가 보낸 편지함
           </Tab>
         </TabSelector>
-        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer letters={[]}/>}
+        {selectedTab === 1 ? <ReceivedMailContainer letters={letterList} /> : <SendMailContainer letters={sendLetterList}/>}
       </Container>
     </div>
   );

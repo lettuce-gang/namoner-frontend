@@ -32,20 +32,21 @@ export default Polaroid;
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
+  width: 275px;
+  height: 395px;
 `;
 
 const LetterPaper = styled.img`
-  width: 100%;
-  height: auto;
+  width: 275px;
+  height: 395px;
 `;
 
 const LetterImg = styled.img`
   position: absolute;
   top: 22px;
   left: 25px;
-  width: calc(100% - 50px);
-  height: calc(100% - 115px);
+  width: 224px;
+  height: 290px;
   object-fit: fill;
   z-index: 10;
 `;
@@ -55,7 +56,7 @@ const LetterText = styled.div<LetterDivType>`
   left: 25px;
   bottom: 20px;
   height: 60px;
-  width: calc(100% - 50px);
+  width: 227px;
   line-height: 25px;
   box-sizing: border-box;
   background-color: transparent;
