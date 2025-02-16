@@ -15,7 +15,7 @@ function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
   const { isUserLogin } = useStore(useUserInfo);
-  const { setLetterWriteStep, setLetterFrameType } = useStore(useSendLetters);
+  const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
   const navigator = useNavigate();
@@ -46,8 +46,7 @@ function PostBoxHome() {
 
   useEffect(() => {
     getPostBoxInfo(userId);
-    setLetterWriteStep(1);
-    setLetterFrameType("GRAPH_PAPER", "Pretendard_R");
+    resetData();
   }, [userId]);
   return (
     <>
