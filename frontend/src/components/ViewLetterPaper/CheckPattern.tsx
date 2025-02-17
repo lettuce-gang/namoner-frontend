@@ -27,7 +27,7 @@ function CheckPattern({letter}:LetterInfoType) {
 
 export default CheckPattern;
 
-const LetterPaper = styled.textarea<LetterDivType>`
+const LetterPaper = styled.div<LetterDivType>`
   width: 277px;
   height: 340px;
   overflow-y: auto;
