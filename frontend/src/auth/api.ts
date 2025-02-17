@@ -22,7 +22,7 @@ const refreshAccessToken = async () => {
     const { accessToken, refreshToken, accessTokenExpiredTime } = response.data.token;
     sessionStorage.setItem("accessToken", accessToken);
     sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
-    sessionStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("refreshToken", refreshToken);
 
     return accessToken;
   } catch (error) {
