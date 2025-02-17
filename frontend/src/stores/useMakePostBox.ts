@@ -14,7 +14,7 @@ const useMakePostBox = create<MakePostBoxProp>(set => ({
   makePostBox: async (postBoxName, isPhoneConnected, navigate) => {
     set({ isLoading: true });
     await api
-      .post(process.env.REACT_APP_BASE_URL + `/users/info`, {
+      .post(process.env.REACT_APP_BASE_URL + `/users/join`, {
         postBoxName: postBoxName,
         isPhoneConnected: isPhoneConnected,
       })
