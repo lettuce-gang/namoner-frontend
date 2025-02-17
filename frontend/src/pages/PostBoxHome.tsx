@@ -8,7 +8,7 @@ import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
-import { PostBoxImgByTime } from "../utils/postBoxImgHandler.ts";
+import { PostBoxImgByTime } from "../utils/postBoxImgHandler.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 
 function PostBoxHome() {
@@ -44,6 +44,7 @@ function PostBoxHome() {
     }
   };
 
+
   useEffect(() => {
     getPostBoxInfo(userId);
     resetData();
@@ -56,7 +57,9 @@ function PostBoxHome() {
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
-          <PostBoxImg src={PostBoxImgByTime()} onClick={ClickPostBox} />
+          <PostBoxImg onClick={ClickPostBox}>
+            {PostBoxImgByTime(unreadLetterCount)}
+          </PostBoxImg>
           <p>우체통을 눌러 편지를 확인해보세요!</p>
         </PostBox>
         <ButtonContainer>
@@ -98,7 +101,7 @@ const PostBox = styled.div`
   }
 `;
 
-const PostBoxImg = styled.img`
+const PostBoxImg = styled.div`
   width: 277px;
   height: 277px;
   cursor: pointer;
