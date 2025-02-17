@@ -15,14 +15,15 @@ const isTokenExpired = () => {
 // 토큰 리프레시 함수
 const refreshAccessToken = async () => {
   try {
-    const refreshToken = localStorage.getItem("refreshToken");
+    const _refreshToken = localStorage.getItem("refreshToken");
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/reissue`, {
-      refreshToken: refreshToken
+      "refreshToken": _refreshToken
     });
-    
-    const { accessToken, accessTokenExpiredTime } = response.data.data.token;
+    console.log("responseRefresh", response);
+    const { accessToken, refreshToken, accessTokenExpiredTime } = response.data.data.token;
     sessionStorage.setItem("accessToken", accessToken);
     sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
+    sessionStorage.setItem("refreshToken", refreshToken);
     
     return accessToken;
   } catch (error) {
