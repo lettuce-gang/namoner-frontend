@@ -43,7 +43,7 @@ function Home() {
   };
 
   return (
-    <>
+    <Wrapper>
       <Header isFull={true} isBack={false}/>
       <FlexBox>
         <HeadBox>
@@ -63,15 +63,19 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        <FrameContent>
+        {/* <FrameContent> */}
           <CustomButton onClick={() => navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
-        </FrameContent>
+        {/* </FrameContent> */}
       </FlexBox>
-    </>
+    </Wrapper>
   );
 }
 
 export default Home;
+
+const Wrapper = styled.div`
+height: 100vh;
+`
 
 const FlexBox = styled.div`
   display: flex;
