@@ -85,7 +85,7 @@ const TextContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 93px;
+  margin-top: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
