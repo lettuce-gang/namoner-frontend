@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router";
 import { create, useStore } from "zustand";
-import { useUserInfo } from "./useUserInfo";
+import { useUserInfo } from "./useUserInfo.ts";
 
 const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
 const REDIRECT_URI = "http://dev.namoner.site/oauth/naver"; // Callback URL
