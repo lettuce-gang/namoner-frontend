@@ -8,7 +8,7 @@ import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
-import { PostBoxImgByTime } from "../utils/postBoxImgHandler.tsx";
+import { postBoxImgHandler } from "../utils/postBoxImgHandler.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 
 function PostBoxHome() {
@@ -58,7 +58,7 @@ function PostBoxHome() {
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
           <PostBoxImg onClick={ClickPostBox}>
-            {PostBoxImgByTime(unreadLetterCount)}
+            {postBoxImgHandler(unreadLetterCount)}
           </PostBoxImg>
           <p>우체통을 눌러 편지를 확인해보세요!</p>
         </PostBox>
