@@ -17,27 +17,29 @@ function Letter() {
   const { letter, getLetter } = useStore(useLetter);
   const { setLetterInfo } = useStore(useSendLetters);
   const navigator = useNavigate();
-  const LetterPaperHandler = (letterPaperType: string) => {
+  const LetterPaperHandler = (letterPaperType: string, isReply: boolean) => {
     if (!letter) {
       alert("다시 시도해주세요.");
       return null;
     }
 
+    const _letter = isReply ? letter.reply : letter;
+
     switch (letterPaperType) {
       case "GRAPH_PAPER":
-        return <GraphPaper letter={letter} />;
+        return <GraphPaper letter={_letter} />;
         break;
       case "BASIC_NOTE":
-        return <BasicNote letter={letter} />;
+        return <BasicNote letter={_letter} />;
         break;
       case "POLAROID":
-        return <Polaroid letter={letter} />;
+        return <Polaroid letter={_letter} />;
         break;
       case "PHOTO_POSTCARD":
-        return <Postcard letter={letter} />;
+        return <Postcard letter={_letter} />;
         break;
       case "CHECK_PAPER":
-        return <CheckPattern letter={letter} />;
+        return <CheckPattern letter={_letter} />;
         break;
     }
   };
@@ -53,7 +55,7 @@ function Letter() {
           <span>To. </span>
           <NameBox>{letter.reply.letterReceiver}</NameBox>
         </SenderBox>
-        {LetterPaperHandler(letter.reply.letterPaperType as string)}
+        {LetterPaperHandler(letter.reply.letterPaperType as string, true)}
         <ReceiverBox>
           <span>From. </span>
           <NameBox>{letter.reply.letterSender}</NameBox>
@@ -75,7 +77,7 @@ function Letter() {
               <span>To. </span>
               <NameBox>{letter.letterReceiver}</NameBox>
             </SenderBox>
-            {LetterPaperHandler(letter.letterPaperType as string)}
+            {LetterPaperHandler(letter.letterPaperType as string, false)}
             <ReceiverBox>
               <span>From. </span>
               <NameBox>{letter.letterSender}</NameBox>
