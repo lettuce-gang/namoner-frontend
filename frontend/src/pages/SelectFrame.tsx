@@ -3,10 +3,13 @@ import styled from "styled-components";
 import SelectTab from "../components/SelectTab.tsx";
 import { LetterPaperProps } from "../type/LetterPaperProps.ts";
 import PreviewLetter from "../components/LetterPaper/PreviewLetter.tsx";
+import { useStore } from "zustand";
+import { useSendLetters } from "../stores/useSendLetters.ts";
 
 function SelectFrame() {
-    const [tempSelectedPaper, setTempSelectedPaper] = useState("GRAPH_PAPER");
-    const [tempSelectedFont, setTempSelectedFont] = useState("Pretendard_R");
+    const {letterPaperType, fontType} = useStore(useSendLetters);
+    const [tempSelectedPaper, setTempSelectedPaper] = useState(letterPaperType);
+    const [tempSelectedFont, setTempSelectedFont] = useState(fontType);
   
   return (
     <Container>

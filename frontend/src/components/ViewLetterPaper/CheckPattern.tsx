@@ -27,7 +27,7 @@ function CheckPattern({letter}:LetterInfoType) {
 
 export default CheckPattern;
 
-const LetterPaper = styled.textarea<LetterDivType>`
+const LetterPaper = styled.div<LetterDivType>`
   width: 277px;
   height: 340px;
   overflow-y: auto;
@@ -35,12 +35,13 @@ const LetterPaper = styled.textarea<LetterDivType>`
   background-image: url("/img/writeLetterPaper/check-pattern-write-letter-paper.svg");
   resize: none;
   background-attachment: local;
-  background-size: 100% 340px;
+  background-size: 277px 340px;
   background-repeat: no-repeat;
   padding: 40px;
   padding-top: 30px;
   box-sizing: border-box;
   line-height: 30px;
+  margin: 0 auto;
   font-size: ${props => (props.fontSize ? props.fontSize : "14.5")};
   font-family: ${props => (props.fontFamily ? props.fontFamily : "Pretendard-R")};
   white-space: pre-wrap; /* 줄 바꿈 보존 */

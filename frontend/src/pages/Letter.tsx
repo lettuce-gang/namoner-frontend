@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useLetter } from "../stores/useLetter.ts";
@@ -9,38 +9,59 @@ import BasicNote from "../components/ViewLetterPaper/BasicNote.tsx";
 import Polaroid from "../components/ViewLetterPaper/Polaroid.tsx";
 import Postcard from "../components/ViewLetterPaper/Postcard.tsx";
 import CheckPattern from "../components/ViewLetterPaper/CheckPattern.tsx";
-type LetterInfoType = {
-  fontFamily: string;
-  fontSize: string;
-  letterBackImg: string;
-};
+import CustomButton from "../components/CustomButton.tsx";
+import { useSendLetters } from "../stores/useSendLetters.ts";
 
 function Letter() {
   const { letterId } = useParams<{ letterId: string }>() as { letterId: string };
   const { letter, getLetter } = useStore(useLetter);
-  const LetterPaperHandler = (letterPaperType: string) => {
+  const { setLetterInfo } = useStore(useSendLetters);
+  const navigator = useNavigate();
+  const LetterPaperHandler = (letterPaperType: string, isReply: boolean) => {
     if (!letter) {
       alert("다시 시도해주세요.");
       return null;
     }
 
+    const _letter = isReply ? letter.reply : letter;
+
     switch (letterPaperType) {
       case "GRAPH_PAPER":
-        return <GraphPaper letter={letter} />;
+        return <GraphPaper letter={_letter} />;
         break;
       case "BASIC_NOTE":
-        return <BasicNote letter={letter} />;
+        return <BasicNote letter={_letter} />;
         break;
       case "POLAROID":
-        return <Polaroid letter={letter} />;
+        return <Polaroid letter={_letter} />;
         break;
       case "PHOTO_POSTCARD":
-        return <Postcard letter={letter} />;
+        return <Postcard letter={_letter} />;
         break;
       case "CHECK_PAPER":
-        return <CheckPattern letter={letter} />;
+        return <CheckPattern letter={_letter} />;
         break;
     }
+  };
+  const ReplyLetter = () => {
+    if (!letter?.reply) {
+      return null;
+    }
+
+    return (
+      <>
+        <DivideLine />
+        <SenderBox>
+          <span>To. </span>
+          <NameBox>{letter.reply.letterReceiver}</NameBox>
+        </SenderBox>
+        {LetterPaperHandler(letter.reply.letterPaperType as string, true)}
+        <ReceiverBox>
+          <span>From. </span>
+          <NameBox>{letter.reply.letterSender}</NameBox>
+        </ReceiverBox>
+      </>
+    );
   };
   useEffect(() => {
     getLetter(letterId);
@@ -50,17 +71,35 @@ function Letter() {
       {!letter && <div>wait img</div>}
       {letter && (
         <>
-          <Header isFull={false} />
+          <Header isFull={false} isBack={true} />
           <Wrapper>
             <SenderBox>
               <span>To. </span>
               <NameBox>{letter.letterReceiver}</NameBox>
             </SenderBox>
-            {LetterPaperHandler(letter.letterPaperType as string)}
+            {LetterPaperHandler(letter.letterPaperType as string, false)}
             <ReceiverBox>
               <span>From. </span>
               <NameBox>{letter.letterSender}</NameBox>
             </ReceiverBox>
+            {letter.isCanReply ? (
+              <ButtonContainer>
+                <CustomButton
+                  fontFamily="Pretendard-B"
+                  text="답장하기"
+                  textColor="white"
+                  width="100%"
+                  height="54px"
+                  borderRadius="50px"
+                  onClick={() => {
+                    setLetterInfo(letter.letterReceiver, letter.letterSender, "");
+                    navigator(`/writeLetter/${letterId}/reply`);
+                  }}
+                />
+              </ButtonContainer>
+            ) : (
+              ReplyLetter()
+            )}
           </Wrapper>
         </>
       )}
@@ -75,7 +114,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 40rem;
+  min-height: 80vh;
+  max-width: 600px;
   background-color: white;
   border-radius: 12px;
   padding: 23px 37px 26px 37px;
@@ -83,27 +123,6 @@ const Wrapper = styled.div`
   gap: 12px;
   position: relative;
   margin-top: 40px;
-`;
-
-const LetterPaper = styled.div<LetterInfoType>`
-  width: 100%;
-  height: 340px;
-  max-height: 703px;
-  overflow-y: auto;
-  border: 1.5px solid #e9e9e9;
-  background-image: ${props => `url(${props["letterBackImg"]})`};
-  resize: none;
-  background-attachment: local;
-  background-size: 277px 703px;
-  background-repeat: repeat-x;
-  padding: 24px;
-  padding-top: 20px;
-  box-sizing: border-box;
-  line-height: 30px;
-  font-size: ${props => (props["font-size"] ? props["font-size"] : "Pretendard-R")};
-  font-family: ${props => (props["font-family"] ? props["font-family"] : "14.5px")};
-  white-space: pre-wrap; /* 줄 바꿈 보존 */
-  word-wrap: break-word; /* 긴 단어 줄바꿈 */
 `;
 
 const SenderBox = styled.div`
@@ -131,4 +150,17 @@ const NameBox = styled.span`
   font-family: "Pretendard-M";
   font-size: 14px;
   color: #262626;
+`;
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  width: 85%;
+  bottom: 25px;
+`;
+
+const DivideLine = styled.div`
+  width: 100%;
+  height: 1px;
+  border: 1px solid #efefef;
+  margin: 20px 0px;
 `;

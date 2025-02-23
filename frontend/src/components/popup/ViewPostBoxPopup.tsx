@@ -45,7 +45,7 @@ function ViewPostBoxPopup({ handlePopup }: UserType) {
 export default ViewPostBoxPopup;
 
 const Wrapper = styled.div`
-  padding-top: 137px;
+  padding-top: 110px;
   width: 80%;
   height: 63%;
   border-radius: 20px;
@@ -85,7 +85,7 @@ const TextContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 113px;
+  margin-top: 85px;
   display: flex;
   justify-content: center;
   align-items: center;

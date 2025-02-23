@@ -92,12 +92,13 @@ export default Postcard;
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
 `;
 
 const LetterPaper = styled.img`
-  width: 100%;
+  width: 300px;
   height: 220px;
+  margin: 0 auto;
+  position: relative;
 `;
 
 const HiddenFileInput = styled.input`
@@ -106,7 +107,7 @@ const HiddenFileInput = styled.input`
 
 const LetterText = styled.textarea<FontType>`
   position: absolute;
-  right: 15px;
+  left: 150px;
   top: 6px;
   width: 140px;
   height: 205px;

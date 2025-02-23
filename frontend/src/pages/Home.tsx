@@ -4,10 +4,12 @@ import Header from "../components/Header.tsx";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { FrameContent } from "../layouts/Frame.ts";
+import { useStore } from "zustand";
+import { useUserInfo } from "../stores/useUserInfo.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const { isUserLogin, userId } = useStore(useUserInfo);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
@@ -19,6 +21,12 @@ function Home() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = formatPhoneNumber(e.target.value);
     setPhoneNumber(formattedValue);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      SearchPhoneNumber();
+    }
   };
 
   const SearchPhoneNumber = () => {
@@ -36,9 +44,17 @@ function Home() {
     }
   };
 
+  const handleNavigate = () => {
+    if (isUserLogin) {
+      navigator(`/postbox/${userId}`);
+    } else {
+      navigator("/signup");
+    }
+  };
+
   return (
-    <>
-      <Header isFull={true} />
+    <Wrapper>
+      <Header isFull={true} isBack={false} />
       <FlexBox>
         <HeadBox>
           <img src={"/img/letter.svg"} alt="default-letter" width={44} height={22} />
@@ -49,7 +65,14 @@ function Home() {
           </span>
         </HeadBox>
         <InputBox>
-          <PhoneNumberInput type="text" value={phoneNumber} onChange={handleChange} placeholder="010-XXXX-XXXX" maxLength={13} />
+          <PhoneNumberInput
+            type="text"
+            value={phoneNumber}
+            onChange={handleChange}
+            placeholder="010-XXXX-XXXX"
+            maxLength={13}
+            onKeyDown={handleKeyDown}
+          />
           <SearchIcon src={"/img/search.svg"} width={25} onClick={SearchPhoneNumber} />
           <span>
             휴대폰 번호를 입력하여
@@ -57,15 +80,21 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        <FrameContent>
-          <CustomButton onClick={() => navigator("/signup")}>{isLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
-        </FrameContent>
+        {/* <FrameContent> */}
+        <CustomButton onClick={handleNavigate}>
+          {isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}
+        </CustomButton>
+        {/* </FrameContent> */}
       </FlexBox>
-    </>
+    </Wrapper>
   );
 }
 
 export default Home;
+
+const Wrapper = styled.div`
+  height: 100vh;
+`;
 
 const FlexBox = styled.div`
   display: flex;

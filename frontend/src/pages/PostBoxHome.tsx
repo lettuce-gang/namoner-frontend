@@ -8,14 +8,14 @@ import { useStore } from "zustand";
 import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
-import { PostBoxImgByTime } from "../utils/postBoxImgHandler.ts";
+import { postBoxImgHandler } from "../utils/postBoxImgHandler.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
   const { isUserLogin } = useStore(useUserInfo);
-  const { setLetterWriteStep } = useStore(useSendLetters);
+  const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
   const navigator = useNavigate();
@@ -37,16 +37,17 @@ function PostBoxHome() {
   };
 
   const ClickPostBox = () => {
-    if(isOwner) {
-      navigator(`/postbox/${userId}/mailbox`)
+    if (isOwner) {
+      navigator(`/postbox/${userId}/mailbox`);
     } else {
       setIsBoxPopupOpen(true);
     }
-  }
+  };
+
 
   useEffect(() => {
     getPostBoxInfo(userId);
-    setLetterWriteStep(1);
+    resetData();
   }, [userId]);
   return (
     <>
@@ -56,7 +57,9 @@ function PostBoxHome() {
         <Header isFull={true} />
         <PostBox>
           <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
-          <PostBoxImg src={PostBoxImgByTime()} onClick={ClickPostBox} />
+          <PostBoxImg onClick={ClickPostBox}>
+            {postBoxImgHandler(unreadLetterCount)}
+          </PostBoxImg>
           <p>우체통을 눌러 편지를 확인해보세요!</p>
         </PostBox>
         <ButtonContainer>
@@ -98,7 +101,7 @@ const PostBox = styled.div`
   }
 `;
 
-const PostBoxImg = styled.img`
+const PostBoxImg = styled.div`
   width: 277px;
   height: 277px;
   cursor: pointer;

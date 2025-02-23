@@ -5,12 +5,19 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../styles/calendar.css";
 import CustomButton from "../components/CustomButton.tsx";
+import { useStore } from "zustand";
+import { useSendLetters } from "../stores/useSendLetters.ts";
+import { useNavigate, useParams } from "react-router";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type SelectedDate = Date;
 function ReserveLetter() {
+  const navigator = useNavigate();
+  const { userId } = useParams<{ userId: string }>();
+  const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
+  
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [value, onChange] = useState("00:00:00");
   const handleDateChange = (value: Value) => {
@@ -20,12 +27,44 @@ function ReserveLetter() {
   };
   const showSecond = false;
   const str = showSecond ? "HH:mm:ss" : "HH:mm";
+
+  const combineDateTime = () => {
+    const [hours, minutes] = value.split(":");
+    const combinedDate = new Date(selectedDate);
+    combinedDate.setHours(parseInt(hours));
+    combinedDate.setMinutes(parseInt(minutes));
+    combinedDate.setSeconds(0);
+
+    return combinedDate.toISOString();
+  };
+
+  const handleSubmit = () => {
+    const reservationDateTime = combineDateTime();
+    const formData = new FormData();
+    const letterData = {
+      userReceiver: userId,
+      letterSender: sender,
+      letterReceiver: receiver,
+      message: message,
+      letterPaperType: letterPaperType,
+      fontType: fontType,
+      letterType: "RESERVED",
+      receiveDate: reservationDateTime,
+    };
+    const letter = new Blob([JSON.stringify(letterData)], { type: "application/json" });
+    formData.append("letterInfo", letter);
+    sendLetter(formData, () => {
+      setLetterWriteStep(4);
+      navigator(`/writeLetter/${userId}`);
+    }, false);
+  };
+
   return (
     <>
       <Header isFull={false} isBack={true} />
       <Wrapper>
         <Calendar onChange={handleDateChange} value={selectedDate} locale="ko" selectRange={false} showNeighboringMonth={false} />
-        <TimeInput type="time"/>
+        <TimeInput type="time" value={value} onChange={e => onChange(e.target.value)} />
         <CustomButton
           fontFamily="Pretendard-B"
           text="예약 전송하기"
@@ -35,6 +74,7 @@ function ReserveLetter() {
           borderRadius="50px"
           backgroundColor="#FFBE0B"
           border="none"
+          onClick={handleSubmit}
         />
       </Wrapper>
     </>
@@ -58,13 +98,13 @@ const Wrapper = styled.div`
 `;
 
 const TimeInput = styled.input`
-    width: 100%;
-    height: 50px;
-    font-size: 20px;
-    padding: 0px 20px;
-    font-family: "Pretendard_R";
-    border-radius: 10px;
-    border: none;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    margin-bottom: 20px;
-`
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  padding: 0px 20px;
+  font-family: "Pretendard_R";
+  border-radius: 10px;
+  border: none;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  margin-bottom: 20px;
+`;

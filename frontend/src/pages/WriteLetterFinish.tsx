@@ -3,26 +3,32 @@ import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useStore } from "zustand";
 import { useSendLetters } from "../stores/useSendLetters.ts";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 function WriteLetterFinish() {
   const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
-  const { userId } = useParams<{ userId: string }>() as { userId: string };
-
+  const { userId, letterId } = useParams<{ userId: string; letterId: string }>() as {
+    userId: string | undefined;
+    letterId: string | undefined;
+  };
+  const getIsReply = () => {
+    return userId === undefined; // 유저아이디 없으면 True
+  };
+  const navigator = useNavigate();
   const sendMyLetter = () => {
     const formData = new FormData();
     const letterData = {
-      userReceiver: userId,
+      [userId !== undefined ? "userReceiver" : "letterId"]: userId === undefined ? letterId : userId,
       letterSender: sender,
       letterReceiver: receiver,
       message: message,
       letterPaperType: letterPaperType,
       fontType: fontType,
-      letterType: "NORMAL"  //이 페이지에서 보내면(바로보내기) NORMAL 고정
+      letterType: "NORMAL", //이 페이지에서 보내면(바로보내기) NORMAL 고정
     };
     const letter = new Blob([JSON.stringify(letterData)], { type: "application/json" });
     formData.append("letterInfo", letter);
-    sendLetter(formData, () => setLetterWriteStep(4));
+    sendLetter(formData, () => setLetterWriteStep(4), getIsReply(), letterId === undefined ? "" : letterId);
   };
   return (
     <Wrapper>
@@ -46,16 +52,19 @@ function WriteLetterFinish() {
           borderRadius="50px"
           onClick={() => sendMyLetter()}
         />
-        <CustomButton
-          fontFamily="Pretendard-B"
-          text="예약 전송하기"
-          textColor="white"
-          width="100%"
-          height="54px"
-          borderRadius="50px"
-          backgroundColor="#FFBE0B"
-          border="none"
-        />
+        {!getIsReply() && (
+          <CustomButton
+            fontFamily="Pretendard-B"
+            text="예약 전송하기"
+            textColor="white"
+            width="100%"
+            height="54px"
+            borderRadius="50px"
+            backgroundColor="#FFBE0B"
+            border="none"
+            onClick={() => navigator(`/writeLetter/${userId}/reserve`)}
+          />
+        )}
       </ButtonContainer>
     </Wrapper>
   );

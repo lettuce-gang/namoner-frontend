@@ -15,13 +15,16 @@ interface LetterListViewProps {
   isLoading: boolean; //Fetching시
   error: AxiosError | null;
   letterList: LetterListProps[];
+  sendLetterList: LetterListProps[];
   getLetterList: (userId: string) => void;
+  getSendLetterList: () => void;
 }
 
 const useLetterList = create<LetterListViewProps>(set => ({
   isLoading: false,
   error: null,
   letterList: [],
+  sendLetterList: [],
   getLetterList: async (userId: string) => {
     set({ isLoading: true });
     await api
@@ -29,7 +32,18 @@ const useLetterList = create<LetterListViewProps>(set => ({
       .then(res => {
         const letterList = res.data.data;
         set({ letterList });
-        console.log("resultData:",letterList);
+      })
+      .catch(error => set({ error }))
+      .finally(() => {
+        set({ isLoading: false });
+      });
+  },
+  getSendLetterList: async () => {
+    await api
+      .get(process.env.REACT_APP_BASE_URL + "/letters/sent")
+      .then(res => {
+        const sendLetterList = res.data.data;
+        set({ sendLetterList });
       })
       .catch(error => set({ error }))
       .finally(() => {

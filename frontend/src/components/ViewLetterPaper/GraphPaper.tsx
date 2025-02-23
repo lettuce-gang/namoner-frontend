@@ -30,7 +30,7 @@ function GraphPaper({letter}:LetterInfoType) {
 export default GraphPaper;
 
 const LetterPaper = styled.div<LetterDivType>`
-  width: 100%;
+  width: 277px;
   height: 340px;
   max-height: 703px;
   overflow-y: auto;
@@ -42,6 +42,7 @@ const LetterPaper = styled.div<LetterDivType>`
   padding-top: 20px;
   box-sizing: border-box;
   line-height: 30px;
+  margin: 0 auto;
   font-size: ${props => (props["fontSize"] ? props["fontSize"] : "14.5px")};
   font-family: ${props => (props["fontFamily"] ? props["fontFamily"] : "Pretendard-R")};
   white-space: pre-wrap; /* 줄 바꿈 보존 */

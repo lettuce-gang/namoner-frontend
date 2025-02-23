@@ -1,8 +1,8 @@
-name: Dev_CD
+name: Prod_CD
 
 on:
   push:
-    branches: [ "dev-deploy" ]
+    branches: [ "prod-deploy" ]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -62,10 +62,10 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DEV_SERVER_HOST }}
-          port: ${{ secrets.DEV_SERVER_SSH_PORT }}
-          username: ${{ secrets.DEV_SERVER_USERNAME }}
-          password: ${{ secrets.DEV_SERVER_PASSWORD }}
+          host: ${{ secrets.PROD_SERVER_HOST }}
+          port: ${{ secrets.PROD_SERVER_SSH_PORT }}
+          username: ${{ secrets.PROD_SERVER_USERNAME }}
+          password: ${{ secrets.PROD_SERVER_PASSWORD }}
           envs: GITHUB_SHA,REPO
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7}

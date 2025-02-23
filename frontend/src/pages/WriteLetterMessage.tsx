@@ -16,10 +16,10 @@ type FontType = {
 };
 
 function WriteLetterMessage() {
-  const { fontType, letterPaperType, setLetterInfo, setLetterWriteStep } = useStore(useSendLetters);
-  const [tempSender, setTempSender] = useState("");
-  const [tempReceiver, setTempReceiver] = useState("");
-  const [tempMessage, setTempMessage] = useState("");
+  const { fontType, letterPaperType, setLetterInfo, setLetterWriteStep,sender,receiver,message } = useStore(useSendLetters);
+  const [tempSender, setTempSender] = useState(sender);
+  const [tempReceiver, setTempReceiver] = useState(receiver);
+  const [tempMessage, setTempMessage] = useState(message);
   const [preview, setPreview] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | undefined>();
 
