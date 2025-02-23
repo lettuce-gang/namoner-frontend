@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 env:
-  working-directory: prod
+  working-directory: frontend
 
 jobs:
   build:
@@ -28,22 +28,48 @@ jobs:
         run: yarn install --immutable
         working-directory: ${{ env.working-directory }}
 
-      - name: Run build
-        run: yarn run build
-        working-directory: ${{ env.working-directory }}
+      - name: Create .env
+        env:
+          ENV_NAME: ${{ secrets.ENV_TITLE }}
+          ENV: ${{ secrets.ENV_CONTENT }}
+        run: |
+          touch ${{ env.working-directory }}/$ENV_NAME
+          echo "$ENV" > ${{ env.working-directory }}/$ENV_NAME
         
+      - name: Run build
+        run: CI=false yarn run build
+        working-directory: ${{ env.working-directory }}
+  
+      - name: Docker build
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${GITHUB_SHA::7} \
+                     -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest .
+  
+      - name: Docker push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+
+
   deploy:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: dev
     needs: build
+    env:
+        REPO: ${{ secrets.DOCKER_IMAGE_NAME }}
     steps:
-      - name: SSH Upload Build Files
+      - name: SSH Remote Commands
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DEV_SERVER_HOST }}
-          port: ${{ secrets.DEV_SERVER_SSH_PORT }}
-          username: ${{ secrets.DEV_SERVER_USERNAME }}
-          password: ${{ secrets.DEV_SERVER_PASSWORD }}
-          # envs: GITHUB_SHA
-          source: ${{ env.working-directory }}/build/* # 로컬 빌드 파일 경
-          target: ${{ secrets.HTML_DIRECTORY }}
+          host: ${{ secrets.PROD_SERVER_HOST }}
+          port: ${{ secrets.PROD_SERVER_SSH_PORT }}
+          username: ${{ secrets.PROD_SERVER_USERNAME }}
+          password: ${{ secrets.PROD_SERVER_PASSWORD }}
+          envs: GITHUB_SHA,REPO
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7} $REPO
+            docker stop $REPO
+            docker rm $REPO
+            docker run -d --name $REPO -p 8080:80 $REPO
