@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export const PostBoxImgByTime = (letterCount: number) => {
+export const postBoxImgHandler = (letterCount: number) => {
   let boxUrl = "/img/postbox/postbox_";
   const date = new Date();
   const hour = date.getHours();
@@ -69,10 +69,10 @@ const CountCircle = styled.div<{ letterCount: number }>`
   border-radius: 17.5px;
   background: #4361ee;
   box-sizing: border-box;
-  width: ${({ letterCount }) => {
-    if (letterCount < 10)
+  width: ${(props) => {
+    if (props.letterCount < 10)
       return "35px"; // 1자리 수
-    else if (letterCount < 100) return "48px"; // 2자리 수
+    else if (props.letterCount < 100) return "48px"; // 2자리 수
     return "51px"; // 3자리 수 이상
   }};
   position: absolute;
@@ -81,7 +81,7 @@ const CountCircle = styled.div<{ letterCount: number }>`
 
   color: #fff;
   text-align: center;
-  font-family: "Pretendard_B";
+  font-family: "Pretendard-B";
   font-size: 20px;
   font-style: normal;
   font-weight: 700;

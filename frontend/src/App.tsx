@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp.tsx";
 import MakePostBox from "./pages/MakePostBox.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import ReserveLetter from "./pages/ReserveLetter.tsx";
+import MissingPostBoxHome from "./pages/MissingPostBoxHome.tsx";
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/makePostBox" element={<MakePostBox />} />
           <Route path="/postbox/:userId" element={<PostBoxHome />} />
+          {/* <Route path="/postbox/:userId" element={<MissingPostBoxHome />} /> */}
           <Route path="/postbox/:userId/mailbox" element={<MailBox />} />
           <Route path="/postbox/:userId/mailbox/letter/:letterId" element={<Letter />} />
           <Route path="/oauth/naver" element={<NaverLoginLanding />} />
