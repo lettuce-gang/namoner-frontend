@@ -3,13 +3,14 @@ import styled from "styled-components";
 import Header from "../components/Header.tsx";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { FrameContent } from "../layouts/Frame.ts";
 import { useStore } from "zustand";
 import { useUserInfo } from "../stores/useUserInfo.ts";
+import { useNaverLogin } from "../stores/useNaverLogin.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { isUserLogin, userId } = useStore(useUserInfo);
+  const { isUserLogin } = useStore(useUserInfo);
+  const {userId} = useStore(useNaverLogin);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
