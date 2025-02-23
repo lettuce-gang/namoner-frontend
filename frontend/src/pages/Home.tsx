@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header.tsx";
 import axios from "axios";
@@ -9,8 +9,8 @@ import { useNaverLogin } from "../stores/useNaverLogin.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { isUserLogin } = useStore(useUserInfo);
-  const {userId} = useStore(useNaverLogin);
+  const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
+  const { userId } = useStore(useNaverLogin);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
@@ -53,6 +53,10 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    checkUserLogin();
+  }, []);
+
   return (
     <Wrapper>
       <Header isFull={true} isBack={false} />
@@ -82,9 +86,7 @@ function Home() {
           </span>
         </InputBox>
         {/* <FrameContent> */}
-        <CustomButton onClick={handleNavigate}>
-          {isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}
-        </CustomButton>
+        <CustomButton onClick={handleNavigate}>{isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
         {/* </FrameContent> */}
       </FlexBox>
     </Wrapper>
