@@ -56,7 +56,7 @@ function ReserveLetter() {
     sendLetter(formData, () => {
       setLetterWriteStep(4);
       navigator(`/writeLetter/${userId}`);
-    });
+    }, false);
   };
 
   return (
