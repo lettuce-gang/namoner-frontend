@@ -15,35 +15,42 @@ interface NaverLoginProps {
   sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, loginSetter: () => void) => void;
 }
 
-const useNaverLogin = create<NaverLoginProps>(set => ({
-  isLoading: false,
-  error: null,
-  startLogin() {
-    window.location.href = NAVER_AUTH_URL;
-  },
-  sendAuthCode: async (authCode, state, navigate, loginSetter) => {
-    set({ isLoading: true });
-    axios
-      .post(process.env.REACT_APP_BASE_URL + `/auth/naver`, {
-        code: authCode,
-        state: state.toString(),
-      })
-      .then(res => {
-        console.log(res);
-        const { isFirstVisit, userId, token } = res.data.data;
-        const { accessToken, accessTokenExpiredTime, refreshToken } = token;
-        sessionStorage.setItem("accessToken", accessToken);
-        sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
-        localStorage.setItem("refreshToken", refreshToken);
-        if (isFirstVisit) {
-          navigate("/makePostBox");
-        } else {
-          navigate(`/postbox/${userId}`);
-        }
-      })
-      .catch(error => set({ error }))
-      .finally(() => set({ isLoading: false }));
-  },
-}));
+const useNaverLogin = create<NaverLoginProps>(set => {
+  const { setUserId } = useUserInfo();
+
+  return {
+    isLoading: false,
+    error: null,
+    startLogin() {
+      window.location.href = NAVER_AUTH_URL;
+    },
+    sendAuthCode: async (authCode, state, navigate, loginSetter) => {
+      set({ isLoading: true });
+      axios
+        .post(process.env.REACT_APP_BASE_URL + `/auth/naver`, {
+          code: authCode,
+          state: state.toString(),
+        })
+        .then(res => {
+          console.log(res);
+          const { isFirstVisit, userId, token } = res.data.data;
+          const { accessToken, accessTokenExpiredTime, refreshToken } = token;
+          sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
+          localStorage.setItem("refreshToken", refreshToken);
+
+          setUserId(userId);
+
+          if (isFirstVisit) {
+            navigate("/makePostBox");
+          } else {
+            navigate(`/postbox/${userId}`);
+          }
+        })
+        .catch(error => set({ error }))
+        .finally(() => set({ isLoading: false }));
+    },
+  };
+});
 
 export { useNaverLogin };

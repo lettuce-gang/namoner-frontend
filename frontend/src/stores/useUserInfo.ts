@@ -3,12 +3,15 @@ import api from "../auth/api.ts";
 
 interface UserInfoProps {
   isUserLogin: boolean;
+  userId: string;
   setUserLogin: () => void;
   checkUserLogin: () => void;
+  setUserId: (id: string) =>void;
 }
 
 const useUserInfo = create<UserInfoProps>(set => ({
   isUserLogin: false,
+  userId: "",
   setUserLogin() {
     set({isUserLogin: true})
   },
@@ -19,6 +22,9 @@ const useUserInfo = create<UserInfoProps>(set => ({
     } else {
       set({isUserLogin: false})
     }
+  },
+  setUserId(id) {
+    set({userId: id})
   },
 }));
 
