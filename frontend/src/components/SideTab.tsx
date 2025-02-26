@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useStore } from "zustand";
+import { useNaverLogin } from "../stores/useNaverLogin.ts";
 
 interface SideTabProps {
   isOpen: boolean;
@@ -8,18 +10,21 @@ interface SideTabProps {
 }
 
 function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
+  const { postBoxName } = useStore(useNaverLogin);
   const menuItems = isLoggedIn ? (
     <>
-      <MenuTitle>시크릿주주님 ✍️</MenuTitle>
+      <MenuTitle>
+        {postBoxName} <span>✍️</span>
+      </MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
       <MenuItem>내 편지함</MenuItem>
       <MenuItem>환경설정</MenuItem>
       <BottomBox>
-      <Divider />
-      <BottomMenuItem>FAQ</BottomMenuItem>
-      <BottomMenuItem>고객센터</BottomMenuItem>
-      <BottomMenuItem>로그아웃</BottomMenuItem>
+        <Divider />
+        <BottomMenuItem>FAQ</BottomMenuItem>
+        <BottomMenuItem>고객센터</BottomMenuItem>
+        <BottomMenuItem>로그아웃</BottomMenuItem>
       </BottomBox>
       <Footer>개인정보처리방침 | 이용약관</Footer>
     </>
