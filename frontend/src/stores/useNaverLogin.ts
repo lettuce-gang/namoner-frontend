@@ -14,6 +14,7 @@ interface NaverLoginProps {
   startLogin: () => void;
   sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, loginSetter: () => void) => void;
   userId: string;
+  postBoxName: string;
 }
 
 const useNaverLogin = create<NaverLoginProps>(set => {
@@ -22,6 +23,7 @@ const useNaverLogin = create<NaverLoginProps>(set => {
     isLoading: false,
     error: null,
     userId: "",
+    postBoxName: "",
     startLogin() {
       window.location.href = NAVER_AUTH_URL;
     },
@@ -34,12 +36,12 @@ const useNaverLogin = create<NaverLoginProps>(set => {
         })
         .then(res => {
           console.log(res);
-          const { isFirstVisit, userId, token } = res.data.data;
+          const { isFirstVisit, userId, token, postBoxName } = res.data.data;
           const { accessToken, accessTokenExpiredTime, refreshToken } = token;
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
           localStorage.setItem("refreshToken", refreshToken);
-          set({userId})
+          set({userId, postBoxName})
 
           if (isFirstVisit) {
             navigate("/makePostBox");
