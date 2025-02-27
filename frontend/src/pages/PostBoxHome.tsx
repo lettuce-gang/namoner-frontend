@@ -14,7 +14,7 @@ import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
-  const { isUserLogin } = useStore(useUserInfo);
+  const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
@@ -47,6 +47,7 @@ function PostBoxHome() {
 
   useEffect(() => {
     getPostBoxInfo(userId);
+    checkUserLogin();
     resetData();
   }, [userId]);
   return (

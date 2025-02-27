@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
+import { useUserInfo } from "../stores/useUserInfo.ts";
+import { useNavigate } from "react-router";
 
 interface SideTabProps {
   isOpen: boolean;
@@ -11,6 +13,12 @@ interface SideTabProps {
 
 function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const { postBoxName } = useStore(useNaverLogin);
+  const { logout, userId } = useStore(useUserInfo);
+  const navigator = useNavigate();
+  const Logout = () => {
+    logout();
+    navigator("/");
+  };
   const menuItems = isLoggedIn ? (
     <>
       <MenuTitle>
@@ -18,19 +26,19 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
       </MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
-      <MenuItem>내 편지함</MenuItem>
+      <MenuItem onClick={() => navigator(`/postbox/${userId}`)}>내 편지함</MenuItem>
       <MenuItem>환경설정</MenuItem>
       <BottomBox>
         <Divider />
         <BottomMenuItem>FAQ</BottomMenuItem>
         <BottomMenuItem>고객센터</BottomMenuItem>
-        <BottomMenuItem>로그아웃</BottomMenuItem>
+        <BottomMenuItem onClick={Logout}>로그아웃</BottomMenuItem>
       </BottomBox>
       <Footer>개인정보처리방침 | 이용약관</Footer>
     </>
   ) : (
     <>
-      <MenuTitle>로그인/회원가입</MenuTitle>
+      <MenuTitle onClick={() => navigator("/signup")}>로그인/회원가입</MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
 

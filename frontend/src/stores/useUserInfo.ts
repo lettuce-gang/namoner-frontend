@@ -6,6 +6,7 @@ interface UserInfoProps {
   setUserLogin: () => void;
   checkUserLogin: () => void;
   setUserId: (id: string) => void;
+  logout: () => void;
 }
 
 const useUserInfo = create<UserInfoProps>(set => ({
@@ -24,6 +25,11 @@ const useUserInfo = create<UserInfoProps>(set => ({
   },
   setUserId(id) {
     set({ userId: id });
+  },
+  logout() {
+    set({ isUserLogin: false, userId: "" });
+    sessionStorage.clear();
+    localStorage.clear();
   },
 }));
 
