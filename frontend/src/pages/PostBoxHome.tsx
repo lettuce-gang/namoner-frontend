@@ -54,7 +54,7 @@ function PostBoxHome() {
     resetData();
   }, [userId, postBoxName]);
 
-  if (existPostBox) {
+  if (!existPostBox) {
     return <MissingPostBoxHome />;
   } else {
     return (
