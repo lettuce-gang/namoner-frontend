@@ -10,17 +10,21 @@ import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
 import { postBoxImgHandler } from "../utils/postBoxImgHandler.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
+import { useNaverLogin } from "../stores/useNaverLogin.ts";
+import MissingPostBoxHome from "./MissingPostBoxHome.tsx";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const { getPostBoxInfo, postboxName, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
-  const { isUserLogin } = useStore(useUserInfo);
+  const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
+  const { postBoxName } = useStore(useNaverLogin);
+  const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isBoxPopupOpen, setIsBoxPopupOpen] = useState(false);
   const navigator = useNavigate();
 
   const isTokenExpired = () => {
+    // 필요 없을 듯 한데 ..
     const expiredTime = sessionStorage.getItem("atExpiredTime");
     if (!expiredTime) return true;
 
@@ -44,38 +48,41 @@ function PostBoxHome() {
     }
   };
 
-
   useEffect(() => {
     getPostBoxInfo(userId);
+    checkUserLogin();
     resetData();
-  }, [userId]);
-  return (
-    <>
-      <Wrapper>
-        {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
-        {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
-        <Header isFull={true} />
-        <PostBox>
-          <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
-          <PostBoxImg onClick={ClickPostBox}>
-            {postBoxImgHandler(unreadLetterCount)}
-          </PostBoxImg>
-          <p>우체통을 눌러 편지를 확인해보세요!</p>
-        </PostBox>
-        <ButtonContainer>
-          <CustomButton
-            fontFamily="Pretendard-B"
-            text="편지쓰기"
-            textColor="white"
-            width="100%"
-            height="54px"
-            borderRadius="50px"
-            onClick={popupHandler}
-          />
-        </ButtonContainer>
-      </Wrapper>
-    </>
-  );
+  }, [userId, postBoxName]);
+
+  if (existPostBox) {
+    return <MissingPostBoxHome />;
+  } else {
+    return (
+      <>
+        <Wrapper>
+          {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
+          {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
+          <Header isFull={true} />
+          <PostBox>
+            <PostBoxTitle>{postBoxName ? `${postBoxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
+            <PostBoxImg onClick={ClickPostBox}>{postBoxImgHandler(unreadLetterCount)}</PostBoxImg>
+            <p>우체통을 눌러 편지를 확인해보세요!</p>
+          </PostBox>
+          <ButtonContainer>
+            <CustomButton
+              fontFamily="Pretendard-B"
+              text="편지쓰기"
+              textColor="white"
+              width="100%"
+              height="54px"
+              borderRadius="50px"
+              onClick={popupHandler}
+            />
+          </ButtonContainer>
+        </Wrapper>
+      </>
+    );
+  }
 }
 
 export default PostBoxHome;
