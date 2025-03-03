@@ -15,8 +15,8 @@ import MissingPostBoxHome from "./MissingPostBoxHome.tsx";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount } = useStore(usePostBox);
-  const { postBoxName } = useStore(useNaverLogin);
+  const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount, postboxName } = useStore(usePostBox);
+  // const { postBoxName } = useStore(useNaverLogin);
   const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -52,7 +52,7 @@ function PostBoxHome() {
     getPostBoxInfo(userId);
     checkUserLogin();
     resetData();
-  }, [userId, postBoxName]);
+  }, [userId, postboxName]);
 
   if (!existPostBox) {
     return <MissingPostBoxHome />;
@@ -64,7 +64,7 @@ function PostBoxHome() {
           {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
           <Header isFull={true} />
           <PostBox>
-            <PostBoxTitle>{postBoxName ? `${postBoxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
+            <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
             <PostBoxImg onClick={ClickPostBox}>{postBoxImgHandler(unreadLetterCount)}</PostBoxImg>
             <p>우체통을 눌러 편지를 확인해보세요!</p>
           </PostBox>
