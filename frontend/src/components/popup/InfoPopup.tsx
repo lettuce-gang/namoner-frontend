@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface InfoPopupProps {
   isOpen: boolean;
   onClose: () => void;
-  message: string;
-  subMessage?: string;
+  message: ReactNode;
+  subMessage?: ReactNode;
 }
 
 function InfoPopup({ isOpen, onClose, message, subMessage }: InfoPopupProps) {

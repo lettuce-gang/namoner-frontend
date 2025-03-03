@@ -4,15 +4,18 @@ import Header from "../components/Header.tsx";
 import InfoPopup from "../components/popup/InfoPopup.tsx";
 import CustomButton from "../components/CustomButton.tsx";
 import { useNavigate } from "react-router-dom";
+import { useUserInfo } from "../stores/useUserInfo.ts";
+import { useStore } from "zustand";
 
 function Withdraw() {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
   const [withdrawReason, setWithdrawReason] = useState('');
+  const { withdraw } = useStore(useUserInfo);
 
-  const handleWithdraw = () => {
-    // TODO: 실제 탈퇴 API 호출
+  const handleWithdraw = async () => {
+    await withdraw(withdrawReason);
     setShowWithdrawPopup(true);
   };
 
@@ -25,14 +28,14 @@ function Withdraw() {
     <>
       <Header isFull={false} isBack={true} />
       <Wrapper>
-        <HeaderText>나모님을 탈퇴하기 전에 꼭 확인해 주세요!</HeaderText>
+        <HeaderText>나모너를 탈퇴하기 전에<br/>꼭 확인해 주세요!</HeaderText>
         
         <WarningList>
           <WarningItem>
-            • 회원 탈퇴 후, 개인 정보는 즉시 파기되며 복구 불가해요.
+            • 회원 탈퇴 후, 개인 정보는 즉시 파기되며<br/>복구 불가해요.
           </WarningItem>
           <WarningItem>
-            • 내 우체통과 주고 받은 편지는 영구적으로 삭제되어 복구할 수 없어요.
+            • 내 우체통과 주고 받은 편지는<br/><b>영구적으로 삭제</b>되어 복구할 수 없어요.
           </WarningItem>
         </WarningList>
 
@@ -88,8 +91,10 @@ function Withdraw() {
           isOpen={showWithdrawPopup}
           onClose={handlePopupClose}
           message="탈퇴 처리가 완료되었습니다."
-          subMessage={`그동안 나모님을 이용해주셔서 감사합니다.
-더욱더 노력하고 발전하는 나모니가 되겠습니다.`}
+          subMessage={<>
+            그동안 나모너를 이용해주셔서 감사합니다.<br/>
+            더욱더 노력하고 발전하는 나모너가 되겠습니다.
+          </>}
         />
       </Wrapper>
     </>
@@ -122,7 +127,7 @@ const WarningItem = styled.div`
 
 const ReasonSection = styled.div`
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 12px;
 `;
 
 const ReasonLabel = styled.div`
@@ -158,7 +163,7 @@ const CheckboxWrapper = styled.label`
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: auto;
+  margin-bottom: 40px;
   cursor: pointer;
 `;
 
