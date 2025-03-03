@@ -29,13 +29,13 @@ function Configuration() {
   const handleToggle = (type: 'mailbox' | 'pause' | 'count') => {
     const updates = {
       mailbox: () => {
-        setUserConfig({ ...config, showPostbox: !config?.userConfig?.showPostbox });
+        setUserConfig({ showPostbox: !config?.userConfig?.showPostbox });
       },
       pause: () => {
-        setUserConfig({ ...config, receiveLetter: !config?.userConfig?.receiveLetter });
+        setUserConfig({ receiveLetter: !config?.userConfig?.receiveLetter });
       },
       count: () => {
-        setUserConfig({ ...config, showLetterCount: !config?.userConfig?.showLetterCount });
+        setUserConfig({ showLetterCount: !config?.userConfig?.showLetterCount });
       }
     };
 
