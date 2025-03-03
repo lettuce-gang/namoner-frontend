@@ -17,7 +17,7 @@ function ReserveLetter() {
   const navigator = useNavigate();
   const { userId } = useParams<{ userId: string }>();
   const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
-  
+
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
   const [value, onChange] = useState("00:00:00");
   const handleDateChange = (value: Value) => {
@@ -53,17 +53,36 @@ function ReserveLetter() {
     };
     const letter = new Blob([JSON.stringify(letterData)], { type: "application/json" });
     formData.append("letterInfo", letter);
-    sendLetter(formData, () => {
-      setLetterWriteStep(4);
-      navigator(`/writeLetter/${userId}`);
-    }, false);
+    sendLetter(
+      formData,
+      () => {
+        setLetterWriteStep(4);
+        navigator(`/writeLetter/${userId}`);
+      },
+      false,
+    );
+  };
+  const getTileClassName = ({ date }: { date: Date }) => {
+    const day = date.getDay(); // 0: 일요일, 6: 토요일
+    if (day === 0) return "sunday"; // 일요일
+    if (day === 6) return "saturday"; // 토요일
+    return ""; // 기본 값 (클래스 없음)
   };
 
   return (
     <>
       <Header isFull={false} isBack={true} />
       <Wrapper>
-        <Calendar onChange={handleDateChange} value={selectedDate} locale="ko" selectRange={false} showNeighboringMonth={false} />
+        <Calendar
+          onChange={handleDateChange}
+          value={selectedDate}
+          locale="ko"
+          selectRange={false}
+          showNeighboringMonth={false}
+          formatMonthYear={(locale, date) => `${date.getFullYear()}.${date.getMonth() + 1}`}
+          formatDay={(locale, date) => date.getDate().toString()}
+          className="custom-calendar"
+        />
         <TimeInput type="time" value={value} onChange={e => onChange(e.target.value)} />
         <CustomButton
           fontFamily="Pretendard-B"
@@ -105,6 +124,5 @@ const TimeInput = styled.input`
   font-family: "Pretendard_R";
   border-radius: 10px;
   border: none;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   margin-bottom: 20px;
 `;
