@@ -66,7 +66,7 @@ function ReserveLetter() {
     const day = date.getDay(); // 0: 일요일, 6: 토요일
     if (day === 0) return "sunday"; // 일요일
     if (day === 6) return "saturday"; // 토요일
-    return ""; // 기본 값 (클래스 없음)
+    return ""; // 기본 값 
   };
 
   return (
@@ -121,7 +121,7 @@ const TimeInput = styled.input`
   height: 50px;
   font-size: 20px;
   padding: 0px 20px;
-  font-family: "Pretendard_R";
+  font-family: "Pretendard-R";
   border-radius: 10px;
   border: none;
   margin-bottom: 20px;
