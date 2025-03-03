@@ -25,11 +25,7 @@ function SendMailContainer({ letters }: SendMailContainerProp) {
       )}
       {letters &&
         letters.map(letter => {
-          if (letter.letterType === "NORMAL") {
             return <NormalLetterEnvelope letter={letter} />;
-          } else {
-            return <ReservedLetterEnvelope letter={letter} />;
-          }
         })}
     </MailListContainer>
   );
