@@ -26,22 +26,6 @@ function Configuration() {
     getUserConfig();
   }, []);
 
-  const handleToggle = (type: 'mailbox' | 'pause' | 'count') => {
-    const updates = {
-      mailbox: () => {
-        setUserConfig({ showPostbox: !config?.userConfig?.showPostbox });
-      },
-      pause: () => {
-        setUserConfig({ receiveLetter: !config?.userConfig?.receiveLetter });
-      },
-      count: () => {
-        setUserConfig({ showLetterCount: !config?.userConfig?.showLetterCount });
-      }
-    };
-
-    updates[type]();
-  };
-
   const handleInfoClick = (type: 'mailbox' | 'pause' | 'count') => {
     const dialogContents = {
       mailbox: {
@@ -75,21 +59,30 @@ function Configuration() {
               우체통 공개
               <InfoIcon onClick={() => handleInfoClick('mailbox')}>i</InfoIcon>
             </SettingLabel>
-            <Toggle isOn={config?.userConfig?.showPostbox} onToggle={() => handleToggle('mailbox')} />
+            <Toggle 
+              isOn={config?.userConfig?.showPostbox} 
+              onToggle={() => setUserConfig({ showPostbox: !config?.userConfig?.showPostbox })} 
+            />
           </SettingItem>
           <SettingItem>
             <SettingLabel>
               수신 일시 정지
               <InfoIcon onClick={() => handleInfoClick('pause')}>i</InfoIcon>
             </SettingLabel>
-            <Toggle isOn={config?.userConfig?.receiveLetter} onToggle={() => handleToggle('pause')} />
+            <Toggle 
+              isOn={config?.userConfig?.receiveLetter} 
+              onToggle={() => setUserConfig({ receiveLetter: !config?.userConfig?.receiveLetter })} 
+            />
           </SettingItem>
           <SettingItem>
             <SettingLabel>
               수신 편지 개수 공개
               <InfoIcon onClick={() => handleInfoClick('count')}>i</InfoIcon>
             </SettingLabel>
-            <Toggle isOn={config?.userConfig?.showLetterCount} onToggle={() => handleToggle('count')} />
+            <Toggle 
+              isOn={config?.userConfig?.showLetterCount} 
+              onToggle={() => setUserConfig({ showLetterCount: !config?.userConfig?.showLetterCount })} 
+            />
           </SettingItem>
         </SettingsSection>
 

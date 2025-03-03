@@ -38,11 +38,19 @@ const useUserConfig = create<UserConfigProps>(set => ({
   },
 
   setUserConfig: async (config: UserConfig) => {
-    set(state => ({
-      isLoading: true,
-      error: null,
-      config: state.config ? { ...state.config, userConfig: config } : null
-    }));
+    set(state => {
+      const updatedConfig = {
+        showPostbox: config.showPostbox ?? state.config?.userConfig?.showPostbox,
+        receiveLetter: config.receiveLetter ?? state.config?.userConfig?.receiveLetter,
+        showLetterCount: config.showLetterCount ?? state.config?.userConfig?.showLetterCount,
+      };
+
+      return {
+        isLoading: true,
+        error: null,
+        config: state.config ? { ...state.config, userConfig: updatedConfig } : null
+      };
+    });
 
     await api
       .patch(process.env.REACT_APP_BASE_URL + '/users/config', config)
