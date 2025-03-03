@@ -38,7 +38,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
     </>
   ) : (
     <>
-      <MenuTitle onClick={() => navigator("/signup")}>로그인/회원가입</MenuTitle>
+      <MenuTitle style={{cursor: "pointer"}} onClick={() => navigator("/signup")}>로그인/회원가입</MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
       <MenuItem onClick={() => navigator(`/config`)}>환경설정</MenuItem> { /* TODO delete it. for test */ }
