@@ -6,13 +6,6 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-const isTokenExpired = () => {
-  const expiredTime = sessionStorage.getItem("atExpiredTime");
-  if (!expiredTime) return true;
-
-  return new Date().getTime() > new Date(expiredTime).getTime();
-};
-
 // 사용자 정의 훅으로 변경
 const useRefreshAccessToken = () => {
   const { logout } = useStore(useUserInfo);
@@ -23,7 +16,7 @@ const useRefreshAccessToken = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/reissue`, {
         refreshToken: _refreshToken,
       });
-      console.log("responseRefresh", response);
+
       const { accessToken, refreshToken, accessTokenExpiredTime } = response.data.token;
       sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
@@ -63,9 +56,9 @@ api.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if ((error.response.status === 401 || error.response.status === 500) && !originalRequest._retry) {
       originalRequest._retry = true; // 재시도 플래그 설정
-      const refreshAccessToken = useRefreshAccessToken(); // 사용자 정의 훅 호출
+      const refreshAccessToken = useRefreshAccessToken(); // 훅 호출
       const newToken = await refreshAccessToken(); // 리프레쉬 토큰으로 엑세스 토큰 재발급
       if (newToken) {
         originalRequest.headers.Authorization = `Bearer ${newToken}`; // 새로운 토큰으로 헤더 업데이트
