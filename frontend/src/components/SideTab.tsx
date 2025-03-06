@@ -32,7 +32,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
     <>
       <MenuTitle>
         {isEditing ? (
-          <>
+          <FlexBox>
             <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} max={9} />
             <Span_
               onClick={() => {
@@ -43,7 +43,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
             >
               변경
             </Span_>
-          </>
+          </FlexBox>
         ) : (
           <>
             {postBoxName}
@@ -187,12 +187,12 @@ const SideMenu = styled.div<{ isOpen: boolean }>`
 `;
 
 const NameChangeInput = styled.input`
-  width: 153px;
+  width: 140px;
   height: 35px;
   padding: 0px 10.324px 0px 17px;
   align-items: center;
   gap: 6.45px;
-
+  margin-left: -10px;
   border: none;
   border-radius: 6.453px;
   background: #e9e9e9;
@@ -200,6 +200,7 @@ const NameChangeInput = styled.input`
 
 const Span_ = styled.span`
   color: #777;
+  width: 30px;
   font-family: "Pretendard-R";
   font-size: 14px;
   font-style: normal;
@@ -207,5 +208,10 @@ const Span_ = styled.span`
   line-height: normal;
   margin-left: 8px;
 `;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 export default SideTab;
