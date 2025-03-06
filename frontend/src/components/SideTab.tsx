@@ -33,7 +33,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
       <MenuTitle>
         {isEditing ? (
           <FlexBox>
-            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} max={9} />
+            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} maxLength={9} />
             <Span_
               onClick={() => {
                 setPostBoxName(newPostBoxName);
