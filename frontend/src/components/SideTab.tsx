@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useNavigate } from "react-router";
+import api from "../auth/api.ts";
 
 interface SideTabProps {
   isOpen: boolean;
@@ -12,9 +13,17 @@ interface SideTabProps {
 }
 
 function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
-  const { postBoxName } = useStore(useNaverLogin);
+  const { postBoxName, setPostBoxName } = useStore(useNaverLogin);
   const { logout, userId } = useStore(useUserInfo);
   const navigator = useNavigate();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [newPostBoxName, setNewPostBoxName] = useState(postBoxName);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
   const Logout = () => {
     logout();
     navigator("/");
@@ -22,8 +31,29 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const menuItems = isLoggedIn ? (
     <>
       <MenuTitle>
-        {postBoxName} <span>✍️</span>
+        {isEditing ? (
+          <>
+            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} max={9} />
+            <Span_
+              onClick={() => {
+                setPostBoxName(newPostBoxName);
+                setIsEditing(false);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              변경
+            </Span_>
+          </>
+        ) : (
+          <>
+            {postBoxName}
+            <span onClick={handleEditClick} style={{ cursor: "pointer" }}>
+              ✍️
+            </span>
+          </>
+        )}
       </MenuTitle>
+
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
       <MenuItem onClick={() => navigator(`/postbox/${userId}`)}>내 편지함</MenuItem>
@@ -38,10 +68,11 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
     </>
   ) : (
     <>
-      <MenuTitle style={{cursor: "pointer"}} onClick={() => navigator("/signup")}>로그인/회원가입</MenuTitle>
+      <MenuTitle style={{ cursor: "pointer" }} onClick={() => navigator("/signup")}>
+        로그인/회원가입
+      </MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
-      <MenuItem onClick={() => navigator(`/config`)}>환경설정</MenuItem> { /* TODO delete it. for test */ }
 
       <BottomBox>
         <Divider />
@@ -153,6 +184,28 @@ const SideMenu = styled.div<{ isOpen: boolean }>`
   flex-direction: column;
   padding: 0px 24px;
   box-sizing: border-box;
+`;
+
+const NameChangeInput = styled.input`
+  width: 153px;
+  height: 35px;
+  padding: 0px 10.324px 0px 17px;
+  align-items: center;
+  gap: 6.45px;
+
+  border: none;
+  border-radius: 6.453px;
+  background: #e9e9e9;
+`;
+
+const Span_ = styled.span`
+  color: #777;
+  font-family: "Pretendard-R";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 8px;
 `;
 
 export default SideTab;

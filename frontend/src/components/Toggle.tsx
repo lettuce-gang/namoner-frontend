@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface ToggleProps {
-  isOn: boolean;
+  isOn?: boolean;
   onToggle: () => void;
 }
 
@@ -14,7 +14,7 @@ function Toggle({ isOn, onToggle }: ToggleProps) {
   );
 }
 
-const ToggleWrapper = styled.div<{ isOn: boolean }>`
+const ToggleWrapper = styled.div<{ isOn?: boolean }>`
   width: 44px;
   height: 24px;
   border-radius: 12px;
@@ -24,7 +24,7 @@ const ToggleWrapper = styled.div<{ isOn: boolean }>`
   transition: background-color 0.2s ease-in-out;
 `;
 
-const ToggleCircle = styled.div<{ isOn: boolean }>`
+const ToggleCircle = styled.div<{ isOn?: boolean }>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
