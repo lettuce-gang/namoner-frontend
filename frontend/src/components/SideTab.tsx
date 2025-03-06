@@ -33,7 +33,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
       <MenuTitle>
         {isEditing ? (
           <FlexBox>
-            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} max={9} />
+            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} maxLength={9} />
             <Span_
               onClick={() => {
                 setPostBoxName(newPostBoxName);
@@ -47,9 +47,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
         ) : (
           <>
             {postBoxName}
-            <span onClick={handleEditClick} style={{ cursor: "pointer" }}>
-              ✍️
-            </span>
+            <img src="/img/icon-edit.svg" width={16} onClick={handleEditClick} style={{ cursor: "pointer", marginLeft: 5 }} />
           </>
         )}
       </MenuTitle>
@@ -212,6 +210,6 @@ const Span_ = styled.span`
 const FlexBox = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 export default SideTab;
