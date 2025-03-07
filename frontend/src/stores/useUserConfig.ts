@@ -10,6 +10,7 @@ interface UserConfig {
 
 interface UserConfigResponse {
   postBoxName: string;
+  userId: string;
   userConfig?: UserConfig;
 }
 
