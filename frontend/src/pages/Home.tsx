@@ -5,12 +5,12 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useStore } from "zustand";
 import { useUserInfo } from "../stores/useUserInfo.ts";
-import { useNaverLogin } from "../stores/useNaverLogin.ts";
+import { useUserAction } from "../stores/useUserAction.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
-  const { userId } = useStore(useNaverLogin);
+  const { moveMyPostbox } = useStore(useUserAction);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
@@ -46,11 +46,7 @@ function Home() {
   };
 
   const handleNavigate = () => {
-    if (isUserLogin) {
-      navigator(`/postbox/${userId}`);
-    } else {
-      navigator("/signup");
-    }
+    moveMyPostbox(navigator);
   };
 
   useEffect(() => {

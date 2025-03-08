@@ -5,6 +5,7 @@ import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useNavigate } from "react-router";
 import api from "../auth/api.ts";
+import { useUserAction } from "../stores/useUserAction.ts";
 
 interface SideTabProps {
   isOpen: boolean;
@@ -16,7 +17,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const { postBoxName, setPostBoxName } = useStore(useNaverLogin);
   const { logout, userId } = useStore(useUserInfo);
   const navigator = useNavigate();
-
+  const { moveMyPostbox } = useStore(useUserAction);
   const [isEditing, setIsEditing] = useState(false);
   const [newPostBoxName, setNewPostBoxName] = useState(postBoxName);
 
@@ -54,7 +55,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
 
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
-      <MenuItem onClick={() => navigator(`/postbox/${userId}`)}>내 편지함</MenuItem>
+      <MenuItem onClick={() => moveMyPostbox(navigator)}>내 편지함</MenuItem>
       <MenuItem onClick={() => navigator(`/config`)}>환경설정</MenuItem>
       <BottomBox>
         <Divider />
