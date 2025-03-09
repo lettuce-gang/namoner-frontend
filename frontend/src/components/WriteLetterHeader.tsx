@@ -5,6 +5,7 @@ import SideTab from "./SideTab.tsx";
 import { useStore } from "zustand";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useSendLetters } from "../stores/useSendLetters.ts";
+import WriteLetterBackPopup from "./popup/WriteLetterBackPopup.tsx";
 
 type HeaderProps = {
   isFull: boolean;
@@ -14,14 +15,18 @@ type HeaderProps = {
 function WriteLetterHeader({ isFull, isBack }: HeaderProps) {
   const { isUserLogin } = useStore(useUserInfo);
   const { letterWriteStep, setLetterWriteStep } = useStore(useSendLetters);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
   const goHome = () => {
     navigate("/");
   };
   const goBack = () => {
     if (letterWriteStep > 1) {
-      console.log("letterWriteStep", letterWriteStep);
+      if (letterWriteStep === 2) {
+        setIsPopupOpen(true);
+      } else {
       setLetterWriteStep(letterWriteStep - 1);
+      }
     } else {
       navigate(-1);
     }
@@ -30,6 +35,7 @@ function WriteLetterHeader({ isFull, isBack }: HeaderProps) {
   const isLast = letterWriteStep == 4 ? true : false;
   return (
     <>
+      {isPopupOpen && <WriteLetterBackPopup handlePopup={setIsPopupOpen}/>}
       <Head>
         {isBack && !isLast && <MenuButton src="/img/back-img.svg" alt="back-btn" width={9} height={15} onClick={goBack} />}
 
