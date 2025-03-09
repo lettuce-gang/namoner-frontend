@@ -10,10 +10,11 @@ const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=c
 interface NaverLoginProps {
   isLoading: boolean;
   error: AxiosError | null;
-  startLogin: () => void;
-  sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, loginSetter: () => void) => void;
+  startLogin: (fromUserId?: string) => void;
+  sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, userId: string) => void;
   userId: string;
   postBoxName: string;
+  fromUserId: string;
   setPostBoxName: (postBoxName: string) => void;
 }
 
@@ -23,10 +24,14 @@ const useNaverLogin = create<NaverLoginProps>(set => {
     error: null,
     userId: "",
     postBoxName: "",
-    startLogin() {
+    fromUserId: "",
+    startLogin(fui?: string) {
+      if (fui) {
+        set({ fromUserId: fui });
+      }
       window.location.href = NAVER_AUTH_URL;
     },
-    sendAuthCode: async (authCode, state, navigate, loginSetter) => {
+    sendAuthCode: async (authCode, state, navigate, fromUserId) => {
       set({ isLoading: true });
       axios
         .post(process.env.REACT_APP_BASE_URL + `/auth/naver`, {
@@ -45,7 +50,11 @@ const useNaverLogin = create<NaverLoginProps>(set => {
           if (isFirstVisit) {
             navigate("/makePostBox");
           } else {
-            navigate(`/postbox/${userId}`);
+            if (fromUserId) {
+              navigate(`/postbox/${fromUserId}`);
+            } else {
+              navigate(`/postbox/${userId}`);
+            }
           }
         })
         .catch(error => set({ error }))
@@ -55,7 +64,9 @@ const useNaverLogin = create<NaverLoginProps>(set => {
       set({ isLoading: true });
       await api
         .patch(`/users/postbox?name=${postBoxName}`)
-        .then(res => {set({ postBoxName: postBoxName });})
+        .then(res => {
+          set({ postBoxName: postBoxName });
+        })
         .catch(err => alert("오류 발생! 잠시 후 시도해주세요🥲"))
         .finally(() => set({ isLoading: false }));
     },

@@ -14,7 +14,7 @@ function LoginPopup({ userId, handlePopup }: UserType) {
     <Overlay>
       <Wrapper>
         <img src="/img/wait-img.png" width={67} height={67} alt="wait-img" />
-        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
+        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={() => handlePopup(false)} />
         <TextContainer>
           <p>잠깐!</p>
           <span>
@@ -33,7 +33,7 @@ function LoginPopup({ userId, handlePopup }: UserType) {
             borderRadius="40px"
             text="로그인/회원가입"
             textColor="white"
-            onClick={() => navigator("/signup")}
+            onClick={() => navigator("/signup", { state: { userId: userId } })}
           />
           <CustomButton
             width="100%"
@@ -116,9 +116,9 @@ const Overlay = styled.div`
 `;
 
 const CloseIcon = styled.img`
-    position: absolute;
-    top: 20px;
-    right:20px;
-    z-index: 10;
-    cursor: pointer;
-`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+`;
