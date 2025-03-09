@@ -14,7 +14,7 @@ function SendMailContainer({ letters }: SendMailContainerProp) {
     <MailListContainer>
       {isEmpty && (
         <EmptyLetterContainer>
-          <img src="/img/no-letter-img.svg" alt="empty-letter" width={66} height={66} />
+          <img src="/img/no-letter-img.png" alt="empty-letter" width={66} height={66} />
           <p>보낸 편지가 없어요!</p>
           <span>
             아직 보낸 편지가 없어요

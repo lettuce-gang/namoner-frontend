@@ -13,7 +13,7 @@ function LoginPopup({ userId, handlePopup }: UserType) {
   return (
     <Overlay>
       <Wrapper>
-        <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
+        <img src="/img/wait-img.png" width={67} height={67} alt="wait-img" />
         <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
         <TextContainer>
           <p>잠깐!</p>
