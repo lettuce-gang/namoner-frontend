@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { LetterListProps } from "../stores/useLetterList";
 import { useNavigate } from "react-router";
 import { isLock } from "../utils/isLock.ts";
+import moment from 'moment';
+import 'moment/locale/ko';
 
 interface NormalLetterEnvProp {
   letter: LetterListProps;
@@ -24,35 +26,18 @@ function SendReserveLetterEnvelope({ letter, type }: NormalLetterEnvProp) {
   }
 
   const getFormattedTime = (isoString: string) => {
-    const targetDate = new Date(isoString);
-    const now = Date.now();
-    const diffInMs = targetDate.getTime() - now;
-    const totalHours = Math.floor(diffInMs / (1000 * 60 * 60));
-    if (diffInMs < 0) {
-      // 시간이 지났는데 RESERVED가 안바뀌는 듯 ?
-      // getLetterList(userId);
+    const targetDate = moment(isoString);
+    const now = moment();
+    const diffInHours = targetDate.diff(now, 'hours');
+  
+    // 24시간 이상인 경우 목표 날짜 표시 (YYYY.MM.DD 형식)
+    if (diffInHours > 24) {
+      return targetDate.format('YYYY.MM.DD');
     }
-    const formatter = new Intl.DateTimeFormat("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-
-    // 24시간 이상인 경우 목표 날짜 표시
-    if (totalHours > 24) {
-      return formatter.format(targetDate).replace(/\. /g, ".").slice(0, -1);
-    }
-
-    // 24시간 미만인 경우 남은 시간 표시
-    const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-    const addLeadingZero = num => String(num).padStart(2, "0");
-    const parts: string[] = [];
-    if (totalHours > 0) parts.push(`${addLeadingZero(totalHours)}:`);
-    if (minutes >= 0) parts.push(`${addLeadingZero(minutes)}:`);
-    if (seconds >= 0) parts.push(`${addLeadingZero(seconds)}`);
-
-    return parts.join("");
+  
+    // 24시간 미만인 경우 남은 시간 표시 (HH:mm:ss 형식)
+    const duration = moment.duration(targetDate.diff(now));
+    return moment.utc(duration.asMilliseconds()).format('HH:mm:ss');
   };
 
   useEffect(() => {
