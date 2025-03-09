@@ -4,12 +4,14 @@ import styled from "styled-components";
 import CustomButton from "../components/CustomButton.tsx";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import { useStore } from "zustand";
+import { useLocation } from "react-router-dom";
 
 function SignUp() {
   const { startLogin } = useStore(useNaverLogin);
+  const location = useLocation();
   return (
     <>
-      <Header isFull={true} isBack={true}/>
+      <Header isFull={true} isBack={true} />
       <Wrapper>
         <Container>
           <img src="/img/login-img.svg" width={66} height={69} />
@@ -38,7 +40,7 @@ function SignUp() {
             text="네이버로 계속하기"
             textColor="white"
             border="none"
-            onClick={startLogin}
+            onClick={() => startLogin(location.state?.userId)}
           />
         </ButtonContainer>
       </Wrapper>

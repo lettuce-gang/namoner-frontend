@@ -8,7 +8,7 @@ import { useUserInfo } from "../stores/useUserInfo.ts";
 function NaverLoginLanding() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { sendAuthCode } = useStore(useNaverLogin);
+  const { fromUserId, sendAuthCode } = useStore(useNaverLogin);
   const {setUserLogin} = useStore(useUserInfo);
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -17,7 +17,7 @@ function NaverLoginLanding() {
 
     if (state === "false") {
       if (code) {
-        sendAuthCode(code, state, navigate, setUserLogin);
+        sendAuthCode(code, state, navigate, fromUserId);
       }
     }
   }, [location]);
