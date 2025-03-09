@@ -26,9 +26,9 @@ function ReceivedMailContainer({ letters }: ReceivedMailContainerProp) {
       {letters &&
         letters.map(letter => {
           if (letter.letterType === "NORMAL") {
-            return <NormalLetterEnvelope letter={letter} />;
+            return <NormalLetterEnvelope letter={letter} type="RECEIVE"/>;
           } else {
-            return <ReservedLetterEnvelope letter={letter}/>;
+            return <ReservedLetterEnvelope letter={letter} type="RECEIVE"/>;
           }
         })}
     </MailListContainer>

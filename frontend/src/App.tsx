@@ -37,7 +37,7 @@ function App() {
           <Route path="/postbox/:userId" element={<PostBoxHome />} />
           {/* <Route path="/postbox/:userId" element={<MissingPostBoxHome />} /> */}
           <Route path="/postbox/:userId/mailbox" element={<MailBox />} />
-          <Route path="/postbox/:userId/mailbox/letter/:letterId" element={<Letter />} />
+          <Route path="/postbox/:userId/mailbox/letter/:letterId/:type" element={<Letter />} />
           <Route path="/oauth/naver" element={<NaverLoginLanding />} />
           <Route path="/writeLetter/:userId" element={<WriteLetter />} />
           <Route path="/writeLetter/:userId/reserve" element={<ReserveLetter />} />

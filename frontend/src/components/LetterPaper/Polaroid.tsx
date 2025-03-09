@@ -134,9 +134,6 @@ const LetterImgPreview = styled.img`
   height: 290px;
   object-fit: fill;
   z-index: 10;
-  &:hover {
-    opacity: 0.8; // 호버 효과 추가 (선택사항)
-  }
 `;
 
 const UploadButton = styled.div`

@@ -19,17 +19,17 @@ interface LetterViewProps {
   isLoading: boolean;
   error: AxiosError | null;
   letter: LetterProps | null;
-  getLetter: (letterId: string) => void;
+  getLetter: (letterId: string, type: string) => void;
 }
 
 const useLetter = create<LetterViewProps>(set => ({
   isLoading: false,
   error: null,
   letter: null,
-  getLetter: async (letterId: string) => {
+  getLetter: async (letterId: string, type: string) => {
     set({ isLoading: true });
     await api
-      .get(process.env.REACT_APP_BASE_URL + `/letters/${letterId}`)
+      .get(process.env.REACT_APP_BASE_URL + `/letters/${letterId}?type=${type}`)
       .then(res => {
         set({ letter: res.data.data });
       })
