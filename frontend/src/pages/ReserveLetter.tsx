@@ -19,10 +19,16 @@ function ReserveLetter() {
   const { sender, receiver, sendLetter, letterPaperType, fontType, message, setLetterWriteStep } = useStore(useSendLetters);
 
   const [selectedDate, setSelectedDate] = useState<SelectedDate>(new Date());
-  const [value, onChange] = useState("00:00:00");
+  const [value, onChange] = useState<string>(new Date().toTimeString().slice(0, 5));
   const handleDateChange = (value: Value) => {
     if (value instanceof Date) {
       setSelectedDate(value);
+      if (value.toDateString() === new Date().toDateString()) {
+        const currentTime = new Date();
+        const currentHours = currentTime.getHours().toString().padStart(2, "0");
+        const currentMinutes = currentTime.getMinutes().toString().padStart(2, "0");
+        onChange(`${currentHours}:${currentMinutes}`);
+      }
     }
   };
   const showSecond = false;
@@ -66,7 +72,7 @@ function ReserveLetter() {
     const day = date.getDay(); // 0: 일요일, 6: 토요일
     if (day === 0) return "sunday"; // 일요일
     if (day === 6) return "saturday"; // 토요일
-    return ""; // 기본 값 
+    return ""; // 기본 값
   };
 
   return (
@@ -81,9 +87,26 @@ function ReserveLetter() {
           showNeighboringMonth={false}
           formatMonthYear={(locale, date) => `${date.getFullYear()}.${date.getMonth() + 1}`}
           formatDay={(locale, date) => date.getDate().toString()}
+          minDate={new Date()}
           className="custom-calendar"
         />
-        <TimeInput type="time" value={value} onChange={e => onChange(e.target.value)} />
+        <TimeInput
+          type="time"
+          value={value}
+          onChange={e => {
+            const selectedTime = e.target.value;
+            const [hours, minutes] = selectedTime.split(":");
+            const currentDate = new Date(selectedDate);
+            currentDate.setHours(parseInt(hours));
+            currentDate.setMinutes(parseInt(minutes));
+
+            if (selectedDate.toDateString() === new Date().toDateString() && currentDate < new Date()) {
+              alert("현재 시각 이전으로 설정할 수 없습니다.");
+              return;
+            }
+            onChange(selectedTime);
+          }}
+        />
         <CustomButton
           fontFamily="Pretendard-B"
           text="예약 전송하기"
