@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "나모너",
+  "name": "나모너 :: 나를 모르는 너에게",
   "icons": [
     {
       "src": "favicon.ico",
