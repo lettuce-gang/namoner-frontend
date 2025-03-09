@@ -12,7 +12,7 @@ const useUserAction = create<UserActionProps>(set => ({
       .then(res => {
         navigator(`/postbox/${res.data.data.userId}`);
       })
-      .catch(err => alert(err));
+      .catch(err => console.log(err));
   },
 }));
 

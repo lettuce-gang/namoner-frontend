@@ -28,8 +28,9 @@ const refreshAccessToken = async () => {
     return accessToken;
   } catch (error) {
     // 리프레시 토큰도 만료된 경우
-
     alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
+    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "/signup"; // 로그인 페이지로 리다이렉트
     return null;
   }
@@ -62,10 +63,6 @@ api.interceptors.response.use(
       if (newToken) {
         originalRequest.headers.Authorization = `Bearer ${newToken}`; // 새로운 토큰으로 헤더 업데이트
         return api(originalRequest); // 원래 요청 재시도
-      } else {
-        // 토큰 재발급 실패 시, 로그아웃 처리
-        alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
-        window.location.href = "/signup"; // 로그인 페이지로 리다이렉트
       }
     }
     return Promise.reject(error);

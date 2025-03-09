@@ -46,7 +46,11 @@ function Home() {
   };
 
   const handleNavigate = () => {
-    moveMyPostbox(navigator);
+    if (isUserLogin) {
+      navigator("/signup");
+    } else {
+      moveMyPostbox(navigator);
+    }
   };
 
   useEffect(() => {
@@ -81,9 +85,7 @@ function Home() {
             우체통 속 편지를 확인해보세요
           </span>
         </InputBox>
-        {/* <FrameContent> */}
         <CustomButton onClick={handleNavigate}>{isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
-        {/* </FrameContent> */}
       </FlexBox>
     </Wrapper>
   );
