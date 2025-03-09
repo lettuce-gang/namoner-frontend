@@ -46,7 +46,7 @@ function Home() {
   };
 
   const handleNavigate = () => {
-    if (isUserLogin) {
+    if (!isUserLogin) {
       navigator("/signup");
     } else {
       moveMyPostbox(navigator);
