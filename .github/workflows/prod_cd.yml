@@ -54,7 +54,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     needs: build
     env:
         REPO: ${{ secrets.DOCKER_IMAGE_NAME }}
