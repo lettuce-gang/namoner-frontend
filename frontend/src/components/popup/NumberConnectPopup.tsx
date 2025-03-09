@@ -12,7 +12,7 @@ function NumberConnectPopup({ userId }: UserType) {
   return (
     <Overlay>
       <Wrapper>
-        <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
+        <img src="/img/wait-img.png" width={67} height={67} alt="wait-img" />
         <TextContainer>
           <p>잠깐!</p>
           <span>

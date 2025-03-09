@@ -10,7 +10,7 @@ function MissingPostBoxHome() {
         <PostBox>
             <PostBoxTitle>잃어버린 우체통</PostBoxTitle>
             <PostBoxImg>
-                <img src="/img/postbox/missing-postbox.svg" />
+                <img src="/img/postbox/missing-postbox.png" width="277px" height="277px" />
             <CountCircle>?</CountCircle>
             </PostBoxImg>
             <p>주인을 알 수 없는 우체통이에요</p>
