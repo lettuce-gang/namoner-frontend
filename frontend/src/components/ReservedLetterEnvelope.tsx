@@ -7,12 +7,11 @@ import { isLock } from "../utils/isLock.ts";
 
 interface ReservedLetterEnvProp {
   letter: LetterListProps;
+  type: string;
 }
 
-function ReservedLetterEnvelope({ letter }: ReservedLetterEnvProp) {
+function ReservedLetterEnvelope({ letter, type }: ReservedLetterEnvProp) {
   const [timeLeft, setTimeLeft] = useState(letter.receiveDate);
-  const { getLetterList } = useStore(useLetterList);
-  const { userId } = useParams<{ userId: string }>() as { userId: string };
 
   function getTotalHour(isoString: string) {
     const targetDate = new Date(isoString);
@@ -29,9 +28,8 @@ function ReservedLetterEnvelope({ letter }: ReservedLetterEnvProp) {
     const now = Date.now();
     const diffInMs = targetDate.getTime() - now;
     const totalHours = Math.floor(diffInMs / (1000 * 60 * 60));
-
-    if (diffInMs < 0) {
-      getLetterList(userId);
+    if (diffInMs < 0) { // 시간이 지났는데 RESERVED가 안바뀌는 듯 ?
+      // getLetterList(userId);
     }
     const formatter = new Intl.DateTimeFormat("ko-KR", {
       year: "numeric",

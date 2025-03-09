@@ -13,7 +13,7 @@ import CustomButton from "../components/CustomButton.tsx";
 import { useSendLetters } from "../stores/useSendLetters.ts";
 
 function Letter() {
-  const { letterId } = useParams<{ letterId: string }>() as { letterId: string };
+  const { letterId, type } = useParams<{ letterId: string; type: string }>() as { letterId: string; type: string };
   const { letter, getLetter } = useStore(useLetter);
   const { setLetterInfo } = useStore(useSendLetters);
   const navigator = useNavigate();
@@ -64,7 +64,7 @@ function Letter() {
     );
   };
   useEffect(() => {
-    getLetter(letterId);
+    getLetter(letterId, type);
   }, [letterId]);
   return (
     <>
