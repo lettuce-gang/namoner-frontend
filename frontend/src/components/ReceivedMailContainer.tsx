@@ -14,7 +14,7 @@ function ReceivedMailContainer({ letters }: ReceivedMailContainerProp) {
     <MailListContainer>
       {isEmpty && (
         <EmptyLetterContainer>
-          <img src="/img/no-letter-img.svg" alt="empty-letter" width={66} height={66} />
+          <img src="/img/no-letter-img.png" alt="empty-letter" width={66} height={66} />
           <p>우체통이 텅 비었어요!</p>
           <span>
             도착한 편지가 없어요

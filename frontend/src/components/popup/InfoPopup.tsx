@@ -41,7 +41,7 @@ const Overlay = styled.div`
 const DialogContainer = styled.div`
   background: white;
   border-radius: 14px;
-  padding: 24px;
+  padding: 24px 20px 16px 20px;
   width: 80%;
   max-width: 335px;
   text-align: center;
@@ -65,30 +65,30 @@ const InfoIcon = styled.div`
 
 const Message = styled.p`
   color: #262626;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   margin-bottom: 8px;
-  font-family: "Pretendard-R";
+  font-family: "Pretendard-M";
   white-space: pre-line;
 `;
 
 const SubMessage = styled.p`
   color: #777;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
-  margin-bottom: 24px;
-  font-family: "Pretendard-R";
+  margin-bottom: 16px;
+  font-family: "Pretendard-M";
 `;
 
 const ConfirmButton = styled.button`
   width: 100%;
-  padding: 14px 0;
+  padding: 14px 0 0 0;
   border: none;
   border-top: 1px solid #F2F2F2;
   background: none;
   color: #262626;
   font-size: 15px;
-  font-family: "Pretendard-R";
+  font-family: "Pretendard-M";
   cursor: pointer;
 `;
 
