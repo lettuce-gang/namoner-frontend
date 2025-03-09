@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useNavigate } from "react-router";
+import api from "../auth/api.ts";
+import { useUserAction } from "../stores/useUserAction.ts";
 
 interface SideTabProps {
   isOpen: boolean;
@@ -12,9 +14,21 @@ interface SideTabProps {
 }
 
 function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
-  const { postBoxName } = useStore(useNaverLogin);
+  const { postBoxName, setPostBoxName } = useStore(useNaverLogin);
   const { logout, userId } = useStore(useUserInfo);
   const navigator = useNavigate();
+  const { moveMyPostbox } = useStore(useUserAction);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newPostBoxName, setNewPostBoxName] = useState(postBoxName);
+  const URLS = {
+    PrivacyPolicy: "https://profuse-tea-75d.notion.site/1730ec71df638010b95aef1d3d6e79c6",
+    FAQ: "https://profuse-tea-75d.notion.site/FAQ-1750ec71df63804b8b54cb8050f9b201",
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
   const Logout = () => {
     logout();
     navigator("/");
@@ -22,32 +36,57 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const menuItems = isLoggedIn ? (
     <>
       <MenuTitle>
-        {postBoxName} <span>✍️</span>
+        {isEditing ? (
+          <FlexBox>
+            <NameChangeInput type="text" value={newPostBoxName} onChange={e => setNewPostBoxName(e.target.value)} maxLength={9} />
+            <Span_
+              onClick={() => {
+                setPostBoxName(newPostBoxName);
+                setIsEditing(false);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              변경
+            </Span_>
+          </FlexBox>
+        ) : (
+          <>
+            {postBoxName}
+            <img src="/img/icon-edit.svg" width={16} onClick={handleEditClick} style={{ cursor: "pointer", marginLeft: 5 }} />
+          </>
+        )}
       </MenuTitle>
+
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
-      <MenuItem onClick={() => navigator(`/postbox/${userId}`)}>내 편지함</MenuItem>
-      <MenuItem>환경설정</MenuItem>
+      <MenuItem onClick={() => moveMyPostbox(navigator)}>내 편지함</MenuItem>
+      <MenuItem onClick={() => navigator(`/config`)}>환경설정</MenuItem>
       <BottomBox>
         <Divider />
-        <BottomMenuItem>FAQ</BottomMenuItem>
+        <BottomMenuItem onClick={() => window.open(URLS.FAQ)}>FAQ</BottomMenuItem>
         <BottomMenuItem>고객센터</BottomMenuItem>
         <BottomMenuItem onClick={Logout}>로그아웃</BottomMenuItem>
       </BottomBox>
-      <Footer>개인정보처리방침 | 이용약관</Footer>
+      <Footer>
+        <span onClick={() => window.open(URLS.PrivacyPolicy)}>개인정보처리방침 | 이용약관</span>
+      </Footer>
     </>
   ) : (
     <>
-      <MenuTitle onClick={() => navigator("/signup")}>로그인/회원가입</MenuTitle>
+      <MenuTitle style={{ cursor: "pointer" }} onClick={() => navigator("/signup")}>
+        로그인/회원가입
+      </MenuTitle>
       <Divider />
       <MenuItem>편지 쓰기</MenuItem>
 
       <BottomBox>
         <Divider />
-        <BottomMenuItem>FAQ</BottomMenuItem>
+        <BottomMenuItem onClick={() => window.open(URLS.FAQ)}>FAQ</BottomMenuItem>
         <BottomMenuItem>고객센터</BottomMenuItem>
       </BottomBox>
-      <Footer>개인정보처리방침 | 이용약관</Footer>
+      <Footer>
+        <span onClick={() => window.open(URLS.PrivacyPolicy)}>개인정보처리방침 | 이용약관</span>
+      </Footer>
     </>
   );
 
@@ -111,6 +150,9 @@ const Footer = styled.div`
   font-size: 12px;
   padding: 16px;
   color: #777;
+  span {
+    cursor: pointer;
+  }
 `;
 
 const BottomBox = styled.div`
@@ -152,6 +194,34 @@ const SideMenu = styled.div<{ isOpen: boolean }>`
   flex-direction: column;
   padding: 0px 24px;
   box-sizing: border-box;
+`;
+
+const NameChangeInput = styled.input`
+  width: 140px;
+  height: 35px;
+  padding: 0px 10.324px 0px 17px;
+  align-items: center;
+  gap: 6.45px;
+  margin-left: -10px;
+  border: none;
+  border-radius: 6.453px;
+  background: #e9e9e9;
+`;
+
+const Span_ = styled.span`
+  color: #777;
+  width: 30px;
+  font-family: "Pretendard-R";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 8px;
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default SideTab;

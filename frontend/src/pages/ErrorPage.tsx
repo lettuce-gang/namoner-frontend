@@ -14,7 +14,7 @@ function ErrorPage() {
       <Header isFull={true} />
     <Wrapper>
       <Container>
-        <img src="/img/error-img.svg" width={66} height={69} />
+        <img src="/img/error-img.png" width={66} height={69} />
         <p>404 Error</p>
         <span>페이지를 찾을 수 없습니다</span>
       </Container>

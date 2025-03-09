@@ -15,19 +15,19 @@ export const postBoxImgHandler = (letterCount: number) => {
   }
 
   if (letterCount === 0) {
-    boxUrl += "1.svg";
+    boxUrl += "1.png";
   } else if (letterCount === 1) {
-    boxUrl += "2.svg";
+    boxUrl += "2.png";
   } else if (letterCount === 2) {
-    boxUrl += "3.svg";
+    boxUrl += "3.png";
   } else if (letterCount === 3 || letterCount === 4) {
-    boxUrl += "4.svg";
+    boxUrl += "4.png";
   } else if (letterCount >= 5 && letterCount <= 9) {
-    boxUrl += "5.svg";
+    boxUrl += "5.png";
   } else if (letterCount >= 10 && letterCount <= 15) {
-    boxUrl += "6.svg";
+    boxUrl += "6.png";
   } else if (letterCount >= 16) {
-    boxUrl += "7.svg";
+    boxUrl += "7.png";
   }
 
   return (
