@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
-import { useNavigate } from "react-router";
 import { create, useStore } from "zustand";
-import { useUserInfo } from "./useUserInfo.ts";
+import api from "../auth/api.ts";
 
 const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID; // 발급받은 클라이언트 아이디
 const REDIRECT_URI = "http://dev.namoner.site/oauth/naver"; // Callback URL
@@ -13,14 +12,17 @@ interface NaverLoginProps {
   error: AxiosError | null;
   startLogin: () => void;
   sendAuthCode: (authCode: string, state: string, navigate: (path: string) => void, loginSetter: () => void) => void;
+  userId: string;
+  postBoxName: string;
+  setPostBoxName: (postBoxName: string) => void;
 }
 
 const useNaverLogin = create<NaverLoginProps>(set => {
-  const { setUserId } = useUserInfo();
-
   return {
     isLoading: false,
     error: null,
+    userId: "",
+    postBoxName: "",
     startLogin() {
       window.location.href = NAVER_AUTH_URL;
     },
@@ -33,13 +35,12 @@ const useNaverLogin = create<NaverLoginProps>(set => {
         })
         .then(res => {
           console.log(res);
-          const { isFirstVisit, userId, token } = res.data.data;
+          const { isFirstVisit, userId, token, postBoxName } = res.data.data;
           const { accessToken, accessTokenExpiredTime, refreshToken } = token;
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("atExpiredTime", accessTokenExpiredTime);
           localStorage.setItem("refreshToken", refreshToken);
-
-          setUserId(userId);
+          set({ userId, postBoxName });
 
           if (isFirstVisit) {
             navigate("/makePostBox");
@@ -48,6 +49,14 @@ const useNaverLogin = create<NaverLoginProps>(set => {
           }
         })
         .catch(error => set({ error }))
+        .finally(() => set({ isLoading: false }));
+    },
+    setPostBoxName: async (postBoxName: string) => {
+      set({ isLoading: true });
+      await api
+        .patch(`/users/postbox?name=${postBoxName}`)
+        .then(res => {set({ postBoxName: postBoxName });})
+        .catch(err => alert("오류 발생! 잠시 후 시도해주세요🥲"))
         .finally(() => set({ isLoading: false }));
     },
   };

@@ -14,6 +14,8 @@ import MakePostBox from "./pages/MakePostBox.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import ReserveLetter from "./pages/ReserveLetter.tsx";
 import MissingPostBoxHome from "./pages/MissingPostBoxHome.tsx";
+import Configuration from "./pages/Configuration.tsx";
+import Withdraw from "./pages/Withdraw.tsx";
 
 function App() {
   useEffect(() => {
@@ -40,6 +42,8 @@ function App() {
           <Route path="/writeLetter/:userId" element={<WriteLetter />} />
           <Route path="/writeLetter/:userId/reserve" element={<ReserveLetter />} />
           <Route path="/writeLetter/:letterId/reply" element={<WriteLetter />} />
+          <Route path="/config" element={<Configuration />} />
+          <Route path="/withdraw" element={<Withdraw />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Frame>

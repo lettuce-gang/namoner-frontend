@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header.tsx";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { FrameContent } from "../layouts/Frame.ts";
 import { useStore } from "zustand";
 import { useUserInfo } from "../stores/useUserInfo.ts";
+import { useUserAction } from "../stores/useUserAction.ts";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { isUserLogin, userId } = useStore(useUserInfo);
+  const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
+  const { moveMyPostbox } = useStore(useUserAction);
   const navigator = useNavigate();
   const formatPhoneNumber = (value: string) => {
     const onlyNumbers = value.replace(/[^0-9]/g, ""); // 숫자만 남김
@@ -45,12 +46,12 @@ function Home() {
   };
 
   const handleNavigate = () => {
-    if (isUserLogin) {
-      navigator(`/postbox/${userId}`);
-    } else {
-      navigator("/signup");
-    }
+    moveMyPostbox(navigator);
   };
+
+  useEffect(() => {
+    checkUserLogin();
+  }, []);
 
   return (
     <Wrapper>
@@ -81,9 +82,7 @@ function Home() {
           </span>
         </InputBox>
         {/* <FrameContent> */}
-        <CustomButton onClick={handleNavigate}>
-          {isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}
-        </CustomButton>
+        <CustomButton onClick={handleNavigate}>{isUserLogin ? "내 우체통 가기" : "로그인/회원가입"}</CustomButton>
         {/* </FrameContent> */}
       </FlexBox>
     </Wrapper>

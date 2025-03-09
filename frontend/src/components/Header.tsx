@@ -6,11 +6,12 @@ import { useStore } from "zustand";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 
 type HeaderProps = {
-  isFull: boolean;
+  isFull?: boolean;
   isBack?: boolean;
+  headerText?: string;
 };
 
-function Header({ isFull, isBack }: HeaderProps) {
+function Header({ isFull, isBack, headerText }: HeaderProps) {
   const { isUserLogin } = useStore(useUserInfo);
   const navigate = useNavigate();
   const goHome = () => {
@@ -30,13 +31,14 @@ function Header({ isFull, isBack }: HeaderProps) {
           <MenuButton src="/img/Hamburger.svg" alt="menu-btn" width={27} height={14} onClick={() => setIsMenuOpen(true)} />
         )}
 
-        <img
-          src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"}
-          alt="logo"
-          width={isFull ? 95 : 65}
-          height={isFull ? 42 : 22}
-          onClick={goHome}
-        />
+        {headerText ? <span>{headerText}</span> :
+          <img
+            src={isFull ? "/img/full-logo.svg" : "/img/logo.svg"}
+            alt="logo"
+            width={isFull ? 95 : 65}
+            height={isFull ? 42 : 22}
+            onClick={goHome}
+          />}
       </Head>
       <SideTab isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} isLoggedIn={isUserLogin} />
     </>
