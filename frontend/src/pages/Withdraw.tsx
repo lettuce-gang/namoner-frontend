@@ -32,10 +32,12 @@ function Withdraw() {
         
         <WarningList>
           <WarningItem>
-            • 회원 탈퇴 후, 개인 정보는 즉시 파기되며<br/>복구 불가해요.
+            • 회원 탈퇴 후, 개인 정보는 즉시 파기되며<br/>
+            복구 불가해요.
           </WarningItem>
           <WarningItem>
-            • 내 우체통과 주고 받은 편지는<br/><b>영구적으로 삭제</b>되어 복구할 수 없어요.
+            • 내 우체통과 주고 받은 편지는<br/>
+            <b>영구적으로 삭제</b>되어 복구할 수 없어요.
           </WarningItem>
         </WarningList>
 
@@ -65,7 +67,7 @@ function Withdraw() {
             height="54px"
             onClick={handleWithdraw}
             disabled={!isChecked}
-            backgroundColor={isChecked ? "#4B48DF" : "#D9D9D9"}
+            backgroundColor={isChecked ? "#FFBE0B" : "#D9D9D9"}
             textColor="white"
             fontFamily="Pretendard-B"
             fontSize="18px"
@@ -77,7 +79,7 @@ function Withdraw() {
             width="100%"
             height="54px"
             onClick={() => navigate(-1)}
-            backgroundColor="#4B48DF"
+            backgroundColor="#4361EE"
             textColor="white"
             fontFamily="Pretendard-B"
             fontSize="18px"
@@ -120,9 +122,15 @@ const WarningList = styled.div`
 
 const WarningItem = styled.div`
   color: #262626;
-  font-family: "Pretendard-R";
-  font-size: 15px;
+  font-family: "Pretendard-M";
+  font-size: 16px;
   line-height: 1.5;
+  padding-left: 12px;
+  text-indent: -12px;
+
+  br + text {
+    margin-left: 12px;
+  }
 `;
 
 const ReasonSection = styled.div`
@@ -133,7 +141,7 @@ const ReasonSection = styled.div`
 const ReasonLabel = styled.div`
   color: #262626;
   font-family: "Pretendard-M";
-  font-size: 15px;
+  font-size: 16px;
   margin-bottom: 12px;
 `;
 
@@ -144,8 +152,8 @@ const ReasonInput = styled.textarea`
   border: 1px solid #E8E8E8;
   border-radius: 8px;
   resize: none;
-  font-family: "Pretendard-R";
-  font-size: 14px;
+  font-family: "Pretendard-M";
+  font-size: 12px;
   color: #262626;
   box-sizing: border-box;
 
@@ -175,8 +183,8 @@ const Checkbox = styled.input`
 
 const CheckboxLabel = styled.span`
   color: #262626;
-  font-family: "Pretendard-R";
-  font-size: 15px;
+  font-family: "Pretendard-M";
+  font-size: 12px;
 `;
 
 const ButtonContainer = styled.div`

@@ -142,7 +142,7 @@ const SettingLabel = styled.div`
   align-items: center;
   gap: 8px;
   color: #262626;
-  font-family: "Pretendard-R";
+  font-family: "Pretendard-M";
   font-size: 15px;
 `;
 

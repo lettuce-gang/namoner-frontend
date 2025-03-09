@@ -14,7 +14,7 @@ function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
     <Overlay>
       <Wrapper>
         <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
-        <img src="/img/wait-img.svg" width={67} height={67} alt="wait-img" />
+        <img src="/img/wait-img.png" width={67} height={67} alt="wait-img" />
         <TextContainer>
           <p>잠깐!</p>
           <span>

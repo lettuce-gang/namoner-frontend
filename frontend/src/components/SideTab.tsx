@@ -20,6 +20,10 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const { moveMyPostbox } = useStore(useUserAction);
   const [isEditing, setIsEditing] = useState(false);
   const [newPostBoxName, setNewPostBoxName] = useState(postBoxName);
+  const URLS = {
+    PrivacyPolicy: "https://profuse-tea-75d.notion.site/1730ec71df638010b95aef1d3d6e79c6",
+    FAQ: "https://profuse-tea-75d.notion.site/FAQ-1750ec71df63804b8b54cb8050f9b201",
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -59,11 +63,13 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
       <MenuItem onClick={() => navigator(`/config`)}>환경설정</MenuItem>
       <BottomBox>
         <Divider />
-        <BottomMenuItem>FAQ</BottomMenuItem>
+        <BottomMenuItem onClick={() => window.open(URLS.FAQ)}>FAQ</BottomMenuItem>
         <BottomMenuItem>고객센터</BottomMenuItem>
         <BottomMenuItem onClick={Logout}>로그아웃</BottomMenuItem>
       </BottomBox>
-      <Footer>개인정보처리방침 | 이용약관</Footer>
+      <Footer>
+        <span onClick={() => window.open(URLS.PrivacyPolicy)}>개인정보처리방침 | 이용약관</span>
+      </Footer>
     </>
   ) : (
     <>
@@ -75,10 +81,12 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
 
       <BottomBox>
         <Divider />
-        <BottomMenuItem>FAQ</BottomMenuItem>
+        <BottomMenuItem onClick={() => window.open(URLS.FAQ)}>FAQ</BottomMenuItem>
         <BottomMenuItem>고객센터</BottomMenuItem>
       </BottomBox>
-      <Footer>개인정보처리방침 | 이용약관</Footer>
+      <Footer>
+        <span onClick={() => window.open(URLS.PrivacyPolicy)}>개인정보처리방침 | 이용약관</span>
+      </Footer>
     </>
   );
 
@@ -142,6 +150,9 @@ const Footer = styled.div`
   font-size: 12px;
   padding: 16px;
   color: #777;
+  span {
+    cursor: pointer;
+  }
 `;
 
 const BottomBox = styled.div`

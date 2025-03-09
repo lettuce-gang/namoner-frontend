@@ -18,7 +18,7 @@ const ToggleWrapper = styled.div<{ isOn?: boolean }>`
   width: 44px;
   height: 24px;
   border-radius: 12px;
-  background-color: ${props => props.isOn ? '#4B48DF' : '#E8E8E8'};
+  background-color: ${props => props.isOn ? '#4361EE' : '#E8E8E8'};
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s ease-in-out;
