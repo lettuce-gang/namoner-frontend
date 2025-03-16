@@ -16,7 +16,6 @@ import MissingPostBoxHome from "./MissingPostBoxHome.tsx";
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount, postboxName } = useStore(usePostBox);
-  // const { postBoxName } = useStore(useNaverLogin);
   const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
