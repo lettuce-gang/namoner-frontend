@@ -16,7 +16,6 @@ import MissingPostBoxHome from "./MissingPostBoxHome.tsx";
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
   const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount, postboxName } = useStore(usePostBox);
-  // const { postBoxName } = useStore(useNaverLogin);
   const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -31,7 +30,7 @@ function PostBoxHome() {
     return new Date().getTime() > new Date(expiredTime).getTime();
   };
 
-  const popupHandler = () => {
+  const popupHandler = () => {  // 로그인 여부 판단을 다른 방식으로 해야 할 듯..
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken && !isTokenExpired()) {
       navigator(`/writeLetter/${userId}`);
@@ -62,7 +61,7 @@ function PostBoxHome() {
         <Wrapper>
           {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
           {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
-          <Header isFull={true} />
+          <Header isFull={true} isShare={true}/>
           <PostBox>
             <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
             <PostBoxImg onClick={ClickPostBox}>{postBoxImgHandler(unreadLetterCount)}</PostBoxImg>
