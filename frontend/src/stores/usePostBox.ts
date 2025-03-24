@@ -8,6 +8,7 @@ interface PostBoxProps {
   postboxName: string;
   unreadLetterCount: number;
   getPostBoxInfo: (userId: string) => void;
+  setPostboxName: (name: string) => void;
 }
 
 const usePostBox = create<PostBoxProps>(set => ({
@@ -36,6 +37,7 @@ const usePostBox = create<PostBoxProps>(set => ({
     }
     
   },
+  setPostboxName: (name: string) => set({ postboxName: name }),
 }));
 
 export { usePostBox };
