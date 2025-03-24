@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useStore } from "zustand";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
+import { usePostBox } from "../stores/usePostBox.ts";
 import { useUserInfo } from "../stores/useUserInfo.ts";
 import { useNavigate } from "react-router";
 import api from "../auth/api.ts";
@@ -15,6 +16,7 @@ interface SideTabProps {
 
 function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
   const { postBoxName, setPostBoxName } = useStore(useNaverLogin);
+  const { setPostboxName: setGlobalPostBoxName } = useStore(usePostBox);
   const { logout, userId } = useStore(useUserInfo);
   const navigator = useNavigate();
   const { moveMyPostbox } = useStore(useUserAction);
@@ -42,6 +44,7 @@ function SideTab({ isOpen, onClose, isLoggedIn }: SideTabProps) {
             <Span_
               onClick={() => {
                 setPostBoxName(newPostBoxName);
+                setGlobalPostBoxName(newPostBoxName);
                 setIsEditing(false);
               }}
               style={{ cursor: "pointer" }}
