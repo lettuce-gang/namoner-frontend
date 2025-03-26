@@ -18,7 +18,7 @@ const BubbleBox = styled.div`
   position: relative;
   width: 170px;
   min-height: 70px;
-  margin: 10px 0;
+  margin: 20px auto;
   font-family: "Pretendard_R", sans-serif; /* 원하는 폰트로 변경 */
   color: #262626; /* 글자 색상 */
   font-size: 12px;

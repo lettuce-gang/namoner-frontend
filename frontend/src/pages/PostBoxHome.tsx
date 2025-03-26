@@ -70,9 +70,7 @@ function PostBoxHome() {
             <p>우체통을 눌러 편지를 확인해보세요!</p>
           </PostBox>
           <ButtonContainer>
-            <BubbleBoxContainer>
               {userConfig.receiveLetter && <DisabledBubbleMsgBox message={"회원님의 요청으로\n현재 편지 작성이 불가해요😭"} />}
-            </BubbleBoxContainer>
             <CustomButton
               fontFamily="Pretendard-B"
               text="편지쓰기"
@@ -94,14 +92,6 @@ export default PostBoxHome;
 
 const Wrapper = styled.div`
   /* text-align: center; */
-`;
-
-const BubbleBoxContainer = styled.div`
-  position: absolute; /* 절대 위치 지정 */
-top:-180%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3; /* 다른 요소 위에 표시 */
 `;
 
 const PostBox = styled.div`
