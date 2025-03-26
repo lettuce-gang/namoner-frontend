@@ -71,7 +71,7 @@ function PostBoxHome() {
           </PostBox>
           <ButtonContainer>
             <BubbleBoxContainer>
-              {userConfig.receiveLetter && <DisabledBubbleMsgBox message={"회원님의 요청으로\n현재 편지 작성이 불가해요 😭"} />}
+              {userConfig.receiveLetter && <DisabledBubbleMsgBox message={"회원님의 요청으로\n현재 편지 작성이 불가해요😭"} />}
             </BubbleBoxContainer>
             <CustomButton
               fontFamily="Pretendard-B"
