@@ -39,14 +39,14 @@
 
 .react-calendar__tile--now {
   background: transparent;
-  color: #4361ee;
-  font-weight: bold;
+  color: #333;
+  /* font-weight: bold; */
 }
 
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
   background: transparent;
-  color: #4361ee;
+  color: #333;
 }
 
 .react-calendar__tile--active {
@@ -55,9 +55,20 @@
   border-radius: 8px;
 }
 
+.react-calendar__tile:disabled {
+  background-color: transparent;
+  color: #DCDCDC;
+}
+
+.react-calendar__navigation button:disabled {
+  background-color: transparent;
+  color: #DCDCDC;
+}
+
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
   background: #4361EE;
+  color: white;
 }
 
 .react-calendar__tile:enabled:hover,
@@ -82,4 +93,8 @@
 
 .react-calendar__month-view__weekdays__weekday:nth-child(7) abbr {
   color: #F44C1D !important;
+}
+
+.react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
+  background-color: transparent;
 }

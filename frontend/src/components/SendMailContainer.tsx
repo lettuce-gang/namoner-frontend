@@ -2,7 +2,7 @@ import React from "react";
 import { LetterListProps } from "../stores/useLetterList.ts";
 import styled from "styled-components";
 import NormalLetterEnvelope from "./NormalLetterEnvelope.tsx";
-import ReservedLetterEnvelope from "./ReservedLetterEnvelope.tsx";
+import SendReserveLetterEnvelope from "./SendReserveLetterEnvelope.tsx";
 
 interface SendMailContainerProp {
   letters: LetterListProps[];
@@ -25,7 +25,11 @@ function SendMailContainer({ letters }: SendMailContainerProp) {
       )}
       {letters &&
         letters.map(letter => {
-            return <NormalLetterEnvelope letter={letter} />;
+          if (letter.letterType === "NORMAL") {
+            return <NormalLetterEnvelope letter={letter} type="SEND"/>;
+          } else {
+            return <SendReserveLetterEnvelope letter={letter} type="SEND"/>;
+          }
         })}
     </MailListContainer>
   );

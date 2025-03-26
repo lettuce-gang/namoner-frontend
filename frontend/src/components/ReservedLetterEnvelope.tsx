@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { LetterListProps, useLetterList } from "../stores/useLetterList.ts";
-import { useStore } from "zustand";
-import { useParams } from "react-router";
+import { LetterListProps } from "../stores/useLetterList.ts";
 import { isLock } from "../utils/isLock.ts";
+import moment from 'moment';
+import 'moment/locale/ko';
 
 interface ReservedLetterEnvProp {
   letter: LetterListProps;
+  type: string;
 }
 
-function ReservedLetterEnvelope({ letter }: ReservedLetterEnvProp) {
+function ReservedLetterEnvelope({ letter, type }: ReservedLetterEnvProp) {
   const [timeLeft, setTimeLeft] = useState(letter.receiveDate);
-  const { getLetterList } = useStore(useLetterList);
-  const { userId } = useParams<{ userId: string }>() as { userId: string };
 
   function getTotalHour(isoString: string) {
     const targetDate = new Date(isoString);
@@ -25,35 +24,18 @@ function ReservedLetterEnvelope({ letter }: ReservedLetterEnvProp) {
   }
 
   const getFormattedTime = (isoString: string) => {
-    const targetDate = new Date(isoString);
-    const now = Date.now();
-    const diffInMs = targetDate.getTime() - now;
-    const totalHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const targetDate = moment(isoString);
+  const now = moment();
+  const diffInHours = targetDate.diff(now, 'hours');
 
-    if (diffInMs < 0) {
-      getLetterList(userId);
-    }
-    const formatter = new Intl.DateTimeFormat("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
+  // 24시간 이상인 경우 목표 날짜 표시 (YYYY.MM.DD 형식)
+  if (diffInHours > 24) {
+    return targetDate.format('YYYY.MM.DD');
+  }
 
-    // 24시간 이상인 경우 목표 날짜 표시
-    if (totalHours > 24) {
-      return formatter.format(targetDate).replace(/\. /g, ".").slice(0, -1);
-    }
-
-    // 24시간 미만인 경우 남은 시간 표시
-    const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-    const addLeadingZero = num => String(num).padStart(2, "0");
-    const parts: string[] = [];
-    if (totalHours > 0) parts.push(`${addLeadingZero(totalHours)}:`);
-    if (minutes >= 0) parts.push(`${addLeadingZero(minutes)}:`);
-    if (seconds >= 0) parts.push(`${addLeadingZero(seconds)}`);
-
-    return parts.join("");
+  // 24시간 미만인 경우 남은 시간 표시 (HH:mm:ss 형식)
+  const duration = moment.duration(targetDate.diff(now));
+  return moment.utc(duration.asMilliseconds()).format('HH:mm:ss');
   };
 
   useEffect(() => {

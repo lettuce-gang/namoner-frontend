@@ -2,24 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import CustomButton from "../CustomButton.tsx";
 import { useNavigate } from "react-router";
+import { useStore } from "zustand";
+import { useSendLetters } from "../../stores/useSendLetters.ts";
 
 type UserType = {
-  userId: string;
-  handlePopup: React.Dispatch<React.SetStateAction<boolean>>
+  handlePopup: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
-  const navigator = useNavigate();
+function WriteLetterBackPopup({ handlePopup }: UserType) {
+  const { setLetterWriteStep } = useStore(useSendLetters);
+
+  // 팝업이 열릴 때 body 스크롤 비활성화
+  React.useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto"; // 팝업이 닫힐 때 원래 상태로 복원
+    };
+  }, []);
+
   return (
     <Overlay>
       <Wrapper>
-        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={()=>handlePopup(false)}/>
         <img src="/img/wait-img.png" width={67} height={67} alt="wait-img" />
+        <CloseIcon src="/img/close-img.svg" width={12} height={12} onClick={() => handlePopup(false)} />
         <TextContainer>
           <p>잠깐!</p>
           <span>
-            편지 내용은 수신인과 발신인 <br />
-            본인만 확인할 수 있어요!
+            이 페이지를 벗어나면
+            <br />
+            작성 중인 내용이 사라져요.
+            <br />
+            그래도 계속하시겠습니까?
           </span>
         </TextContainer>
         <ButtonContainer>
@@ -31,8 +44,24 @@ function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
             fontSize="14px"
             border="none"
             borderRadius="40px"
-            text="로그인/회원가입"
+            text="네"
             textColor="white"
+            onClick={() => {
+              setLetterWriteStep(1);
+              handlePopup(false);
+            }}
+          />
+          <CustomButton
+            width="100%"
+            height="43px"
+            backgroundColor="white"
+            fontFamily="Pretendard-B"
+            fontSize="14px"
+            borderRadius="40px"
+            text="아니요"
+            textColor="#4361EE"
+            border="1px solid #4361EE"
+            onClick={() => handlePopup(false)}
           />
         </ButtonContainer>
       </Wrapper>
@@ -40,12 +69,12 @@ function ViewPostBoxPopup({ userId, handlePopup }: UserType) {
   );
 }
 
-export default ViewPostBoxPopup;
+export default WriteLetterBackPopup;
 
 const Wrapper = styled.div`
-  padding-top: 137px;
+  padding-top: 125px;
   width: 80%;
-  height: 63%;
+  height: 80%;
   border-radius: 20px;
   background: white;
   display: flex;
@@ -83,12 +112,12 @@ const TextContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 113px;
+  margin-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
-  width: 75%;
+  width: 80%;
   flex-direction: column;
 `;
 
@@ -99,13 +128,13 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 5;
+  z-index: 100;
 `;
 
 const CloseIcon = styled.img`
-    position: absolute;
-    top: 20px;
-    right:20px;
-    z-index: 10;
-    cursor: pointer;
-`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  cursor: pointer;
+`;

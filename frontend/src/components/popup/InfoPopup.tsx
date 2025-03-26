@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { ReactNode } from "react";
+import styled from "styled-components";
 
 interface InfoPopupProps {
   isOpen: boolean;
@@ -31,7 +31,7 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,7 +55,7 @@ const InfoIcon = styled.div`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #4B48DF;
+  background-color: #4b48df;
   color: white;
   display: inline-flex;
   align-items: center;
@@ -84,7 +84,7 @@ const ConfirmButton = styled.button`
   width: 100%;
   padding: 14px 0 0 0;
   border: none;
-  border-top: 1px solid #F2F2F2;
+  border-top: 1px solid #f2f2f2;
   background: none;
   color: #262626;
   font-size: 15px;
@@ -92,4 +92,4 @@ const ConfirmButton = styled.button`
   cursor: pointer;
 `;
 
-export default InfoPopup; 
+export default InfoPopup;
