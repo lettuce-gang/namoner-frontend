@@ -41,7 +41,11 @@ function Home() {
           navigator(`/postbox/${userId}`);
           console.log(res);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          if(err.response.status == 400) {
+            alert("해당 번호는 소유자(회원)의 요청으로 검색이 비활성화 되어있어요.")
+          }
+        });
     }
   };
 
