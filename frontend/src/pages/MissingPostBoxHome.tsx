@@ -5,6 +5,7 @@ import CustomButton from "../components/CustomButton.tsx";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import LoginPopup from "../components/popup/LoginPopup.tsx";
+import BubbleMsgBox from "../components/BubbleMsgBox.tsx";
 
 function MissingPostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
@@ -26,10 +27,14 @@ function MissingPostBoxHome() {
       setIsPopupOpen(true);
     }
   };
+
   return (
     <Wrapper>
       {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
-      <Header isFull={true} />
+      <Header isFull={true} isShare={true} />
+      <BubbleBoxContainer>
+        <BubbleMsgBox message={"우체통의 주인을 \n같이 찾아주세요! 🙏"} />
+      </BubbleBoxContainer>
       <PostBox>
         <PostBoxTitle>잃어버린 우체통</PostBoxTitle>
         <PostBoxImg>
@@ -57,6 +62,13 @@ export default MissingPostBoxHome;
 
 const Wrapper = styled.div`
   /* text-align: center; */
+`;
+
+const BubbleBoxContainer = styled.div`
+  position: absolute; /* 절대 위치 지정 */
+  top: 70px; /* 헤더 아래쪽에 위치 */
+  right: 20px; /* 오른쪽에 고정 */
+  z-index: 10; /* 다른 요소 위에 표시 */
 `;
 
 const PostBox = styled.div`
