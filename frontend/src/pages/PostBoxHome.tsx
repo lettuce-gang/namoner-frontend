@@ -12,10 +12,11 @@ import { postBoxImgHandler } from "../utils/postBoxImgHandler.tsx";
 import ViewPostBoxPopup from "../components/popup/ViewPostBoxPopup.tsx";
 import { useNaverLogin } from "../stores/useNaverLogin.ts";
 import MissingPostBoxHome from "./MissingPostBoxHome.tsx";
+import DisabledBubbleMsgBox from "../components/DisabledBubbleMsgBox.tsx";
 
 function PostBoxHome() {
   const { userId } = useParams<{ userId: string }>() as { userId: string };
-  const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount, postboxName } = useStore(usePostBox);
+  const { getPostBoxInfo, isOwner, existPostBox, unreadLetterCount, postboxName, userConfig } = useStore(usePostBox);
   const { isUserLogin, checkUserLogin } = useStore(useUserInfo);
   const { resetData } = useStore(useSendLetters);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -30,7 +31,8 @@ function PostBoxHome() {
     return new Date().getTime() > new Date(expiredTime).getTime();
   };
 
-  const popupHandler = () => {  // 로그인 여부 판단을 다른 방식으로 해야 할 듯..
+  const popupHandler = () => {
+    // 로그인 여부 판단을 다른 방식으로 해야 할 듯..
     const accessToken = sessionStorage.getItem("accessToken");
     if (accessToken && !isTokenExpired()) {
       navigator(`/writeLetter/${userId}`);
@@ -61,13 +63,16 @@ function PostBoxHome() {
         <Wrapper>
           {isPopupOpen && <LoginPopup userId={userId} handlePopup={setIsPopupOpen} />}
           {isBoxPopupOpen && <ViewPostBoxPopup handlePopup={setIsBoxPopupOpen} />}
-          <Header isFull={true} isShare={true}/>
+          <Header isFull={true} isShare={true} />
           <PostBox>
             <PostBoxTitle>{postboxName ? `${postboxName}의 우체통` : "우체통 로딩 중..."}</PostBoxTitle>
             <PostBoxImg onClick={ClickPostBox}>{postBoxImgHandler(unreadLetterCount)}</PostBoxImg>
             <p>우체통을 눌러 편지를 확인해보세요!</p>
           </PostBox>
           <ButtonContainer>
+            <BubbleBoxContainer>
+              <DisabledBubbleMsgBox message={"회원님의 요청으로\n현재 편지 작성이 불가해요 😭"} />
+            </BubbleBoxContainer>
             <CustomButton
               fontFamily="Pretendard-B"
               text="편지쓰기"
@@ -76,6 +81,7 @@ function PostBoxHome() {
               height="54px"
               borderRadius="50px"
               onClick={popupHandler}
+              disabled={userConfig.receiveLetter ? true : false}
             />
           </ButtonContainer>
         </Wrapper>
@@ -88,6 +94,14 @@ export default PostBoxHome;
 
 const Wrapper = styled.div`
   /* text-align: center; */
+`;
+
+const BubbleBoxContainer = styled.div`
+  position: absolute; /* 절대 위치 지정 */
+top:-180%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3; /* 다른 요소 위에 표시 */
 `;
 
 const PostBox = styled.div`
