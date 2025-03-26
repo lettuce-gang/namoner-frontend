@@ -68,7 +68,7 @@ const BubbleBoxContainer = styled.div`
   position: absolute; /* 절대 위치 지정 */
   top: 70px; /* 헤더 아래쪽에 위치 */
   right: 20px; /* 오른쪽에 고정 */
-  z-index: 10; /* 다른 요소 위에 표시 */
+  z-index: 3; /* 다른 요소 위에 표시 */
 `;
 
 const PostBox = styled.div`
